@@ -1,0 +1,215 @@
+<UserControl x:Class="SatelliteTaskViewer.Avalonia.Views.Editors.TopBarView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        
+            xmlns:converters="clr-namespace:SatelliteTaskViewer.Avalonia.Converters;assembly=SatelliteTaskViewer.Avalonia"  
+             xmlns:markups="clr-namespace:SatelliteTaskViewer.Avalonia.Markups"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+             xmlns:iac="clr-namespace:Avalonia.Xaml.Interactions.Custom;assembly=Avalonia.Xaml.Interactions.Custom"
+             xmlns:sys="using:System" 
+             xmlns:Designer="clr-namespace:SatelliteTaskViewer.ViewModels.Designer;assembly=SatelliteTaskViewer"
+                 xmlns:editors="clr-namespace:SatelliteTaskViewer.ViewModels.Editors;assembly=SatelliteTaskViewer" 
+             mc:Ignorable="d"  
+             d:DataContext="{x:Static Designer:DesignerContext.TopBar}"  
+             d:DesignWidth="250" d:DesignHeight="500"  
+             x:DataType="editors:TopBarViewModel" x:CompileBindings="False"
+             >
+    
+    <UserControl.Resources>
+        <converters:EnumToBooleanConverter x:Key="EnumToBooleanConverter"/>
+    </UserControl.Resources>
+    
+  <UserControl.Styles>
+
+    <Style Selector="MenuItem.globe3d">
+      <Setter Property="Foreground" Value="{DynamicResource PulldownTextBrush}"></Setter>
+      <Setter Property="Padding" Value="0,0"></Setter>
+      <Setter Property="Margin" Value="0,0"></Setter>
+      <Setter Property="Template">
+        <ControlTemplate>
+          <Border Name="PART_LayoutRoot"
+                  Padding="1,1">
+            <Panel>
+              <Viewbox Stretch="UniformToFill" Width="16" Height="16">
+                <DrawingPresenter Stretch="None" Drawing="{DynamicResource BlenderEditor3DGlobeIcon}"/>
+              </Viewbox>
+              <Popup Name="PART_Popup"
+                     WindowManagerAddShadowHint="False"
+                     MinWidth="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}}"
+                     IsLightDismissEnabled="True"
+                     IsOpen="{TemplateBinding IsSubMenuOpen, Mode=TwoWay}"
+                     OverlayInputPassThroughElement="{Binding $parent[Menu]}">
+                <Border Background="{DynamicResource MenuBackInnerBrush}"
+                        BorderBrush="{DynamicResource MenuBackOutlineBrush}"
+                        BorderThickness="1"
+                        Padding="2"
+                        MinHeight="12"
+                        HorizontalAlignment="Stretch"
+                        CornerRadius="{DynamicResource MenuBackRoundness}">
+                  <ScrollViewer Classes="menuscroller">
+                    <ItemsPresenter Name="PART_ItemsPresenter"
+                                    Items="{TemplateBinding Items}"
+                                    ItemsPanel="{TemplateBinding ItemsPanel}"
+                                    ItemTemplate="{TemplateBinding ItemTemplate}"
+                                    Margin="0"
+                                    Grid.IsSharedSizeScope="True" />
+                  </ScrollViewer>
+                </Border>
+              </Popup>
+            </Panel>
+          </Border>
+        </ControlTemplate>
+      </Setter>
+    </Style>
+
+    <Style Selector="MenuItem"> 
+      <Setter Property="FontSize" Value="{DynamicResource WidgetFontSize}"></Setter>
+    </Style>
+
+    <Style Selector="Menu > MenuItem /template/ Border#PART_LayoutRoot">
+      <Setter Property="Background" Value="Transparent"></Setter>
+    </Style>
+
+    <Style Selector="TabStripItem">
+      <Setter Property="FontSize" Value="{DynamicResource WidgetFontSize}"></Setter>
+    </Style>
+
+    <Style Selector="TabStripItem.t1 /template/ Border#PART_LayoutRoot">   
+      <Setter Property="CornerRadius" Value="4,4,0,0" />
+    </Style>
+
+      <Style Selector="RadioButton">
+          <Setter Property="FontSize" Value="{DynamicResource WidgetFontSize}"></Setter>
+      </Style>
+
+      <Style Selector="RadioButton.tglb /template/ ContentPresenter#PART_ContentPresenter">
+          <Setter Property="CornerRadius" Value="4,4,0,0" />
+      </Style>
+
+      <Style Selector="RadioButton.t2">
+          <Setter Property="FontSize" Value="{DynamicResource WidgetFontSize}"></Setter>
+          <Setter Property="FontWeight" Value="{DynamicResource TabItemHeaderThemeFontWeight}" />
+          <Setter Property="Background" Value="{DynamicResource TabInnerBrush}" />
+          <Setter Property="Foreground" Value="{DynamicResource TabTextBrush}" />
+          <Setter Property="Padding" Value="8,2" />
+          <Setter Property="Margin" Value="1" />
+          <Setter Property="MinHeight" Value="12" />
+          <Setter Property="VerticalContentAlignment" Value="Center" />
+          <Setter Property="Template">
+              <ControlTemplate>
+                  <Border Name="RootBorder"
+                  
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          Padding="{TemplateBinding Padding}">
+                      <Panel>
+                          <ContentPresenter Name="PART_ContentPresenter"
+                                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                                            Content="{TemplateBinding Content}"
+                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                            TextBlock.FontFamily="{TemplateBinding FontFamily}"
+                                            TextBlock.FontSize="{TemplateBinding FontSize}"
+                                            TextBlock.FontWeight="{TemplateBinding FontWeight}" />
+                      </Panel>
+                  </Border>
+              </ControlTemplate>
+          </Setter>
+      </Style>
+
+      <Style Selector="RadioButton.t2 /template/ Border#RootBorder">
+          <Setter Property="Background" Value="{Binding $parent[RadioButton].Background}" />
+          <Setter Property="CornerRadius" Value="4,4,0,0" />
+      </Style>
+
+      <Style Selector="RadioButton.t2:checked">
+          <Setter Property="Background" Value="{DynamicResource TabInnerSelectedBrush}" />
+          <Setter Property="TextBlock.Foreground" Value="{DynamicResource TabTextSelectedBrush}" />
+      </Style>
+
+      <Style Selector="RadioButton.t2:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+          <Setter Property="Background" Value="{Binding $parent[RadioButton].Background}" />
+          <Setter Property="TextBlock.Foreground" Value="{DynamicResource TabTextBrush}" />
+      </Style>
+
+      <Style Selector="RadioButton.t2:checked:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+          <Setter Property="Background" Value="{DynamicResource TabInnerSelectedBrush}" />
+          <Setter Property="TextBlock.Foreground" Value="{DynamicResource TabTextSelectedBrush}" />
+      </Style>
+
+  </UserControl.Styles>
+  
+
+  <Border Background="{DynamicResource TopBarHeaderBrush}" Height="24">
+    <DockPanel>
+      <Menu VerticalAlignment="Top">
+        <MenuItem Classes="globe3d">
+          <MenuItem Header="1"/>
+          <MenuItem Header="2"/>
+          <MenuItem Header="3"/>
+        </MenuItem>
+        <MenuItem Header="File">
+          <MenuItem Header="1"/>
+          <MenuItem Header="2"/>
+          <MenuItem Header="3"/>
+        </MenuItem>
+        <MenuItem Header="Edit">
+          <MenuItem Header="1"/>
+          <MenuItem Header="2"/>
+          <MenuItem Header="3"/>
+        </MenuItem>
+        <MenuItem Header="Render">
+          <MenuItem Header="1"/>
+          <MenuItem Header="2"/>
+          <MenuItem Header="3"/>
+        </MenuItem>
+        <MenuItem Header="Window">
+          <MenuItem Header="1"/>
+          <MenuItem Header="2"/>
+          <MenuItem Header="3"/>
+        </MenuItem>
+        <MenuItem Header="Help">
+          <MenuItem Header="1"/>
+          <MenuItem Header="2"/>
+          <MenuItem Header="3"/>
+        </MenuItem>
+      </Menu>
+
+        <!--<TabStrip Margin="20,0" VerticalAlignment="Bottom">
+        <TabStripItem Content="Layout" 
+                      Classes="t1"
+                      IsSelected="{Binding ActiveWorkspace,
+                                  Converter={StaticResource EnumToBooleanConverter}, 
+                                  ConverterParameter={x:Static editors:Workspace.Layout}}"/>
+        <TabStripItem Content="Planning" 
+                      Classes="t1"
+                      IsSelected="{Binding ActiveWorkspace,
+                                  Converter={StaticResource EnumToBooleanConverter}, 
+                                  ConverterParameter={x:Static editors:Workspace.Planning}}"/>
+        </TabStrip>-->
+     
+        <StackPanel Margin="20,0" VerticalAlignment="Bottom" Orientation="Horizontal">
+            <RadioButton Classes="t2"
+                         GroupName="GroupName1"
+                         Content="Layout"
+                         IsChecked="{Binding ActiveWorkspace,
+                                  Converter={StaticResource EnumToBooleanConverter}, 
+                                  ConverterParameter={x:Static editors:Workspace.Layout}}"/>
+            <RadioButton Classes="t2"
+                         GroupName="GroupName1"
+                         Content="Planning"
+                         IsChecked="{Binding ActiveWorkspace,
+                                  Converter={StaticResource EnumToBooleanConverter}, 
+                                  ConverterParameter={x:Static editors:Workspace.Planning}}"/>
+        </StackPanel>
+
+
+
+    </DockPanel>
+    
+    
+  </Border>
+
+</UserControl>

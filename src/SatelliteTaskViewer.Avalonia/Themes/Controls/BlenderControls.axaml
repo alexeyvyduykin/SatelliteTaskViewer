@@ -1,0 +1,40 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"      
+        x:Class="SatelliteTaskViewer.Avalonia.Themes.Controls.BlenderControls">
+ 
+  
+  <!-- Define ToolTip first so its styles can be overriden by other controls (e.g. TextBox) -->
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/Tooltip.axaml"/>
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/Tool.axaml"/>
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/Text.axaml"/>
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/Option.axaml"/>
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/RadioButton.axaml"/>
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/NumberField.axaml"/>
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/ListItem.axaml"/>
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/Box.axaml"/>
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/MenuBack.axaml"/>
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/Menu.axaml"/>
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/MenuItem.axaml"/>
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/Pulldown.axaml"/>
+  <!-- TabControl needs to come after TabStrip as it redefines the inner TabStrip.ItemsPanel-->
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/Tab.axaml"/>
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/TabItem.axaml"/>
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/TabControl.axaml"/>
+  
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/Window.axaml"/>
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/UserControl.axaml"/>
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/ScrollBar.axaml"/>
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/ScrollViewer.axaml"/>
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/DataValidationErrors.axaml"/>
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/PopupRoot.axaml"/>  
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/FocusAdorner.axaml"/>
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/ContentControl.axaml"/>
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/Slider.axaml"/>
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/TreeView.axaml"/>
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/ToggleButton.axaml"/>
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/FlyoutPresenter.axaml"/>
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/Expander.axaml"/>
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/ItemsControl.axaml"/>
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/GridSplitter.axaml"/>
+    
+</Styles>

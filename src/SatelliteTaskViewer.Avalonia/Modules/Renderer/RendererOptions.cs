@@ -1,0 +1,35 @@
+﻿using Avalonia;
+using Avalonia.Data;
+using SatelliteTaskViewer.Models.Renderer;
+
+namespace SatelliteTaskViewer.Avalonia.Modules.Renderer
+{
+    public class RendererOptions
+    {
+        /// <summary>
+        /// Renderer options attached property.
+        /// </summary>
+        public static readonly AttachedProperty<IRenderContext> RendererProperty =
+            AvaloniaProperty.RegisterAttached<RendererOptions, AvaloniaObject, IRenderContext>("Renderer", null, true, BindingMode.TwoWay);
+
+        /// <summary>
+        /// Gets renderer attached property.
+        /// </summary>
+        /// <param name="obj">The avalonia object.</param>
+        /// <returns>The shape renderer property.</returns>
+        public static IRenderContext GetRenderer(AvaloniaObject obj)
+        {
+            return obj.GetValue(RendererProperty);
+        }
+
+        /// <summary>
+        /// Sets renderer attached property.
+        /// </summary>
+        /// <param name="obj">The avalonia object.</param>
+        /// <param name="value">The shape render value.</param>
+        public static void SetRenderer(AvaloniaObject obj, IRenderContext value)
+        {
+            obj.SetValue(RendererProperty, value);
+        }
+    }
+}

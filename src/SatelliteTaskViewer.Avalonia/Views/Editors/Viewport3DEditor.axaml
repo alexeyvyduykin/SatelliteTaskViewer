@@ -1,0 +1,64 @@
+<UserControl x:Class="SatelliteTaskViewer.Avalonia.Views.Editors.Viewport3DEditor"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"                              
+             xmlns:i="using:Avalonia.Xaml.Interactivity"
+             xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
+             xmlns:iac="using:Avalonia.Xaml.Interactions.Custom"
+          xmlns:converters="clr-namespace:SatelliteTaskViewer.Avalonia.Converters;assembly=SatelliteTaskViewer.Avalonia"          
+             xmlns:behaviors="clr-namespace:SatelliteTaskViewer.Avalonia.Behaviors"             
+             xmlns:views="clr-namespace:SatelliteTaskViewer.Avalonia.Views"
+            xmlns:Designer="clr-namespace:SatelliteTaskViewer.ViewModels.Designer;assembly=SatelliteTaskViewer"   
+             xmlns:Editor="clr-namespace:SatelliteTaskViewer.ViewModels.Editor;assembly=SatelliteTaskViewer"    
+             xmlns:controls="clr-namespace:SatelliteTaskViewer.Avalonia.Controls"
+                  xmlns:editors="clr-namespace:SatelliteTaskViewer.ViewModels.Editors;assembly=SatelliteTaskViewer"                                 
+             mc:Ignorable="d"
+             d:DataContext="{x:Static Designer:DesignerContext.Editor}"
+             d:DesignWidth="600" d:DesignHeight="600"
+             x:DataType="Editor:ProjectEditorViewModel" x:CompileBindings="True"
+             Name="viewport3DEditor">
+   
+    <i:Interaction.Behaviors>
+        <behaviors:AttachEditorBehavior/>
+    </i:Interaction.Behaviors>
+    
+    <controls:Editor>
+
+        <controls:Editor.Icon>
+            <Viewbox Stretch="UniformToFill" Width="12" Height="12">
+                <DrawingPresenter Stretch="None" Drawing="{DynamicResource BlenderEditor3DViewportIcon}"/>
+            </Viewbox>
+        </controls:Editor.Icon>
+
+        <controls:Editor.PanelContent>
+
+            <Border ClipToBounds="True">
+
+                <ScrollViewer x:Name="scrollViewer"
+                              HorizontalScrollBarVisibility="Disabled"
+                              VerticalScrollBarVisibility="Disabled">
+
+                    <Panel>
+                        <!--HorizontalAlignment="Center" VerticalAlignment="Center"-->
+                        <!--Width="{Binding #presenterControlEditor.Container.Width}"                                
+                        Height="{Binding #presenterControlEditor.Container.Height}"-->
+
+                        <views:PresenterControl Name="presenterControlEditor"
+                                                Renderer="{Binding Renderer}"
+                                                Container="{Binding Project.CurrentScenario}"
+                                                PresenterContract="{Binding Presenter}"
+                                                ClipToBounds="False"/>
+
+                    </Panel>
+
+                </ScrollViewer>
+            </Border>
+
+
+        </controls:Editor.PanelContent>
+
+    </controls:Editor>
+
+
+</UserControl>

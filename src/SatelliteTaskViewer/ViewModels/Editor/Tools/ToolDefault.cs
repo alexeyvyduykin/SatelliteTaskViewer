@@ -1,0 +1,99 @@
+﻿using System;
+using SatelliteTaskViewer.Input;
+using SatelliteTaskViewer.Models.Editor;
+using SatelliteTaskViewer.Models.Scene;
+
+namespace SatelliteTaskViewer.ViewModels.Editor.Tools
+{
+    public class ToolDefault : IEditorTool
+    {
+        public enum State { None, Zoom, Rotate }
+        private readonly IServiceProvider _serviceProvider;
+        private State _currentState = State.None;
+        private (double x, double y) _lastPoint;
+
+        public ToolDefault(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+        }
+
+        public void LeftDown(InputArgs args)
+        {
+            var editor = _serviceProvider.GetService<ProjectEditorViewModel>();
+
+            if(editor.Project.CurrentScenario == null)
+            {
+                return;
+            }
+
+            var camera = (IArcballCamera)editor.Project.CurrentScenario.SceneState.Camera;
+
+            camera.RotateBegin((int)args.X, (int)args.Y);
+
+            _currentState = State.Rotate;
+
+            _lastPoint = (args.X, args.Y);
+        }
+
+        public void LeftUp(InputArgs args)
+        {
+            _currentState = State.None;
+            
+            var editor = _serviceProvider.GetService<ProjectEditorViewModel>();
+
+            if (editor.Project.CurrentScenario == null)
+            {
+                return;
+            }
+
+            var camera = (IArcballCamera)editor.Project.CurrentScenario.SceneState.Camera;
+
+            camera.RotateEnd((int)args.X, (int)args.Y);
+        }
+
+        public void RightDown(InputArgs args)
+        {
+            _currentState = State.Zoom;
+
+            _lastPoint = (args.X, args.Y);
+        }
+
+        public void RightUp(InputArgs args)
+        {
+            _currentState = State.None;
+        }
+
+        public void Move(InputArgs args)
+        {
+            var editor = _serviceProvider.GetService<ProjectEditorViewModel>();
+
+            if (editor.Project.CurrentScenario == null)
+            {
+                return;
+            }
+
+            if (_currentState == State.Rotate)
+            {
+                var camera = (IArcballCamera)editor.Project.CurrentScenario.SceneState.Camera;
+
+                camera.Rotate((int)args.X, (int)args.Y);
+            }
+            else if (_currentState == State.Zoom)
+            {
+                var sceneState = editor.Project.CurrentScenario.SceneState;
+                var camera = (IArcballCamera)sceneState.Camera;
+                var target = sceneState.Target;
+                var (_, func) = sceneState.CameraBehaviours[target.GetType()];
+
+                double value = (double)(args.Y - _lastPoint.y);
+
+                var dz = func.Invoke(camera.Eye.Length);
+
+                camera.Zoom(Math.Sign(value) * dz);
+            }
+
+            _lastPoint = (args.X, args.Y);
+        }
+    }
+
+}

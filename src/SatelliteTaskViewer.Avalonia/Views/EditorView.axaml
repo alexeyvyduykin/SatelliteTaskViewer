@@ -1,0 +1,91 @@
+<UserControl x:Class="SatelliteTaskViewer.Avalonia.Views.EditorView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"           
+             xmlns:i="using:Avalonia.Xaml.Interactivity"
+             xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
+             xmlns:iac="using:Avalonia.Xaml.Interactions.Custom"            
+             xmlns:views="clr-namespace:SatelliteTaskViewer.Avalonia.Views"
+             xmlns:converters="clr-namespace:SatelliteTaskViewer.Avalonia.Converters;assembly=SatelliteTaskViewer.Avalonia"  
+             xmlns:selectors="clr-namespace:SatelliteTaskViewer.Avalonia.Converters"
+              xmlns:Editor="clr-namespace:SatelliteTaskViewer.ViewModels.Editor;assembly=SatelliteTaskViewer"   
+                xmlns:editors="clr-namespace:SatelliteTaskViewer.Avalonia.Views.Editors"  
+             xmlns:workspaces="clr-namespace:SatelliteTaskViewer.Avalonia.Views.Workspaces"
+             xmlns:vm="clr-namespace:SatelliteTaskViewer.ViewModels.Editors;assembly=SatelliteTaskViewer"
+          xmlns:Designer="clr-namespace:SatelliteTaskViewer.ViewModels.Designer;assembly=SatelliteTaskViewer"  
+             xmlns:behaviors="clr-namespace:SatelliteTaskViewer.Avalonia.Behaviors"           
+             xmlns:Containers="clr-namespace:SatelliteTaskViewer.ViewModels.Containers;assembly=SatelliteTaskViewer"           
+             mc:Ignorable="d"
+             d:DataContext="{x:Static Designer:DesignerContext.Project}"
+             d:DesignWidth="1200" d:DesignHeight="580"
+             x:DataType="Containers:ProjectContainerViewModel" x:CompileBindings="False"             
+             >
+
+    <UserControl.Resources>        
+        <converters:EnumToBooleanConverter x:Key="EnumToBooleanConverter"/>        
+    </UserControl.Resources>
+
+    <UserControl.Styles>
+
+    </UserControl.Styles>
+
+    <Grid RowDefinitions="Auto,*">
+
+        <editors:TopBarView DataContext="{Binding Project.TopBar}" Grid.Row="0" />
+        
+        <Grid Grid.Row="1">
+
+            <i:Interaction.Behaviors>
+                <ia:DataTriggerBehavior Binding="{Binding Project.TopBar.ActiveWorkspace}" ComparisonCondition="Equal" Value="{x:Static vm:Workspace.Layout}">
+                    <ia:ChangePropertyAction TargetObject="{Binding #contentPresenter}" PropertyName="Content" Value="{x:Static vm:Workspace.Layout}"/>               
+                </ia:DataTriggerBehavior>
+                <ia:DataTriggerBehavior Binding="{Binding Project.TopBar.ActiveWorkspace}" ComparisonCondition="Equal" Value="{x:Static vm:Workspace.Planning}">
+                    <ia:ChangePropertyAction TargetObject="{Binding #contentPresenter}" PropertyName="Content" Value="{x:Static vm:Workspace.Planning}"/>               
+                </ia:DataTriggerBehavior>
+            </i:Interaction.Behaviors>
+                        
+            <ContentPresenter Name="contentPresenter">                  
+                <ContentPresenter.DataTemplates>
+                        <selectors:WorkspaceTemplateSelector>
+
+                            <DataTemplate x:Key="Layout" DataType="{x:Type vm:Workspace}">
+                                <workspaces:LayoutView DataContext="{Binding $parent[UserControl].DataContext}"/>
+                            </DataTemplate>
+
+                            <DataTemplate x:Key="Planning" DataType="{x:Type vm:Workspace}">
+                                <workspaces:PlanningView DataContext="{Binding $parent[UserControl].DataContext}"/>
+                            </DataTemplate>
+
+                        </selectors:WorkspaceTemplateSelector>
+                    </ContentPresenter.DataTemplates>               
+            </ContentPresenter>
+
+            <!--<i:Interaction.Behaviors>
+                <ia:DataTriggerBehavior Binding="{Binding Project.TopBar.ActiveWorkspace}" ComparisonCondition="Equal" Value="{x:Static vm:Workspace.Layout}">
+                    <ia:ChangePropertyAction TargetObject="{Binding #contentPresenter2}" PropertyName="IsVisible" Value="False"/>
+                    <ia:ChangePropertyAction TargetObject="{Binding #contentPresenter1}" PropertyName="IsVisible" Value="True"/>                
+                </ia:DataTriggerBehavior>
+                <ia:DataTriggerBehavior Binding="{Binding Project.TopBar.ActiveWorkspace}" ComparisonCondition="Equal" Value="{x:Static vm:Workspace.Planning}">
+                    <ia:ChangePropertyAction TargetObject="{Binding #contentPresenter1}" PropertyName="IsVisible" Value="False"/>
+                    <ia:ChangePropertyAction TargetObject="{Binding #contentPresenter2}" PropertyName="IsVisible" Value="True"/>
+                </ia:DataTriggerBehavior>
+            </i:Interaction.Behaviors>
+
+            <ContentPresenter Name="contentPresenter1">                               
+                <ContentPresenter.Content>
+                    <workspaces:LayoutView DataContext="{Binding $parent[UserControl].DataContext}"/>
+                </ContentPresenter.Content>
+            </ContentPresenter>
+                
+            <ContentPresenter Name="contentPresenter2">                                
+                <ContentPresenter.Content>
+                    <workspaces:PlanningView DataContext="{Binding $parent[UserControl].DataContext}"/>
+                </ContentPresenter.Content>
+            </ContentPresenter>-->
+                       
+        </Grid>
+   
+    </Grid>
+
+</UserControl>

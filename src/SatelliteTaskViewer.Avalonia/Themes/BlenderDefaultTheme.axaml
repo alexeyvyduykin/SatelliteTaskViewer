@@ -1,0 +1,9 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=netstandard">
+        
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Base.axaml" />
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/BaseTheme.axaml" />
+  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/BlenderControls.axaml" />
+
+</Styles>

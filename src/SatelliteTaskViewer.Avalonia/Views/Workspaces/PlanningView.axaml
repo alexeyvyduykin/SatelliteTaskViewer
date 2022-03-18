@@ -1,0 +1,37 @@
+<UserControl x:Class="SatelliteTaskViewer.Avalonia.Views.Workspaces.PlanningView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"         
+             xmlns:views="clr-namespace:SatelliteTaskViewer.Avalonia.Views"         
+          xmlns:converters="clr-namespace:SatelliteTaskViewer.Avalonia.Converters;assembly=SatelliteTaskViewer.Avalonia"  
+             xmlns:Editor="clr-namespace:SatelliteTaskViewer.ViewModels.Editor;assembly=SatelliteTaskViewer"   
+             xmlns:Editors="using:SatelliteTaskViewer.Avalonia.Views.Editors"
+             xmlns:Entities="clr-namespace:SatelliteTaskViewer.Avalonia.Views.Entities"
+          xmlns:Designer="clr-namespace:SatelliteTaskViewer.ViewModels.Designer;assembly=SatelliteTaskViewer"  
+             xmlns:behaviors="clr-namespace:SatelliteTaskViewer.Avalonia.Behaviors"           
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             d:DataContext="{x:Static Designer:DesignerContext.Editor}"        
+             x:DataType="Editor:ProjectEditorViewModel" x:CompileBindings="False" 
+             x:Name="taskEditorView"
+             >
+
+    <Grid ColumnDefinitions="250,*,250" RowDefinitions="Auto,*,300">
+              
+        <Editors:TaskListEditor Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Margin="1"                                
+                                DataContext="{Binding Project.CurrentScenario.TaskListEditor}" />
+        
+        <Entities:GroundObjectListControl Grid.Column="2" Grid.Row="0" Grid.RowSpan="3" Margin="1"
+                                          DataContext="{Binding Project.CurrentScenario.GroundObjectList}"/>
+
+        <Editors:SceneTimerEditor Grid.Column="1" Grid.Row="0" Width="460" Margin="1"                                                                                          
+                                  DataContext="{Binding Project.CurrentScenario.SceneTimerEditor}"/>
+                        
+        <Editors:Viewport3DEditor Grid.Column="1" Grid.Row="1" Margin="1" />
+
+        <Editors:TimelineEditor Grid.Column="1" Grid.Row="2" Margin="1"
+                                DataContext="{Binding Project.CurrentScenario}"/>
+        
+    </Grid>
+
+</UserControl>

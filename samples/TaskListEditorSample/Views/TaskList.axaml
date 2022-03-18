@@ -1,0 +1,305 @@
+<UserControl x:Class="TaskListEditorSample.Views.TaskList"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"                              
+             xmlns:vm="using:TaskListEditorSample.ViewModels"             
+             xmlns:sch="clr-namespace:SatelliteTaskViewer.Avalonia.TimelineChart;assembly=SatelliteTaskViewer.Avalonia.TimelineChart"             
+             xmlns:controls="clr-namespace:SatelliteTaskViewer.Avalonia.Controls;assembly=SatelliteTaskViewer.Avalonia"
+             xmlns:Entities="clr-namespace:SatelliteTaskViewer.ViewModels.Entities;assembly=SatelliteTaskViewer"
+             mc:Ignorable="d"
+             d:DesignWidth="1280" d:DesignHeight="500"
+             x:DataType="vm:TaskListViewModel" x:CompileBindings="False">
+        
+         <UserControl.Styles>
+
+        <Style Selector="TextBox.search">
+            <Setter Property="Padding" Value="4,0,2,0"></Setter>
+            <Setter Property="InnerLeftContent">
+                <Setter.Value>
+                    <Template>
+                        <Viewbox Stretch="Uniform"
+                                 Width="14" Height="14"
+                                 Margin="0,0,4,0">
+                            <DrawingPresenter Stretch="None" Drawing="{DynamicResource BlenderTaskListSearchIcon}"/>
+                        </Viewbox>
+                    </Template>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style Selector="Button.target:pressed /template/ ContentPresenter">
+            <Setter Property="Background" Value="{TemplateBinding Background}"/>
+        </Style>
+
+        <Style Selector="ContentControl.TaskItem">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border>
+                        <Grid ColumnDefinitions="Auto,*" RowDefinitions="*,*">
+                            <TextBlock Text="Begin:" Grid.Column="0"/>
+                            <TextBlock Text="{Binding Begin}" Grid.Column="1"
+                                       HorizontalAlignment="Center"/>
+                            <TextBlock Text="Duration:" Grid.Column="0" Grid.Row="1" />
+                            <TextBlock Text="{Binding Duration}" Grid.Column="1" Grid.Row="1"
+                                       HorizontalAlignment="Center"/>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+
+
+        <Style Selector="ListBox">
+            <Setter Property="Background" Value="{DynamicResource TaskListBackgroundBrush}" />
+            <Setter Property="Margin" Value="2,0,2,0" />
+            <Setter Property="Padding" Value="2" />
+        </Style>
+
+        <Style Selector="ListBoxItem">
+            <Setter Property="Background" Value="{DynamicResource TaskListItemBackgroundBrush}" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="Margin" Value="0,1,12,1" />
+            <Setter Property="Padding" Value="4" />
+            <Setter Property="TextBlock.Foreground" Value="{DynamicResource ListItemTextBrush}" />
+        </Style>
+
+        <Style Selector="ListBoxItem /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="BorderBrush" Value="{DynamicResource TaskListOutlineBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="{DynamicResource ThemeControlCornerRadius}" />
+        </Style>
+
+        <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource TaskListItemBackgroundBrush}" />
+        </Style>
+
+        <Style Selector="ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="BorderBrush" Value="{DynamicResource TaskListSelectedOutlineBrush}" />
+            <Setter Property="Background" Value="{DynamicResource TaskListItemBackgroundBrush}" />
+            <Setter Property="TextBlock.Foreground" Value="{DynamicResource ListItemTextBrush}" />
+        </Style>
+
+        <Style Selector="ListBox /template/ ScrollViewer#PART_ScrollViewer /template/ ScrollBar#PART_VerticalScrollBar">
+            <Setter Property="AllowAutoHide" Value="False"></Setter>
+        </Style>
+
+        <Style Selector="ListBox /template/ ScrollViewer#PART_ScrollViewer /template/ ScrollContentPresenter#PART_ContentPresenter">
+            <!-- not work -->
+            <!--<Setter Property="Grid.ColumnSpan" Value="1"></Setter>-->
+            <Setter Property="Margin" Value="0,0,14,0"></Setter>
+        </Style>
+
+        <Style Selector="Expander /template/ ToggleButton#PART_toggle > Border">
+            <Setter Property="Width" Value="{Binding $parent[Grid].Bounds.Width}"/>
+        </Style>
+
+    </UserControl.Styles>
+    
+        <Grid ColumnDefinitions="360,*">
+        
+            <Grid Grid.Column="0" RowDefinitions="Auto,*">
+                 
+              <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
+                      
+                  <TextBox Grid.Column="0"
+                     Text="{Binding SearchString}"
+                     Width="140"
+                     Height="20"
+                     HorizontalAlignment="Center"
+                     Classes="search"></TextBox>
+                  <Button Grid.Column="1"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"
+                    Height="20"
+                    Margin="0,2,8,2"
+                    Padding="0"
+                    Classes="target">
+
+                <Grid ColumnDefinitions="Auto,Auto">
+                    <Viewbox Stretch="UniformToFill" Width="14" Height="14"
+                             Margin="4,0,0,0">
+                        <DrawingPresenter Stretch="None" Drawing="{DynamicResource BlenderTaskListFilterIcon}"/>
+                    </Viewbox>
+                    <Viewbox UseLayoutRounding="False"
+                                        Grid.Column="1"
+                                        IsHitTestVisible="False"
+                                        Margin="6,0,4,0"
+                                        Height="12"
+                                        Width="12"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center">
+                        <Panel>
+                            <Path Stretch="Uniform"
+                                  VerticalAlignment="Center"
+                                  Fill="White"
+                                  Data="M1939 486L2029 576L1024 1581L19 576L109 486L1024 1401L1939 486Z" />
+                        </Panel>
+                    </Viewbox>
+                </Grid>
+
+                <Button.Flyout>
+                    <Flyout Placement="Bottom"
+                            ShowMode="TransientWithDismissOnPointerMoveAway">
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="Filter:"></TextBlock>
+                            <StackPanel Orientation="Horizontal">
+                                <Viewbox Stretch="UniformToFill" Width="14" Height="14" Margin="4,0,4,0">
+                                    <DrawingPresenter Stretch="None" Drawing="{DynamicResource BlenderTaskListRotateIcon}"/>
+                                </Viewbox>
+                                <CheckBox Content="Rotations" IsChecked="{Binding IsRotation}"></CheckBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Viewbox Stretch="UniformToFill" Width="14" Height="14" Margin="4,0,4,0">
+                                    <DrawingPresenter Stretch="None" Drawing="{DynamicResource BlenderTaskListTransmitIcon}"/>
+                                </Viewbox>
+                                <CheckBox Content="Transmissions" IsChecked="{Binding IsTransmission}"></CheckBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Viewbox Stretch="UniformToFill" Width="14" Height="14" Margin="4,0,4,0">
+                                    <DrawingPresenter Stretch="None" Drawing="{DynamicResource BlenderTaskListShootIcon}"/>
+                                </Viewbox>
+                                <CheckBox Content="Observations" IsChecked="{Binding IsObservation}"></CheckBox>
+                            </StackPanel>
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+
+            </Button>
+                  
+             </Grid>
+                          
+                   <ItemsControl Grid.Row="1" Items="{Binding Tasks}">
+
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <controls:AccordionStackPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.Styles>
+                    <Style Selector="ItemsControl > ContentPresenter">
+                        <Setter Property="controls:AccordionStackPanel.IsExpanded" 
+                                Value="{Binding IsVisible, Mode=TwoWay}" />
+                        <Setter Property="ContentTemplate">
+                            <Setter.Value>
+                                <DataTemplate DataType="vm:SatelliteTaskViewModel">
+                                    <Expander Header="{Binding Name}"
+                                              HorizontalContentAlignment="Stretch"
+                                              IsExpanded="{Binding $parent[ContentPresenter].(controls:AccordionStackPanel.IsExpanded), Mode=TwoWay}">
+
+                                        <ListBox Items="{Binding Events}"
+                                                 SelectedItem="{Binding SelectedEvent}"
+                                                 VirtualizationMode="Simple">
+
+                                            <ListBox.DataTemplates>
+
+                                                <DataTemplate DataType="Entities:RotationEvent">
+                                                    <Grid RowDefinitions="Auto,*" ColumnDefinitions="*">
+
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Viewbox Stretch="UniformToFill" Width="14" Height="14" Margin="4,0,4,0">
+                                                                <DrawingPresenter Stretch="None" Drawing="{DynamicResource BlenderTaskListRotateIcon}"/>
+                                                            </Viewbox>
+                                                            <TextBlock Text="{Binding Name}"></TextBlock>
+                                                        </StackPanel>
+
+                                                        <ContentControl Classes="TaskItem" Content="{Binding}" Grid.Row="1"/>
+                                                    </Grid>
+                                                </DataTemplate>
+
+                                                <DataTemplate DataType="Entities:TransmissionEvent">
+                                                    <Grid RowDefinitions="Auto,*" ColumnDefinitions="*">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Viewbox Stretch="UniformToFill" Width="14" Height="14" Margin="4,0,4,0">
+                                                                <DrawingPresenter Stretch="None" Drawing="{DynamicResource BlenderTaskListTransmitIcon}"/>
+                                                            </Viewbox>
+                                                            <TextBlock Text="{Binding Name}"></TextBlock>
+                                                        </StackPanel>
+                                                        <ContentControl Classes="TaskItem" Content="{Binding}" Grid.Row="1"/>
+                                                    </Grid>
+                                                </DataTemplate>
+
+                                                <DataTemplate DataType="Entities:ObservationEvent">
+                                                    <Grid RowDefinitions="Auto,*" ColumnDefinitions="*" HorizontalAlignment="Stretch">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Viewbox Stretch="UniformToFill" Width="14" Height="14" Margin="4,0,4,0">
+                                                                <DrawingPresenter Stretch="None" Drawing="{DynamicResource BlenderTaskListShootIcon}"/>
+                                                            </Viewbox>
+                                                            <TextBlock Text="{Binding Name}"></TextBlock>
+                                                        </StackPanel>
+                                                        <ContentControl Classes="TaskItem" Content="{Binding}" Grid.Row="1"/>
+                                                    </Grid>
+                                                </DataTemplate>
+
+                                            </ListBox.DataTemplates>
+
+                                        </ListBox>
+
+                                    </Expander>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ItemsControl.Styles>
+
+            </ItemsControl>
+      
+    </Grid>
+        
+            <sch:Timeline Grid.Column="1"                           
+                          IsEnabled="{Binding CurrentTask, Converter={x:Static ObjectConverters.IsNotNull}}">
+
+                <sch:Timeline.Axises>
+
+                    <sch:CategoryAxis Position="Left"
+                                      AbsoluteMinimum="-0.5"
+                                      AbsoluteMaximum="2.5"
+                                      IsZoomEnabled="False"
+                                      Items="{Binding CurrentTask.Labels}"
+                                      LabelField="Label"/>
+                    <sch:DateTimeAxis Position="Top"
+                                      IntervalType="Auto"
+                                      AbsoluteMinimum="{Binding CurrentTask.BeginScenario}"
+                                      AbsoluteMaximum="{Binding CurrentTask.EndScenario}"
+                                      FirstDateTime="{Binding CurrentTask.Epoch}"/>
+
+                </sch:Timeline.Axises>
+
+                <sch:Timeline.Series>
+
+                    <sch:TimelineSeries BarWidth="0.5"
+                                         FillBrush="Yellow"
+                                         Items="{Binding CurrentTask.Rotations}"
+                                         CategoryField="Category"
+                                         BeginField="BeginTime"
+                                         EndField="EndTime"/>
+            
+                    <sch:TimelineSeries BarWidth="0.5"
+                                        FillBrush="Blue"
+                                        Items="{Binding CurrentTask.Observations}"
+                                        CategoryField="Category"
+                                        BeginField="BeginTime"
+                                        EndField="EndTime"/>
+
+                    <sch:TimelineSeries BarWidth="0.5"
+                                        FillBrush="Green"
+                                        Items="{Binding CurrentTask.Transmissions}"
+                                        CategoryField="Category"
+                                        BeginField="BeginTime"
+                                        EndField="EndTime"/>
+
+                </sch:Timeline.Series>
+              
+                <sch:Timeline.Slider>
+                    <sch:Slider Begin="{Binding CurrentTask.Begin}"
+                                Duration="{Binding CurrentTask.Duration}" 
+                CurrentValue="{Binding CurrentTime}"
+                />
+                </sch:Timeline.Slider>
+    <!--  -->
+            </sch:Timeline>
+        
+        </Grid>
+
+</UserControl>

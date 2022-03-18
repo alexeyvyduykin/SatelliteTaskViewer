@@ -1,0 +1,137 @@
+<UserControl x:Class="SatelliteTaskViewer.Avalonia.Views.Editors.PropertiesEditor"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:SatelliteTaskViewer.ViewModels.Editors;assembly=SatelliteTaskViewer"      
+              xmlns:converters="clr-namespace:SatelliteTaskViewer.Avalonia.Converters;assembly=SatelliteTaskViewer.Avalonia"  
+             xmlns:markups="clr-namespace:SatelliteTaskViewer.Avalonia.Markups"             
+             xmlns:controls="clr-namespace:SatelliteTaskViewer.Avalonia.Controls"      
+                   xmlns:editors="clr-namespace:SatelliteTaskViewer.ViewModels.Editors;assembly=SatelliteTaskViewer"   
+              xmlns:Designer="clr-namespace:SatelliteTaskViewer.ViewModels.Designer;assembly=SatelliteTaskViewer"       
+           xmlns:Entities="clr-namespace:SatelliteTaskViewer.ViewModels.Entities;assembly=SatelliteTaskViewer"       
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+             xmlns:iac="clr-namespace:Avalonia.Xaml.Interactions.Custom;assembly=Avalonia.Xaml.Interactions.Custom"
+             mc:Ignorable="d"  
+             d:DataContext="{x:Static Designer:DesignerContext.OutlinerEditor}"  
+             d:DesignWidth="250" d:DesignHeight="500"  
+             x:DataType="editors:PropertiesEditorViewModel" x:CompileBindings="False"
+             >
+        
+  <UserControl.Styles>  
+    <!--<StyleInclude Source="avares://Globe3DLight/Styles/ExpanderItemProperty.axaml"/>-->
+
+    <Style Selector="TabItem.left /template/ Border#PART_LayoutRoot">
+      <Setter Property="CornerRadius" Value="4,0,0,4"/>
+      <Setter Property="Margin" Value="16,2,0,2"></Setter>
+    </Style>
+        
+    <Style Selector="Expander">
+      <Setter Property="IsExpanded" Value="True"/>      
+    <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+    </Style>
+
+    <Style Selector="TabControl">
+      <Setter Property="Background" Value="{DynamicResource PropertiesNavigationBarBackgroundBrush}"></Setter>
+    </Style>
+
+    <Style Selector="TabControl /template/ Border#PART_Border">
+      <Setter Property="CornerRadius" Value="0,0,4,4"></Setter>
+    </Style>
+
+    <Style Selector="TabControl /template/ ContentPresenter#PART_SelectedContentHost">
+      <Setter Property="Background" Value="{DynamicResource PropertiesWindowBackgroundBrush}"/>
+      <Setter Property="CornerRadius" Value="0,0,4,0"/>
+    </Style>
+
+    <Style Selector="TextBlock.label">
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+    
+    <Style Selector="Expander:not(:expanded) /template/ ToggleButton#ExpanderHeader /template/ Border#ToggleButtonBackground">
+      <Setter Property="CornerRadius" Value="0" />
+    </Style>
+    <Style Selector="Expander:expanded:down /template/ ToggleButton#ExpanderHeader /template/ Border#ToggleButtonBackground">
+      <Setter Property="CornerRadius" Value="0" />
+    </Style>
+    <Style Selector="Expander:expanded:down /template/ Border#ExpanderContent">
+      <Setter Property="CornerRadius" Value="0" />
+    </Style>
+
+    <Style Selector="controls|Editor /template/ ContentPresenter#PanelContentPresenter">
+
+    </Style>
+        
+  </UserControl.Styles>
+
+
+  <controls:Editor>
+
+    <controls:Editor.Icon>
+      <Viewbox Stretch="UniformToFill" Width="12" Height="12">
+        <DrawingPresenter Stretch="None" Drawing="{DynamicResource BlenderEditorPropertiesIcon}"/>
+      </Viewbox>
+    </controls:Editor.Icon>
+
+    <controls:Editor.PanelContent>
+      
+     <TabControl TabStripPlacement="Left">
+         
+        <TabItem Classes="left">
+          <TabItem.Header>
+            <Viewbox Width="16" Height="16" Margin="4" Stretch="UniformToFill">
+              <DrawingPresenter Drawing="{StaticResource ObjectProperty}" Stretch="None"/>
+            </Viewbox>
+          </TabItem.Header>
+
+          <StackPanel>
+            <Expander Header="SubProperty1">
+              <Grid ColumnDefinitions="3*,5*" RowDefinitions="*,*" Margin="4">
+
+              </Grid>
+            </Expander>
+
+            <Expander Header="SubProperty2">
+              <Grid ColumnDefinitions="3*,5*" RowDefinitions="*,*" Margin="4">
+
+              </Grid>
+            </Expander>
+
+            <Expander Header="SubProperty3">
+              <Grid ColumnDefinitions="3*,5*" RowDefinitions="*,*,*" Margin="4">
+
+              </Grid>
+            </Expander>
+          </StackPanel>
+
+        </TabItem>
+       
+        <TabItem Classes="left">
+          <TabItem.Header>
+            <Viewbox Width="16" Height="16" Margin="4" Stretch="UniformToFill">
+              <DrawingPresenter Drawing="{StaticResource ObjectDataProperty}" Stretch="None"/>
+            </Viewbox>
+          </TabItem.Header>
+
+         <Border />
+        </TabItem>
+        
+        <TabItem Classes="left">
+          <TabItem.Header>
+            <Viewbox Width="16" Height="16" Margin="4" Stretch="UniformToFill">
+              <DrawingPresenter Drawing="{StaticResource SceneProperty}" Stretch="None"/>
+            </Viewbox>
+          </TabItem.Header>
+
+          <Border />
+        </TabItem>
+         
+      </TabControl>
+
+    </controls:Editor.PanelContent>
+    
+  </controls:Editor>
+    
+</UserControl>

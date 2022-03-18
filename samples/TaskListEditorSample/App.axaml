@@ -1,0 +1,22 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:TaskListEditorSample"
+             xmlns:theme="clr-namespace:SatelliteTaskViewer.Avalonia.Themes;assembly=SatelliteTaskViewer.Avalonia"
+             x:Class="TaskListEditorSample.App">
+    <Application.DataTemplates>
+        <local:ViewLocator/>
+    </Application.DataTemplates>
+
+  <Application.Styles>
+
+    <theme:BlenderTheme/>
+
+    <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Icons.axaml"/>
+
+    <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Styles/EditorStyle.axaml"/>
+
+    <StyleInclude Source="resm:SatelliteTaskViewer.Avalonia.TimelineChart.Themes.Default.xaml?assembly=SatelliteTaskViewer.Avalonia.TimelineChart"/>
+
+  </Application.Styles>
+
+</Application>

@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="SatelliteTaskViewer.Avalonia.Views.Data.Animators.J2000AnimatorControl"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"                
+             xmlns:converters="clr-namespace:SatelliteTaskViewer.Avalonia.Converters;assembly=SatelliteTaskViewer.Avalonia"           
+              xmlns:Data="clr-namespace:SatelliteTaskViewer.ViewModels.Data;assembly=SatelliteTaskViewer"
+             xmlns:Designer="clr-namespace:SatelliteTaskViewer.ViewModels.Designer;assembly=SatelliteTaskViewer"        
+             mc:Ignorable="d"                          
+             d:DataContext="{x:Static Designer:DesignerContext.J2000Animator}"
+             d:DesignWidth="250" d:DesignHeight="400"
+             x:DataType="Data:EarthAnimator" x:CompileBindings="True"             
+             >
+
+  <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto">
+
+    <TextBlock Grid.Row="0" Grid.Column="0" Text="Angle :"/>
+    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding AngleDEG, StringFormat={}{0: 0.000 deg;-0.000 deg}}, Mode=TwoWay"/>
+
+  </Grid>
+  
+  
+  
+</UserControl>
