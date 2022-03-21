@@ -1,85 +1,35 @@
-﻿<Style xmlns="https://github.com/avaloniaui"
+﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <Style Selector="ContentPresenter.small">
+    <Setter Property="Background" Value="#373737"></Setter>
+    <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+    <Setter Property="ContentTemplate">
+      <Setter.Value>
+        <DataTemplate>
+          <Viewbox Width="36" Height="36" Margin="1">
+            <Border>
+              <Image Margin="8.5" Width="19" Height="19" Source="{Binding}"/>
+            </Border>
+          </Viewbox>
+        </DataTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
 
   <Design.PreviewWith>
     <Border Padding="20">
+      <StackPanel>      
+        <DockPanel>        
+          <ContentPresenter Classes="small" Content="{DynamicResource BlenderIconPlay1}"/>
+          <ContentPresenter Classes="small" Content="{DynamicResource BlenderIconPlay2}"/>
+          <ContentPresenter Classes="small" Content="{DynamicResource BlenderIconPause}"/>
+          <ContentPresenter Classes="small" Content="{DynamicResource BlenderIconToStart}"/>
+          <ContentPresenter Classes="small" Content="{DynamicResource BlenderIconToEnd}"/>
+          <ContentPresenter Classes="small" Content="{DynamicResource BlenderIconFaster}"/>
+          <ContentPresenter Classes="small" Content="{DynamicResource BlenderIconSlower}"/>      
+        </DockPanel>
       <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
-        
-        <Viewbox Width="50" Height="50" Margin="0" Stretch="UniformToFill" Grid.Column="0" Grid.Row="0">
-          <DrawingPresenter Drawing="{DynamicResource ObjectProperty}" Stretch="None" Margin="0"/>
-        </Viewbox>
-
-        <Button Width="50" Height="50" Padding="0" Grid.Column="1" Grid.Row="0">
-          <Button.Content>
-            <Viewbox Stretch="Uniform">
-              <DrawingPresenter Margin="0" Drawing="{DynamicResource ObjectDataProperty}"/>
-            </Viewbox>
-          </Button.Content>
-        </Button>
-
-        <Button Width="50" Height="50" Padding="0" Grid.Column="2" Grid.Row="0">
-          <Button.Content>
-            <Viewbox Stretch="Uniform">
-              <DrawingPresenter Margin="0" Drawing="{DynamicResource SceneProperty}"/>
-            </Viewbox>
-          </Button.Content>
-        </Button>
-
-        <Button Width="50" Height="50" Padding="0" Grid.Column="0" Grid.Row="1">
-          <Button.Content>
-            <Viewbox Stretch="Uniform" Width="40" Height="40">
-              <DrawingPresenter Margin="0" Stretch="Fill" Drawing="{DynamicResource BlenderIconPlay1}"/>
-            </Viewbox>
-          </Button.Content>
-        </Button>
-
-        <Button Width="50" Height="50" Padding="0" Grid.Column="1" Grid.Row="1">
-          <Button.Content>
-            <Viewbox Stretch="Uniform" Width="40" Height="40">
-              <DrawingPresenter Margin="0" Stretch="Fill" Drawing="{DynamicResource BlenderIconPlay2}"/>
-            </Viewbox>
-          </Button.Content>
-        </Button>
-
-        <Button Width="50" Height="50" Padding="0" Grid.Column="2" Grid.Row="1">
-          <Button.Content>
-            <Viewbox Stretch="Uniform" Width="40" Height="40">
-              <DrawingPresenter Margin="0" Stretch="Fill" Drawing="{DynamicResource BlenderIconPause}"/>
-            </Viewbox>
-          </Button.Content>
-        </Button>
-
-        <Button Width="50" Height="50" Padding="0" Grid.Column="3" Grid.Row="1">
-          <Button.Content>
-            <Viewbox Stretch="Uniform" Width="40" Height="40">
-              <DrawingPresenter Margin="0" Stretch="Fill" Drawing="{DynamicResource BlenderIconToStart}"/>
-            </Viewbox>
-          </Button.Content>
-        </Button>
-
-        <Button Width="50" Height="50" Padding="0" Grid.Column="4" Grid.Row="1">
-          <Button.Content>
-            <Viewbox Stretch="Uniform" Width="40" Height="40">
-              <DrawingPresenter Margin="0" Stretch="Fill" Drawing="{DynamicResource BlenderIconToEnd}"/>
-            </Viewbox>
-          </Button.Content>
-        </Button>
-
-        <Button Width="50" Height="50" Padding="0" Grid.Column="5" Grid.Row="1">
-          <Button.Content>
-            <Viewbox Stretch="Uniform" Width="40" Height="40">
-              <DrawingPresenter Margin="0" Stretch="Fill" Drawing="{DynamicResource BlenderIconFaster}"/>
-            </Viewbox>
-          </Button.Content>
-        </Button>
-
-        <Button Width="50" Height="50" Padding="0" Grid.Column="6" Grid.Row="1">
-          <Button.Content>
-            <Viewbox Stretch="Uniform" Width="40" Height="40">
-              <DrawingPresenter Margin="0" Stretch="Fill" Drawing="{DynamicResource BlenderIconSlower}"/>
-            </Viewbox>
-          </Button.Content>
-        </Button>
 
         <Button Width="50" Height="50" Padding="0" Grid.Column="0" Grid.Row="2">
           <Button.Content>
@@ -234,10 +184,11 @@
         </Button>
         
       </Grid>
+      </StackPanel>
     </Border>
   </Design.PreviewWith>
 
-  <Style.Resources>
+  <Styles.Resources>
 
     <SolidColorBrush x:Key="IconTransparentBrush" Color="Transparent"/>
     <SolidColorBrush x:Key="IconAccentBrush1" Color="LightBlue"/>
@@ -247,108 +198,65 @@
 
     <Color x:Key="IconEditorColor">#D9D9D9</Color>
     <SolidColorBrush x:Key="IconEditorBrush" Color="{StaticResource IconEditorColor}"></SolidColorBrush>
-    
-    <!-- Property -->
-    <!-- ClipGeometry="M0,0 V96 H96 V0 H0 Z" -->
-    
-    <!-- orange -->
-    <Color x:Key="IconPropertyColor1">#ED9D5D</Color>
-    <!-- blue -->
-    <Color x:Key="IconPropertyColor2">#09B089</Color>
-    <!-- white -->
-    <Color x:Key="IconPropertyColor3">#C0C0C0</Color>
-
-    <DrawingGroup x:Key="ObjectProperty">
-      <DrawingGroup Opacity="1">
-        <DrawingGroup Opacity="1" Transform="6.8571429,0,0,6.8571429,-185.14286,-2379.4286">
-          <GeometryDrawing Geometry="F1 M96,96z M0,0z M27.5,347A0.50005,0.50005,0,0,0,27,347.5L27,351 28,351 28,348 31,348 31,347z M37,347L37,348 40,348 40,351 41,351 41,347.5A0.50005,0.50005,0,0,0,40.5,347z M27,357L27,360.5A0.50005,0.50005,0,0,0,27.5,361L31,361 31,360 28,360 28,357z M40,357L40,360 37,360 37,361 40.5,361A0.50005,0.50005,0,0,0,41,360.5L41,357z">
-            <GeometryDrawing.Brush>
-              <SolidColorBrush Color="{DynamicResource IconPropertyColor1}" Opacity="0.6" />
-            </GeometryDrawing.Brush>
-          </GeometryDrawing>
-          <GeometryDrawing Brush="{DynamicResource IconPropertyColor1}" Geometry="F1 M96,96z M0,0z M30.5,350C30.223869,350.00003,30.000028,350.22387,30,350.5L30,357.5C30.000028,357.77613,30.223869,357.99997,30.5,358L37.5,358C37.776131,357.99997,37.999972,357.77613,38,357.5L38,350.5C37.999972,350.22387,37.776131,350.00003,37.5,350z" />
-        </DrawingGroup>
-      </DrawingGroup>
-    </DrawingGroup>
-    
-    <DrawingGroup x:Key="ObjectDataProperty">
-      <DrawingGroup Opacity="1">
-        <GeometryDrawing Brush="{DynamicResource IconPropertyColor2}" 
-                         Geometry="F0 M96,96z M0,0z M3.4285344,0A3.4289206,3.4289113,0,0,0,0,3.4285251L0,23.999935A3.4289206,3.4289113,0,0,0,3.4285344,27.42846L9.9375405,27.42846 34.285603,72.870349 34.285603,92.571216A3.4289206,3.4289113,0,0,0,37.714397,96L58.285862,96A3.4289206,3.4289113,0,0,0,61.714397,92.571216L61.714397,72.870349 86.062719,27.42846 92.571466,27.42846A3.4289206,3.4289113,0,0,0,96,23.999935L96,3.4285251A3.4289206,3.4289113,0,0,0,92.571466,0L72,0A3.4289206,3.4289113,0,0,0,68.571466,3.4285251L68.571466,6.8570503 27.428534,6.8570503 27.428534,3.4285251A3.4289206,3.4289113,0,0,0,24,0z M6.8570688,6.8570503L20.571466,6.8570503 20.571466,20.57141 6.8570688,20.57141z M75.428534,6.8570503L89.142931,6.8570503 89.142931,20.57141 75.428534,20.57141z M27.428534,13.71436L68.571466,13.71436 68.571466,23.999935A3.4289206,3.4289113,0,0,0,72,27.42846L78.26798,27.42846 56.223144,68.57128 39.776856,68.57128 17.73202,27.42846 24,27.42846A3.4289206,3.4289113,0,0,0,27.428534,23.999935z M41.142931,75.42859L54.857069,75.42859 54.857069,89.142691 41.142931,89.142691z" />
-      </DrawingGroup>
-    </DrawingGroup>
-
-    <DrawingGroup x:Key="SceneProperty">
-      <DrawingGroup Opacity="1">
-        <GeometryDrawing Brush="{DynamicResource IconPropertyColor3}" 
-                         Geometry="F1 M96,96z M0,0z M30.735944,0C29.434913,0.05183361,28.273834,0.82415446,27.736057,2.0085525L1.8608368,58.580018C1.8517668,58.600748 1.8426948,58.631848 1.8349198,58.657768 1.0885118,60.394195 0,62.417001 0,65.151743 0,70.898795 3.6081574,75.675522 8.892882,78.330439 14.177866,80.985098 21.168185,82.141765 29.625144,82.254503 31.651849,82.274973 33.254553,80.549177 33.08065,78.531295 33.08715,78.609045 33.0029,75.935726 32.976983,73.669561 32.951063,71.404432 32.925153,69.076584 32.925153,68.580277 32.925153,55.773228 39.889295,44.448879 50.201908,38.151613 51.767287,37.195283 52.303768,35.178437 51.42,33.571336L33.861787,1.7765971C33.237189,0.64662434,32.032051,-0.03757937,30.741127,0.00907088z M82.285529,0C74.751991,0 68.571058,6.1806401 68.571058,13.714138 68.571058,21.247894 74.751991,27.428534 82.285529,27.428534 89.819067,27.428534 96,21.247894 96,13.714138 96,6.1806401 89.819067,0 82.285529,0z M68.571058,41.142931C53.463292,41.142931 41.142376,53.463781 41.142376,68.571466 41.142376,83.679409 53.463292,96 68.571058,96 83.679083,96 96,83.679409 96,68.571466 96,53.463781 83.679083,41.142931 68.571058,41.142931z M68.571058,48C79.973219,48 89.142635,57.169626 89.142635,68.571466 89.142635,79.973306 79.973219,89.142931 68.571058,89.142931 57.169157,89.142931 47.999482,79.973306 47.999482,68.571466 47.999482,57.169626 57.169157,48 68.571058,48z M64.861307,55.084878C59.373911,55.084878,54.856847,59.615395,54.856847,65.10276A3.4289391,3.4289206,0,1,0,61.713952,65.10276C61.713952,63.322275,63.079776,61.941946,64.861307,61.941946A3.4289391,3.4289206,0,1,0,64.861307,55.084878z" />
-      </DrawingGroup>
-    </DrawingGroup>
-
-
-
+        
     <!-- Blender Timer -->
-    <!-- ClipGeometry="M0,0 V96 H96 V0 H0 Z" -->
 
-    <DrawingGroup x:Key="BlenderIconPlay1">
-      <DrawingGroup.Transform>
-        <TranslateTransform X="0" Y="9.3304231008062288E-10" />
-      </DrawingGroup.Transform>
-      <DrawingGroup Opacity="1">
+    <DrawingImage x:Key="BlenderIconPlay1">
+      <DrawingImage.Drawing>
         <GeometryDrawing Brush="{StaticResource IconTimerBrush}" 
                          Geometry="F0 M96,96z M0,0z M9.2073732,0.0061907C4.059404,0.18756215,-0.00384411,3.7129567,2.729211E-06,8.0053572L2.729211E-06,87.994761C0.00685989,94.271585,8.2906623,98.096568,14.683134,94.77555L91.492877,54.780712C97.502374,51.646826,97.502374,44.353294,91.492877,41.219099L14.683134,1.224568C13.04654,0.36896788,11.138153,-0.05730645,9.2073732,0.0061907z" />
-      </DrawingGroup>
-    </DrawingGroup>
+      </DrawingImage.Drawing>
+    </DrawingImage>
 
-
-    <DrawingGroup x:Key="BlenderIconPlay2">
-      <DrawingGroup.Transform>
-        <TranslateTransform X="5.9604644775390625E-08" Y="3.0186930732867268E-09" />
-      </DrawingGroup.Transform>
-      <DrawingGroup Opacity="1">
-        <GeometryDrawing Brush="{StaticResource IconTimerBrush}" 
+    <DrawingImage x:Key="BlenderIconPlay2">
+      <DrawingImage.Drawing>
+        <GeometryDrawing Brush="{StaticResource IconTimerBrush}"
                          Geometry="F0 M96,96z M0,0z M86.792625,0.00610832C91.940814,0.18145588,96.003989,3.7128327,95.999997,8.0050663L95.999997,87.994734C95.993097,94.271538,87.709625,98.096653,81.317118,94.775481L4.5072504,54.780631C-1.5024168,51.646628,-1.5024168,44.353171,4.5072504,41.219168L81.317118,1.22435C82.95371,0.36847301,84.862463,-0.05629109,86.792625,0.00598739000000004z" />
-      </DrawingGroup>
-    </DrawingGroup>
+      </DrawingImage.Drawing>
+    </DrawingImage>
 
-    <DrawingGroup x:Key="BlenderIconPause">
-      <DrawingGroup.Transform>
-        <TranslateTransform X="0" Y="1.8515807823860087E-05" />
-      </DrawingGroup.Transform>
-      <DrawingGroup Opacity="1">
-        <GeometryDrawing Brush="{StaticResource IconTimerBrush}" Geometry="F1 M96,96z M0,0z M0,-1.8515808E-05L0,95.999981 24,95.999981 24,-1.8515808E-05z M72,-1.8515808E-05L72,95.999981 96,95.999981 96,-1.8515808E-05z" />
-      </DrawingGroup>
-    </DrawingGroup>
+    <DrawingImage x:Key="BlenderIconPause">
+      <DrawingImage.Drawing>
+        <GeometryDrawing Brush="{StaticResource IconTimerBrush}"
+                         Geometry="F1 M96,96z M0,0z M0,-1.8515808E-05L0,95.999981 24,95.999981 24,-1.8515808E-05z M72,-1.8515808E-05L72,95.999981 96,95.999981 96,-1.8515808E-05z" />
+      </DrawingImage.Drawing>
+    </DrawingImage>
 
-    <DrawingGroup x:Key="BlenderIconToStart">
-      <DrawingGroup Opacity="1">
-        <GeometryDrawing Brush="{StaticResource IconTimerBrush}" Geometry="F0 M96,96z M0,0z M90.60424,9.6000218C93.575452,9.6000218,95.999994,11.727321,95.999994,14.399996L95.999994,81.600004C96.006494,85.488937,91.142041,87.769896,87.604,85.53792L34.270939,51.937916C31.22716,50.027592,31.22716,45.972481,34.270939,44.062084L87.604,10.46208C88.486898,9.9054922,89.531055,9.607605,90.603433,9.5981713z M21.333063,0L21.333063,96 0,96 0,0z" />
-      </DrawingGroup>
-    </DrawingGroup>
+    <DrawingImage x:Key="BlenderIconToStart">
+      <DrawingImage.Drawing>
+        <GeometryDrawing Brush="{StaticResource IconTimerBrush}"
+                         Geometry="F0 M96,96z M0,0z M90.60424,9.6000218C93.575452,9.6000218,95.999994,11.727321,95.999994,14.399996L95.999994,81.600004C96.006494,85.488937,91.142041,87.769896,87.604,85.53792L34.270939,51.937916C31.22716,50.027592,31.22716,45.972481,34.270939,44.062084L87.604,10.46208C88.486898,9.9054922,89.531055,9.607605,90.603433,9.5981713z M21.333063,0L21.333063,96 0,96 0,0z" />
+      </DrawingImage.Drawing>
+    </DrawingImage>
 
-    <DrawingGroup x:Key="BlenderIconToEnd">
-      <DrawingGroup Opacity="1">
-        <GeometryDrawing Brush="{StaticResource IconTimerBrush}" Geometry="F0 M96,96z M0,0z M5.3957603,9.5998911C2.424548,9.5998911,6.4084147E-06,11.726105,6.4084147E-06,14.399837L6.4084147E-06,81.5998C-0.00644398,85.48903,4.8579588,87.769811,8.3959994,85.538013L61.729061,51.937668C64.77284,50.029155,64.77284,45.972296,61.729061,44.061969L8.3959994,10.461987C7.5131019,9.9068496,6.4689445,9.6056965,5.3965666,9.5984398z M74.666534,0L74.666534,96 96,96 96,0z" />
-      </DrawingGroup>
-    </DrawingGroup>
+    <DrawingImage x:Key="BlenderIconToEnd">
+      <DrawingImage.Drawing>
+        <GeometryDrawing Brush="{StaticResource IconTimerBrush}"
+                         Geometry="F0 M96,96z M0,0z M5.3957603,9.5998911C2.424548,9.5998911,6.4084147E-06,11.726105,6.4084147E-06,14.399837L6.4084147E-06,81.5998C-0.00644398,85.48903,4.8579588,87.769811,8.3959994,85.538013L61.729061,51.937668C64.77284,50.029155,64.77284,45.972296,61.729061,44.061969L8.3959994,10.461987C7.5131019,9.9068496,6.4689445,9.6056965,5.3965666,9.5984398z M74.666534,0L74.666534,96 96,96 96,0z" />
+      </DrawingImage.Drawing>
+    </DrawingImage>
 
-    <DrawingGroup x:Key="BlenderIconFaster">
-      <DrawingGroup Opacity="1">
-        <GeometryDrawing Brush="{StaticResource IconTimerBrush}" Geometry="F0 M96,96z M0,0z M4.8922187,0.00479705C2.2055812,-0.13121995,-0.00016725934,2.6435258,1.4098657E-05,6.0026898L1.4098657E-05,89.974553C-0.0095616,95.140931,4.8608438,97.907061,7.9662005,94.494851L46.353632,52.509144C48.548789,50.11978,48.548789,45.855196,46.353632,43.464472L7.9662005,1.4783138C7.1130924,0.54433085,6.0238563,0.02746645,4.8922187,0.00479705z" />
-        <GeometryDrawing Brush="{StaticResource IconTimerBrush}" Geometry="F0 M96,96z M0,0z M52.892218,0.00479705C50.205581,-0.13121995,47.999832,2.6435261,48.000014,6.0026901L48.000014,89.97456C47.990414,95.14093,52.860843,97.90706,55.9662,94.49485L94.353631,52.509145C96.548789,50.11978,96.548789,45.855197,94.353631,43.464472L55.9662,1.4783141C55.113092,0.54433105,54.023856,0.02746705,52.892218,0.00479705z" />
-      </DrawingGroup>
-    </DrawingGroup>
+    <DrawingImage x:Key="BlenderIconFaster">
+      <DrawingImage.Drawing>
+        <DrawingGroup>
+          <GeometryDrawing Brush="{StaticResource IconTimerBrush}"
+                         Geometry="F0 M96,96z M0,0z M4.8922187,0.00479705C2.2055812,-0.13121995,-0.00016725934,2.6435258,1.4098657E-05,6.0026898L1.4098657E-05,89.974553C-0.0095616,95.140931,4.8608438,97.907061,7.9662005,94.494851L46.353632,52.509144C48.548789,50.11978,48.548789,45.855196,46.353632,43.464472L7.9662005,1.4783138C7.1130924,0.54433085,6.0238563,0.02746645,4.8922187,0.00479705z" />
+          <GeometryDrawing Brush="{StaticResource IconTimerBrush}"
+                         Geometry="F0 M96,96z M0,0z M52.892218,0.00479705C50.205581,-0.13121995,47.999832,2.6435261,48.000014,6.0026901L48.000014,89.97456C47.990414,95.14093,52.860843,97.90706,55.9662,94.49485L94.353631,52.509145C96.548789,50.11978,96.548789,45.855197,94.353631,43.464472L55.9662,1.4783141C55.113092,0.54433105,54.023856,0.02746705,52.892218,0.00479705z" />
+          </DrawingGroup>          
+      </DrawingImage.Drawing>
+    </DrawingImage>
 
-    <DrawingGroup x:Key="BlenderIconSlower">
-      <DrawingGroup.Transform>
-        <TranslateTransform X="2.9802322387695313E-08" Y="2.7995161744343022E-09" />
-      </DrawingGroup.Transform>
-      <DrawingGroup Opacity="1">
-        <GeometryDrawing Brush="{StaticResource IconTimerBrush}" Geometry="F0 M96,96z M0,0z M43.10778,0.00364497C45.794419,-0.11423699,48.000167,2.6428371,47.999986,6.0016528L47.999986,89.973534C48.009586,95.140203,43.139156,97.90648,40.0338,94.496114L1.6463677,52.510151C-0.54878925,50.119417,-0.54878925,45.855995,1.6463677,43.46517L40.0338,1.4792534C40.886908,0.54345271,41.976143,0.026587,43.107817,0.00391749z" />
-        <GeometryDrawing Brush="{StaticResource IconTimerBrush}" Geometry="F0 M96,96z M0,0z M91.107779,0.00364497C93.794419,-0.11423703,96.000169,2.642837,95.999986,6.001653L95.999986,89.973533C96.009586,95.140203,91.139156,97.906483,88.0338,94.496113L49.646368,52.51015C47.451211,50.119418,47.451211,45.855996,49.646368,43.465171L88.0338,1.479253C88.886909,0.54345297,89.976143,0.0265869699999999,91.107816,0.00391696999999991z" />
-      </DrawingGroup>
-    </DrawingGroup>
-
+    <DrawingImage x:Key="BlenderIconSlower">
+      <DrawingImage.Drawing>
+        <DrawingGroup>
+          <GeometryDrawing Brush="{StaticResource IconTimerBrush}"
+                         Geometry="F0 M96,96z M0,0z M43.10778,0.00364497C45.794419,-0.11423699,48.000167,2.6428371,47.999986,6.0016528L47.999986,89.973534C48.009586,95.140203,43.139156,97.90648,40.0338,94.496114L1.6463677,52.510151C-0.54878925,50.119417,-0.54878925,45.855995,1.6463677,43.46517L40.0338,1.4792534C40.886908,0.54345271,41.976143,0.026587,43.107817,0.00391749z" />
+          <GeometryDrawing Brush="{StaticResource IconTimerBrush}"
+                         Geometry="F0 M96,96z M0,0z M91.107779,0.00364497C93.794419,-0.11423703,96.000169,2.642837,95.999986,6.001653L95.999986,89.973533C96.009586,95.140203,91.139156,97.906483,88.0338,94.496113L49.646368,52.51015C47.451211,50.119418,47.451211,45.855996,49.646368,43.465171L88.0338,1.479253C88.886909,0.54345297,89.976143,0.0265869699999999,91.107816,0.00391696999999991z" />
+        </DrawingGroup>
+      </DrawingImage.Drawing>
+    </DrawingImage>
 
     <!-- Blender Editors -->
     <!-- ClipGeometry="M0,0 V96 H96 V0 H0 Z" -->
@@ -661,6 +569,6 @@
       </DrawingGroup>
 
   
-  </Style.Resources>
+  </Styles.Resources>
 
-</Style>
+</Styles>
