@@ -59,9 +59,6 @@ namespace SatelliteTaskViewer.ViewModels.Containers
         [Reactive]
         public OutlinerEditorViewModel OutlinerEditor { get; set; }
 
-        [Reactive]
-        public PropertiesEditorViewModel PropertiesEditor { get; set; }
-
         public void SetCameraTo(ITargetable target)
         {
             var behaviours = SceneState.CameraBehaviours;

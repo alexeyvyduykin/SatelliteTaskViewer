@@ -1,42 +1,35 @@
 using Autofac;
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using SatelliteTaskViewer.Avalonia.Views;
 using SatelliteTaskViewer.Models.Editor;
-using SatelliteTaskViewer.ViewModels.Designer;
 using SatelliteTaskViewer.ViewModels.Editor;
-using System.Text;
 using System;
+using System.Text;
 
 namespace SatelliteTaskViewer.Avalonia
 {
     public class App : Application
     {
-        static App()
-        {
-            InitializeDesigner();
-        }
-
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
         }
 
-        public static void InitializeDesigner()
-        {
-            if (Design.IsDesignMode)
-            {
-                var builder = new ContainerBuilder();
+        //public static void InitializeDesigner()
+        //{
+        //    if (Design.IsDesignMode)
+        //    {
+        //        var builder = new ContainerBuilder();
 
-                builder.RegisterModule<AppModule>();
+        //        builder.RegisterModule<AppModule>();
 
-                var container = builder.Build();
+        //        var container = builder.Build();
 
-                DesignerContext.InitializeContext(container.Resolve<IServiceProvider>());
-            }
-        }
+        //        DesignerContext.InitializeContext(container.Resolve<IServiceProvider>());
+        //    }
+        //}
 
         //public override void OnFrameworkInitializationCompleted()
         //{
@@ -60,11 +53,6 @@ namespace SatelliteTaskViewer.Avalonia
             }
 
             base.OnFrameworkInitializationCompleted();
-        }
-
-        void Test()
-        {
-            Console.WriteLine("Again");
         }
 
         private void InitializationClassicDesktopStyle(IClassicDesktopStyleApplicationLifetime desktopLifetime)

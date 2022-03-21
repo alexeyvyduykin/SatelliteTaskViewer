@@ -2,23 +2,19 @@
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="clr-namespace:SatelliteTaskViewer.ViewModels.Editors;assembly=SatelliteTaskViewer"    
-           xmlns:converters="clr-namespace:SatelliteTaskViewer.Avalonia.Converters;assembly=SatelliteTaskViewer.Avalonia"  
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"     
+             xmlns:converters="clr-namespace:SatelliteTaskViewer.Avalonia.Converters;assembly=SatelliteTaskViewer.Avalonia"  
              xmlns:markups="clr-namespace:SatelliteTaskViewer.Avalonia.Markups"             
              xmlns:controls="clr-namespace:SatelliteTaskViewer.Avalonia.Controls"      
-             xmlns:editors="clr-namespace:SatelliteTaskViewer.ViewModels.Editors;assembly=SatelliteTaskViewer"    
-             xmlns:Designer="clr-namespace:SatelliteTaskViewer.ViewModels.Designer;assembly=SatelliteTaskViewer"  
              xmlns:Entities="clr-namespace:SatelliteTaskViewer.ViewModels.Entities;assembly=SatelliteTaskViewer"
-             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
-             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
-             xmlns:iac="clr-namespace:Avalonia.Xaml.Interactions.Custom;assembly=Avalonia.Xaml.Interactions.Custom"          
-             
-             mc:Ignorable="d"  
-             d:DataContext="{x:Static Designer:DesignerContext.OutlinerEditor}"  
-             d:DesignWidth="250" d:DesignHeight="500"  
-             x:DataType="editors:OutlinerEditorViewModel" x:CompileBindings="False">
+             xmlns:dt="clr-namespace:SatelliteTaskViewer.DesignTime;assembly=SatelliteTaskViewer"
+             mc:Ignorable="d"     
+             d:DesignWidth="250" d:DesignHeight="500">
 
+  <Design.DataContext>
+    <dt:DesignTimeOutlinerEditor/>
+  </Design.DataContext>
+  
     <UserControl.Resources>
         <converters:IsTargetableConverter x:Key="IsTargetableConverter"/>   
         <StreamGeometry x:Key="OutlinerHideIcon">F1 M96,96z M0,0z M3.4786428,48.007653A3.7031208,4.7978532,0,0,0,1.0197832,56.103141C10.823929,69.90217 23.84651,96 48.01286,96 72.179321,96 85.216342,69.90217 95.020461,56.103141A3.7055568,4.8010092,0,1,0,89.567587,49.600351C78.936525,64.563079 68.046673,86.405374 48.01286,86.405374 27.979128,86.405374 17.089277,64.563079 6.4582432,49.600351A3.7031208,4.7978532,0,0,0,3.4786148,48.008378z</StreamGeometry>    
@@ -108,11 +104,16 @@
 
         <controls:Editor.HeaderContent>
             <DockPanel>
-                <ComboBox HorizontalAlignment="Left"
-                          SelectedItem="{Binding SelectedMode}"
+                <ComboBox x:Name="HeaderComboBox" 
+                          HorizontalAlignment="Left"                        
                           Height="20"
-                          FontSize="{DynamicResource WidgetFontSize}"
-                          Items="{Binding Source={markups:EnumBindingSource {x:Type vm:DisplayMode}}}" />
+                          FontSize="{DynamicResource WidgetFontSize}">
+                  <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                      <TextBlock Text="{Binding}"/>
+                    </DataTemplate>
+                  </ComboBox.ItemTemplate>                
+                </ComboBox>
             </DockPanel>
         </controls:Editor.HeaderContent>
 
@@ -130,7 +131,8 @@
                                 
                 <TreeView.DataTemplates>
 
-                    <TreeDataTemplate DataType="Entities:FrameViewModel" ItemsSource="{Binding Children}" x:CompileBindings="False">
+                    <TreeDataTemplate DataType="Entities:FrameViewModel" 
+                                      ItemsSource="{Binding Children}">
                         <DockPanel LastChildFill="True">                            
                             <TextBlock Text="{Binding Name}"/>
                             <StackPanel Orientation="Horizontal"
@@ -144,11 +146,7 @@
                         </DockPanel>
                     </TreeDataTemplate>
 
-                    <!--<TreeDataTemplate DataType="Containers:ScenarioContainerViewModel" ItemsSource="{Binding Entities}" x:CompileBindings="False">
-                        <TextBlock Text="{Binding Name}" Grid.Column="0" Background="Transparent"/>
-                    </TreeDataTemplate>-->
-
-                    <TreeDataTemplate DataType="Entities:EntityList" ItemsSource="{Binding Values}" x:CompileBindings="False">
+                    <TreeDataTemplate DataType="Entities:EntityList" ItemsSource="{Binding Values}">
                         <DockPanel LastChildFill="True">
                             <TextBlock Text="{Binding Name}"/>
                             <StackPanel Orientation="Horizontal"
@@ -160,8 +158,7 @@
                         </DockPanel>
                     </TreeDataTemplate>
 
-
-                    <TreeDataTemplate DataType="Entities:BaseEntity" ItemsSource="{Binding Children}" x:CompileBindings="False">
+                    <TreeDataTemplate DataType="Entities:BaseEntity" ItemsSource="{Binding Children}">
                         <DockPanel LastChildFill="True">
                             <TextBlock Text="{Binding Name}"/>
                                 
@@ -186,7 +183,6 @@
 
                 </TreeView.DataTemplates>
             </TreeView>
-
         </controls:Editor.PanelContent>
 
     </controls:Editor>

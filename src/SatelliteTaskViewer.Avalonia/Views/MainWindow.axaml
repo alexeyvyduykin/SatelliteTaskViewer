@@ -4,17 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"           
         xmlns:views="clr-namespace:SatelliteTaskViewer.Avalonia.Views"           
-     xmlns:Editor="clr-namespace:SatelliteTaskViewer.ViewModels.Editor;assembly=SatelliteTaskViewer"   
-      xmlns:Designer="clr-namespace:SatelliteTaskViewer.ViewModels.Designer;assembly=SatelliteTaskViewer"  
         Width="1324" Height="690"
-        WindowState="Maximized" WindowStartupLocation="Manual"      
-        UseLayoutRounding="True" RenderOptions.BitmapInterpolationMode="HighQuality"
+        WindowState="Maximized" 
+        WindowStartupLocation="Manual"      
+        UseLayoutRounding="True" 
+        RenderOptions.BitmapInterpolationMode="HighQuality"
         Icon="/Assets/avalonia-logo.ico"
         Title="SatelliteTaskViewer"        
-        mc:Ignorable="d"
-        d:DataContext="{x:Static Designer:DesignerContext.Editor}"
-        d:DesignWidth="1200" d:DesignHeight="580"
-        x:DataType="Editor:ProjectEditorViewModel" x:CompileBindings="True">
+        mc:Ignorable="d"     
+        d:DesignWidth="1200" d:DesignHeight="580">
  
     <Panel x:Name="ContentPanel">
         <DockPanel>

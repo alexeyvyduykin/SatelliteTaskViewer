@@ -3,18 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"         
-           xmlns:converters="clr-namespace:SatelliteTaskViewer.Avalonia.Converters;assembly=SatelliteTaskViewer.Avalonia"  
-             xmlns:controls="clr-namespace:SatelliteTaskViewer.Avalonia.Controls"             
+             xmlns:converters="clr-namespace:SatelliteTaskViewer.Avalonia.Converters;assembly=SatelliteTaskViewer.Avalonia"  
+             xmlns:controls="clr-namespace:SatelliteTaskViewer.Avalonia.Controls"
+             xmlns:dt="clr-namespace:SatelliteTaskViewer.DesignTime;assembly=SatelliteTaskViewer"
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
-             xmlns:iac="clr-namespace:Avalonia.Xaml.Interactions.Custom;assembly=Avalonia.Xaml.Interactions.Custom"
-                  xmlns:editors="clr-namespace:SatelliteTaskViewer.ViewModels.Editors;assembly=SatelliteTaskViewer"                                      
-            xmlns:Designer="clr-namespace:SatelliteTaskViewer.ViewModels.Designer;assembly=SatelliteTaskViewer"    
-             mc:Ignorable="d"
-             d:DataContext="{x:Static Designer:DesignerContext.SceneTimerEditor}"
-             d:DesignWidth="500" d:DesignHeight="64"
-             x:DataType="editors:SceneTimerEditorViewModel" x:CompileBindings="False">
+             xmlns:editors="clr-namespace:SatelliteTaskViewer.ViewModels.Editors;assembly=SatelliteTaskViewer"                                      
+             mc:Ignorable="d"         
+             d:DesignWidth="500" d:DesignHeight="64">
 
+  <Design.DataContext>
+    <dt:DesignTimeSceneTimerEditor/>
+  </Design.DataContext>
 
   <UserControl.Resources>
 

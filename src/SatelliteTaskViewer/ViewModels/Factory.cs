@@ -59,7 +59,6 @@ namespace SatelliteTaskViewer.ViewModels
             };
       
             scenario.OutlinerEditor = CreateOutlinerEditor(scenario);
-            scenario.PropertiesEditor = new PropertiesEditorViewModel(scenario);
              
             return scenario;
         }

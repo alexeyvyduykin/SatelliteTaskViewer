@@ -7,6 +7,7 @@ using SatelliteTaskViewer.ViewModels.Containers;
 using SatelliteTaskViewer.ViewModels.Entities;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using System.Collections.Generic;
 
 namespace SatelliteTaskViewer.ViewModels.Editors
 {
@@ -59,6 +60,8 @@ namespace SatelliteTaskViewer.ViewModels.Editors
             this.WhenAnyValue(s => s.FrameRoot).Subscribe(frameRoot => InvalidateLogical(frameRoot));
 
             this.WhenAnyValue(s => s.Entities).Subscribe(entities => InvalidateVisual(entities));
+
+            SelectedMode = DisplayModes.FirstOrDefault();
         }
 
         private void InvalidateVisual(ImmutableArray<BaseEntity> entities)
@@ -93,6 +96,8 @@ namespace SatelliteTaskViewer.ViewModels.Editors
 
         [Reactive]
         public DisplayMode SelectedMode { get; set; }
+
+        public List<DisplayMode> DisplayModes => Enum.GetValues(typeof(DisplayMode)).Cast<DisplayMode>().ToList();
 
         [Reactive]
         public ObservableCollection<ViewModelBase> Items { get; set; }
