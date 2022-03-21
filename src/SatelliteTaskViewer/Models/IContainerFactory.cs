@@ -7,7 +7,7 @@ namespace SatelliteTaskViewer.Models.Editor
 {
     public interface IContainerFactory
     {
-        ProjectContainerViewModel GetProject();
+        //ProjectContainerViewModel GetProject();
 
         ProjectContainerViewModel? GetProject(ScenarioData data);
 

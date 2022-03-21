@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Threading.Tasks;
-using SatelliteTaskViewer.Models;
+﻿using SatelliteTaskViewer.Models;
 using SatelliteTaskViewer.Models.Data;
 using SatelliteTaskViewer.Models.Editor;
 using SatelliteTaskViewer.ViewModels.Containers;
 using SatelliteTaskViewer.ViewModels.Data;
 using SatelliteTaskViewer.ViewModels.Editors;
-using SatelliteTaskViewer.ViewModels.Entities;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SatelliteTaskViewer.ViewModels.Editor
 {
@@ -21,29 +19,29 @@ namespace SatelliteTaskViewer.ViewModels.Editor
             _serviceProvider = serviceProvider;
         }
 
-        public ProjectContainerViewModel GetProject()
-        {
-            var factory = _serviceProvider.GetService<IFactory>();      
-            var project = factory.CreateProjectContainer("Project1");
+        //public ProjectContainerViewModel GetProject()
+        //{
+        //    var factory = _serviceProvider.GetService<IFactory>();      
+        //    var project = factory.CreateProjectContainer("Project1");
 
-            // Templates
-            //   var templateBuilder = project.Templates.ToBuilder();
-            //   templateBuilder.Add(CreateDefaultTemplate(this, project, "Default"));
-            //   project.Templates = templateBuilder.ToImmutable();
+        //    // Templates
+        //    //   var templateBuilder = project.Templates.ToBuilder();
+        //    //   templateBuilder.Add(CreateDefaultTemplate(this, project, "Default"));
+        //    //   project.Templates = templateBuilder.ToImmutable();
 
-            //   project.SetCurrentTemplate(project.Templates.FirstOrDefault(t => t.Name == "Default"));
+        //    //   project.SetCurrentTemplate(project.Templates.FirstOrDefault(t => t.Name == "Default"));
 
-            // Documents and Pages      
-            var scenario = factory.CreateScenarioContainer("Scenario1", DateTime.Now, TimeSpan.FromDays(1));
+        //    // Documents and Pages      
+        //    var scenario = factory.CreateScenarioContainer("Scenario1", DateTime.Now, TimeSpan.FromDays(1));
 
-            var scenarioBuilder = project.Scenarios.ToBuilder();
-            scenarioBuilder.Add(scenario);
-            project.Scenarios = scenarioBuilder.ToImmutable();
+        //    var scenarioBuilder = project.Scenarios.ToBuilder();
+        //    scenarioBuilder.Add(scenario);
+        //    project.Scenarios = scenarioBuilder.ToImmutable();
 
-            // project.Selected = scenario.Pages.FirstOrDefault();
+        //    // project.Selected = scenario.Pages.FirstOrDefault();
 
-            return project;
-        }
+        //    return project;
+        //}
 
         public ProjectContainerViewModel? GetProject(ScenarioData data)
         {
@@ -71,8 +69,23 @@ namespace SatelliteTaskViewer.ViewModels.Editor
 
             var tasks = factory.CreateSatelliteTasks(satellites, data);
             scenario.TaskListEditor = new TaskListEditorViewModel(tasks);
-                
+
             scenario.AddGroundObjectList(factory.CreateGroundObjectList(gos));
+
+            var currentTask = scenario.TaskListEditor.CurrentTask;
+
+            if (currentTask == null)
+            {
+                currentTask = scenario.TaskListEditor.Tasks.FirstOrDefault();
+                if (currentTask != null)
+                {
+                    currentTask.IsVisible = true;
+                }
+            }
+            else
+            {
+                scenario.SetCameraTo(currentTask.Satellite);
+            }
 
             return project;
         }
@@ -118,7 +131,7 @@ namespace SatelliteTaskViewer.ViewModels.Editor
         public ProjectContainerViewModel GetEmptyProject()
         {
             var factory = _serviceProvider.GetService<IFactory>();
-       
+
             var project = factory.CreateProjectContainer("Project1");
             var scenario1 = factory.CreateScenarioContainer("Scenario1", DateTime.Now, TimeSpan.FromDays(1));
 

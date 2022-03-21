@@ -42,8 +42,6 @@ namespace SatelliteTaskViewer.ViewModels
                 Scenarios = ImmutableArray.Create<ScenarioContainerViewModel>()
             };
 
-            project.TopBar = new TopBarViewModel(project);
-
             return project;
         }
 

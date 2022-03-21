@@ -1,6 +1,5 @@
-﻿using System.Collections.Immutable;
-using SatelliteTaskViewer.ViewModels.Editors;
-using ReactiveUI.Fody.Helpers;
+﻿using ReactiveUI.Fody.Helpers;
+using System.Collections.Immutable;
 
 namespace SatelliteTaskViewer.ViewModels.Containers
 {
@@ -28,9 +27,6 @@ namespace SatelliteTaskViewer.ViewModels.Containers
 
         [Reactive]
         public ViewModelBase? Selected { get; set; }
-
-        [Reactive]
-        public TopBarViewModel? TopBar { get; set; }
 
         public void SetCurrentScenario(ScenarioContainerViewModel scenario)
         {

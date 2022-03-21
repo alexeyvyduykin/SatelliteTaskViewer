@@ -3,57 +3,29 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
-             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
-             xmlns:converters="clr-namespace:SatelliteTaskViewer.Avalonia.Converters;assembly=SatelliteTaskViewer.Avalonia"  
-             xmlns:selectors="clr-namespace:SatelliteTaskViewer.Avalonia.Converters"
-             xmlns:editors="clr-namespace:SatelliteTaskViewer.Avalonia.Views.Editors"  
-             xmlns:workspaces="clr-namespace:SatelliteTaskViewer.Avalonia.Views.Workspaces"
-             xmlns:vm="clr-namespace:SatelliteTaskViewer.ViewModels.Editors;assembly=SatelliteTaskViewer"
+             xmlns:Editors="clr-namespace:SatelliteTaskViewer.Avalonia.Views.Editors"             
              mc:Ignorable="d"        
              d:DesignWidth="1200" d:DesignHeight="580">
 
-    <UserControl.Resources>        
-        <converters:EnumToBooleanConverter x:Key="EnumToBooleanConverter"/>        
-    </UserControl.Resources>
+  <Grid ColumnDefinitions="*,250" RowDefinitions="2*,3*,300">
 
-    <UserControl.Styles>
+    <Grid RowDefinitions="Auto,*" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2">
+      <Editors:SceneTimerEditor Grid.Row="0" Width="460" Margin="1"
+                                DataContext="{Binding Project.CurrentScenario.SceneTimerEditor}"/>
 
-    </UserControl.Styles>
-
-    <Grid RowDefinitions="Auto,*">
-
-        <editors:TopBarView DataContext="{Binding Project.TopBar}" Grid.Row="0" />
-        
-        <Grid Grid.Row="1">
-
-            <i:Interaction.Behaviors>
-                <ia:DataTriggerBehavior Binding="{Binding Project.TopBar.ActiveWorkspace}" ComparisonCondition="Equal" Value="{x:Static vm:Workspace.Layout}">
-                    <ia:ChangePropertyAction TargetObject="{Binding #contentPresenter}" PropertyName="Content" Value="{x:Static vm:Workspace.Layout}"/>               
-                </ia:DataTriggerBehavior>
-                <ia:DataTriggerBehavior Binding="{Binding Project.TopBar.ActiveWorkspace}" ComparisonCondition="Equal" Value="{x:Static vm:Workspace.Planning}">
-                    <ia:ChangePropertyAction TargetObject="{Binding #contentPresenter}" PropertyName="Content" Value="{x:Static vm:Workspace.Planning}"/>               
-                </ia:DataTriggerBehavior>
-            </i:Interaction.Behaviors>
-                        
-            <ContentPresenter Name="contentPresenter">                  
-                <ContentPresenter.DataTemplates>
-                        <selectors:WorkspaceTemplateSelector>
-
-                            <DataTemplate x:Key="Layout" DataType="{x:Type vm:Workspace}">
-                                <workspaces:LayoutView DataContext="{Binding $parent[UserControl].DataContext}"/>
-                            </DataTemplate>
-
-                            <DataTemplate x:Key="Planning" DataType="{x:Type vm:Workspace}">
-                                <workspaces:PlanningView DataContext="{Binding $parent[UserControl].DataContext}"/>
-                            </DataTemplate>
-
-                        </selectors:WorkspaceTemplateSelector>
-                    </ContentPresenter.DataTemplates>               
-            </ContentPresenter>
-                       
-        </Grid>
-   
+      <Editors:Viewport3DEditor Grid.Row="1" Margin="1" />
     </Grid>
 
+
+    <Editors:TimelineEditor Grid.Column="0" Grid.Row="2" Margin="1"
+                            DataContext="{Binding Project.CurrentScenario}"/>
+
+    <Editors:OutlinerEditor Grid.Column="1" Grid.Row="0" Margin="1"
+                              DataContext="{Binding Project.CurrentScenario.OutlinerEditor}"/>
+
+    <Editors:TaskListEditor Grid.Column="1" Grid.Row="1" Margin="1"
+                            Grid.RowSpan="2"
+                            DataContext="{Binding Project.CurrentScenario.TaskListEditor}" />
+  </Grid>
+    
 </UserControl>
