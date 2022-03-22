@@ -1,11 +1,11 @@
 using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.ReactiveUI;
+using Splat;
 using System;
 
 namespace SatelliteTaskViewer.Avalonia
 {
-    class Program
+    internal class Program
     {
         // Initialization code. Don't use any Avalonia, third-party APIs or any
         // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
@@ -16,9 +16,15 @@ namespace SatelliteTaskViewer.Avalonia
 
         // Avalonia configuration, don't remove; also used by visual designer.
         public static AppBuilder BuildAvaloniaApp()
-            => AppBuilder.Configure<App>()
+        {
+            // I only want to hear about errors
+            var logger = new ConsoleLogger() { Level = Splat.LogLevel.Error };
+            Locator.CurrentMutable.RegisterConstant(logger, typeof(ILogger));
+
+            return AppBuilder.Configure<App>()
                 .UsePlatformDetect()
                 .LogToTrace()
                 .UseReactiveUI();
+        }
     }
 }

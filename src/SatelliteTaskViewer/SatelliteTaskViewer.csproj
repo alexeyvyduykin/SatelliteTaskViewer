@@ -6,7 +6,8 @@
 
   <ItemGroup>
     <PackageReference Include="GlmSharp" Version="1.0.0" />
-    <PackageReference Include="ReactiveUI.Fody" Version="17.1.50" />
+    <PackageReference Include="ReactiveUI" Version="16.2.6" />
+    <PackageReference Include="ReactiveUI.Fody" Version="16.2.6" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
   </ItemGroup>
 

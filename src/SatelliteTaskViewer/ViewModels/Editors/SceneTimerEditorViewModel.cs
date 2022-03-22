@@ -1,29 +1,14 @@
-﻿using System;
-using System.Reactive.Linq;
-using SatelliteTaskViewer.Timer;
-using ReactiveUI;
+﻿using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using SatelliteTaskViewer.Timer;
+using System;
+using System.Reactive;
+using System.Reactive.Linq;
 
 namespace SatelliteTaskViewer.ViewModels.Editors
 {
-    public enum TimerMode { Play, Stop, Pause };
-
-    public delegate void TimeEventHandler(object? sender, TimeEventArgs e);
-
-    public class TimeEventArgs : EventArgs
-    {
-        private readonly double _time;
-        public TimeEventArgs(double time)
-        {
-            _time = time;
-        }
-
-        public double Time => _time;
-    }
-
     public class SceneTimerEditorViewModel : ViewModelBase
     {
-        private readonly System.Timers.Timer _timerThread;
         private double _sliderValuetemp;
 
         public SceneTimerEditorViewModel(ITimer timer, DateTime begin, TimeSpan duration)
@@ -35,15 +20,13 @@ namespace SatelliteTaskViewer.ViewModels.Editors
             CurrentDateTime = begin;
             TimelineCurrentTime = begin;
 
-            TimerMode = TimerMode.Stop;
-
             // 1000 milliseconds = 1 sec
-            _timerThread = new System.Timers.Timer(1000.0 / 60.0);
+            var obs = Observable.Interval(TimeSpan.FromMilliseconds(1000.0 / 60.0), RxApp.MainThreadScheduler);
 
-            _timerThread.Elapsed += TimerThreadElapsed;
-
-            _timerThread.AutoReset = true;
-            _timerThread.Enabled = true;
+            obs.Subscribe(_ =>
+            {
+                CurrentTime = Timer.CurrentTime;
+            });
 
             this.WhenAnyValue(s => s.SliderValue).Subscribe(value =>
             {
@@ -57,35 +40,39 @@ namespace SatelliteTaskViewer.ViewModels.Editors
 
             this.WhenAnyValue(s => s.CurrentTime).Subscribe(time =>
             {
-                _sliderValuetemp = (int)(CurrentTime * (SliderMax - SliderMin) / Duration.TotalSeconds);
+                _sliderValuetemp = (int)(time * (SliderMax - SliderMin) / Duration.TotalSeconds);
 
                 SliderValue = _sliderValuetemp;
+
+                CurrentDateTime = Begin.AddSeconds(time);
+
+                TimelineCurrentTime = Begin.AddSeconds(time);
             });
-        }
 
-        private void TimerThreadElapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            CurrentTime = Timer.CurrentTime;
-
-            TimelineCurrentTime = Begin.AddSeconds(CurrentTime);
-
-            CurrentDateTime = Begin.AddSeconds(CurrentTime);
+            Reset = ReactiveCommand.Create(ResetImpl);
+            Play = ReactiveCommand.Create(PlayImpl);
+            Pause = ReactiveCommand.Create(PauseImpl);
+            Faster = ReactiveCommand.Create(FasterImpl);
+            Slower = ReactiveCommand.Create(SlowerImpl);
         }
 
         [Reactive]
-        public DateTime CurrentDateTime { get; set; }
+        public double CurrentTime { get; set; }
 
         [Reactive]
-        public double SliderMin { get; protected set; } = 0.0;
+        public DateTime CurrentDateTime { get; private set; }
 
         [Reactive]
-        public double SliderMax { get; protected set; } = 1000.0;
+        public double SliderMin { get; private set; } = 0.0;
+
+        [Reactive]
+        public double SliderMax { get; private set; } = 1000.0;
 
         [Reactive]
         public double SliderValue { get; set; } = 0.0;
 
         [Reactive]
-        public TimerMode TimerMode { get; set; }
+        public bool IsPlay { get; set; }
 
         [Reactive]
         public DateTime Begin { get; set; }
@@ -94,41 +81,44 @@ namespace SatelliteTaskViewer.ViewModels.Editors
         public TimeSpan Duration { get; set; }
 
         [Reactive]
-        public double CurrentTime { get; protected set; }
+        public DateTime TimelineCurrentTime { get; private set; }
 
         [Reactive]
-        public DateTime TimelineCurrentTime { get; protected set; }
+        public ITimer Timer { get; private set; }
 
-        [Reactive]
-        public ITimer Timer { get; protected set; }
+        public ReactiveCommand<Unit, Unit> Reset { get; }
+        public ReactiveCommand<Unit, Unit> Play { get; }
+        public ReactiveCommand<Unit, Unit> Pause { get; }
+        public ReactiveCommand<Unit, Unit> Faster { get; }
+        public ReactiveCommand<Unit, Unit> Slower { get; }
 
-        public void OnReset()
+        private void ResetImpl()
         {
-            TimerMode = TimerMode.Stop;
+            IsPlay = false;
             Timer.Reset();
         }
 
-        public void OnPlay()
+        private void PlayImpl()
         {
-            if (TimerMode == TimerMode.Stop || TimerMode == TimerMode.Pause)
+            if (IsPlay == false)
             {
-                TimerMode = TimerMode.Play;
+                IsPlay = true;
                 Timer.Start();
             }
         }
 
-        public void OnPause()
+        private void PauseImpl()
         {
-            if (TimerMode == TimerMode.Play)
+            if (IsPlay == true)
             {
-                TimerMode = TimerMode.Pause;
+                IsPlay = false;
                 Timer.Pause();
             }
         }
 
-        public void OnFaster()
+        private void FasterImpl()
         {
-            if (TimerMode == TimerMode.Play)
+            if (IsPlay == true)
             {
                 if (Timer is IAcceleratedTimer acceleratedTimer)
                 {
@@ -137,9 +127,9 @@ namespace SatelliteTaskViewer.ViewModels.Editors
             }
         }
 
-        public void OnSlower()
+        private void SlowerImpl()
         {
-            if (TimerMode == TimerMode.Play)
+            if (IsPlay == true)
             {
                 if (Timer is IAcceleratedTimer acceleratedTimer)
                 {

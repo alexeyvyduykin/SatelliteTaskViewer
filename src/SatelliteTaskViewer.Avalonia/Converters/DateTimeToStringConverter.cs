@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Avalonia.Data.Converters;
+using System;
 using System.Globalization;
-using Avalonia.Data;
-using Avalonia.Data.Converters;
 
 namespace SatelliteTaskViewer.Avalonia.Converters
 {
@@ -38,46 +33,6 @@ namespace SatelliteTaskViewer.Avalonia.Converters
             if (value is TimeSpan timeSpan)
             {
                 return timeSpan.ToString(_format, System.Globalization.CultureInfo.CreateSpecificCulture("en-US"));
-            }
-
-            return DateTime.MinValue;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class DateTimeToDateConverter : IValueConverter
-    {
-        private readonly string _format = "dd-MMM-yyyy";
-
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is DateTime dt)
-            {
-                return dt.ToString(_format, System.Globalization.CultureInfo.CreateSpecificCulture("en-US"));
-            }
-
-            return DateTime.MinValue;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-    
-    public class DateTimeToTimeConverter : IValueConverter
-    {
-        private readonly string _format = "HH:mm:ss";
-
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is DateTime dt)
-            {
-                return dt.ToString(_format, System.Globalization.CultureInfo.CreateSpecificCulture("en-US"));
             }
 
             return DateTime.MinValue;
