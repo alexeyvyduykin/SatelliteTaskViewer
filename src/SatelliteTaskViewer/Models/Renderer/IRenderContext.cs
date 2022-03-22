@@ -1,6 +1,6 @@
 ﻿using GlmSharp;
 using SatelliteTaskViewer.Models.Scene;
-using SatelliteTaskViewer.ViewModels.Containers;
+using SatelliteTaskViewer.ViewModels;
 using SatelliteTaskViewer.ViewModels.Scene;
 using System.Collections.Generic;
 

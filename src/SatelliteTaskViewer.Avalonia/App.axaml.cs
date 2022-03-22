@@ -3,7 +3,6 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using SatelliteTaskViewer.Avalonia.Views;
-using SatelliteTaskViewer.Models.Editor;
 using SatelliteTaskViewer.ViewModels.Editor;
 using System;
 using System.Text;
@@ -64,7 +63,6 @@ namespace SatelliteTaskViewer.Avalonia
             var container = builder.Build();
 
             var serviceProvider = container.Resolve<IServiceProvider>();
-            var containerFactory = serviceProvider.GetService<IContainerFactory>();
             var mainViewModel = serviceProvider.GetService<MainViewModel>();
             var mainWindow = serviceProvider.GetService<MainWindow>();
 

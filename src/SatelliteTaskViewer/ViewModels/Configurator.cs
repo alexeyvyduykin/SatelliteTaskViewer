@@ -1,20 +1,18 @@
 ﻿using SatelliteTaskViewer.Models;
 using SatelliteTaskViewer.Models.Data;
-using SatelliteTaskViewer.Models.Editor;
-using SatelliteTaskViewer.ViewModels.Containers;
 using SatelliteTaskViewer.ViewModels.Data;
 using SatelliteTaskViewer.ViewModels.Editors;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SatelliteTaskViewer.ViewModels.Editor
+namespace SatelliteTaskViewer.ViewModels
 {
-    public class ContainerFactory : IContainerFactory
+    public class Configurator : IConfigurator
     {
         private readonly IServiceProvider _serviceProvider;
 
-        public ContainerFactory(IServiceProvider serviceProvider)
+        public Configurator(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
@@ -62,11 +60,11 @@ namespace SatelliteTaskViewer.ViewModels.Editor
             return scenario;
         }
 
-        public async Task<Scenario?> GetFromDatabase()
+        public async Task<Scenario?> GetScenarioFromDatabase()
         {
             try
             {
-                return await _serviceProvider.GetService<IDatabaseProvider>().LoadScenario();
+                return await _serviceProvider.GetService<IDatabaseProvider>().LoadScenarioAsync();
             }
             catch (Exception)
             {
@@ -74,23 +72,11 @@ namespace SatelliteTaskViewer.ViewModels.Editor
             }
         }
 
-        public async Task<Scenario?> GetFromJson()
+        public async Task<Scenario?> GetScenarioFromJson()
         {
             try
             {
-                return await _serviceProvider.GetService<IJsonDataProvider>().LoadScenario();
-            }
-            catch (Exception)
-            {
-                throw new Exception();
-            }
-        }
-
-        public async Task SaveFromDatabaseToJson()
-        {
-            try
-            {
-                await _serviceProvider.GetService<IDatabaseProvider>().Save();
+                return await _serviceProvider.GetService<IJsonDataProvider>().LoadScenarioAsync();
             }
             catch (Exception)
             {
@@ -99,12 +85,5 @@ namespace SatelliteTaskViewer.ViewModels.Editor
         }
 
         private DateTime FromJulianDate(double jd) => DateTime.FromOADate(jd - 2415018.5);
-
-        public Scenario GetEmptyScenario()
-        {
-            var factory = _serviceProvider.GetService<IFactory>();
-
-            return factory.CreateScenarioContainer("Scenario1", DateTime.Now, TimeSpan.FromDays(1));
-        }
     }
 }

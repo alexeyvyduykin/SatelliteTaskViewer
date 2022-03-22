@@ -3,7 +3,6 @@ using ReactiveUI.Fody.Helpers;
 using SatelliteTaskViewer.Models;
 using SatelliteTaskViewer.Models.Editor;
 using SatelliteTaskViewer.Models.Renderer;
-using SatelliteTaskViewer.ViewModels.Containers;
 using System;
 using System.Reactive;
 
@@ -13,7 +12,7 @@ namespace SatelliteTaskViewer.ViewModels.Editor
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly Lazy<IFactory> _factory;
-        private readonly Lazy<IContainerFactory> _containerFactory;
+        private readonly Lazy<IConfigurator> _configurator;
         private readonly Lazy<IJsonSerializer> _jsonSerializer;
         private readonly Lazy<IFileSystem> _fileIO;
         private readonly Lazy<IRenderContext> _renderer;
@@ -27,7 +26,7 @@ namespace SatelliteTaskViewer.ViewModels.Editor
             _serviceProvider = serviceProvider;
 
             _factory = _serviceProvider.GetServiceLazily<IFactory>();
-            _containerFactory = _serviceProvider.GetServiceLazily<IContainerFactory>();
+            _configurator = _serviceProvider.GetServiceLazily<IConfigurator>();
             _renderer = _serviceProvider.GetServiceLazily<IRenderContext>();
             _presenter = _serviceProvider.GetServiceLazily<IPresenterContract>();
             _currentTool = _serviceProvider.GetServiceLazily<IEditorTool>();
@@ -45,7 +44,7 @@ namespace SatelliteTaskViewer.ViewModels.Editor
         public ReactiveCommand<Unit, Unit> FromDatabase { get; }
 
         [Reactive]
-        public Scenario Scenario { get; private set; }
+        public Scenario? Scenario { get; private set; }
 
         public IEditorTool CurrentTool => _currentTool.Value;
 
@@ -53,7 +52,7 @@ namespace SatelliteTaskViewer.ViewModels.Editor
 
         public IPresenterContract Presenter => _presenter.Value;
 
-        public IContainerFactory ContainerFactory => _containerFactory.Value;
+        public IConfigurator Configurator => _configurator.Value;
 
         public IFactory Factory => _factory.Value;
 
@@ -67,14 +66,14 @@ namespace SatelliteTaskViewer.ViewModels.Editor
 
         private async void FromJsonImpl()
         {
-            var scenario = await ContainerFactory.GetFromJson();
+            var scenario = await Configurator.GetScenarioFromJson();
 
             OnOpenScenario(scenario);
         }
 
         private async void FromDatabaseImpl()
         {
-            var scenario = await ContainerFactory.GetFromDatabase();
+            var scenario = await Configurator.GetScenarioFromDatabase();
 
             OnOpenScenario(scenario);
         }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-//using SatelliteTaskViewer.Renderer;
-using SatelliteTaskViewer.ViewModels.Containers;
+﻿using SatelliteTaskViewer.ViewModels;
 
 namespace SatelliteTaskViewer.Models.Renderer
 {

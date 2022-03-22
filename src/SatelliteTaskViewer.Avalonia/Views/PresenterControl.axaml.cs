@@ -8,7 +8,7 @@ using Avalonia.Threading;
 using Avalonia.Visuals.Media.Imaging;
 using SatelliteTaskViewer.Models.Renderer;
 using SatelliteTaskViewer.Avalonia.Modules.Renderer;
-using SatelliteTaskViewer.ViewModels.Containers;
+using SatelliteTaskViewer.ViewModels;
 using SatelliteTaskViewer.ViewModels.Renderer.Presenters;
 using System.Diagnostics;
 using Avalonia.Input;

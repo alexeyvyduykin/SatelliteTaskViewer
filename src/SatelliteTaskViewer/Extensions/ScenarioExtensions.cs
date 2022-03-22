@@ -1,4 +1,4 @@
-﻿using SatelliteTaskViewer.ViewModels.Containers;
+﻿using SatelliteTaskViewer.ViewModels;
 using SatelliteTaskViewer.ViewModels.Entities;
 using System.Collections.Generic;
 

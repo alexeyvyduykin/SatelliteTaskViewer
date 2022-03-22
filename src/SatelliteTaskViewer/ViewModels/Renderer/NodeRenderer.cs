@@ -6,7 +6,6 @@ using SatelliteTaskViewer.Models;
 using SatelliteTaskViewer.Models.Entities;
 using SatelliteTaskViewer.Models.Renderer;
 using SatelliteTaskViewer.Models.Scene;
-using SatelliteTaskViewer.ViewModels.Containers;
 using SatelliteTaskViewer.ViewModels.Entities;
 using SatelliteTaskViewer.ViewModels.Scene;
 

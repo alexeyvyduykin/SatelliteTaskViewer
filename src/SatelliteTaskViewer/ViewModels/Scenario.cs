@@ -8,8 +8,9 @@ using SatelliteTaskViewer.ViewModels.Editors;
 using SatelliteTaskViewer.ViewModels.Entities;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using SatelliteTaskViewer.ViewModels.Containers;
 
-namespace SatelliteTaskViewer.ViewModels.Containers
+namespace SatelliteTaskViewer.ViewModels
 {
     public class Scenario : BaseContainerViewModel
     {

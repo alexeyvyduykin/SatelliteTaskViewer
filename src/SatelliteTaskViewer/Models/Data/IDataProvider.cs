@@ -1,13 +1,13 @@
 ﻿using System.Threading.Tasks;
-using SatelliteTaskViewer.ViewModels.Containers;
+using SatelliteTaskViewer.ViewModels;
 using SatelliteTaskViewer.ViewModels.Data;
 
 namespace SatelliteTaskViewer.Models.Data
 {
     public interface IDataProvider
     {
-        Task<Scenario?> LoadScenario();
+        Task<Scenario?> LoadScenarioAsync();
 
-        Task<ScenarioData?> LoadData();
+        Task<ScenarioData?> LoadDataAsync();
     }
 }

@@ -1,35 +1,29 @@
-﻿using System;
-using Autofac;
-using SatelliteTaskViewer.Avalonia.Editor;
-using SatelliteTaskViewer.Avalonia.Views;
-using SatelliteTaskViewer.ViewModels.Data;
+﻿using Autofac;
+using Microsoft.Extensions.Configuration;
 using SatelliteTaskViewer.Avalonia.DatabaseProvider.PostgreSQL;
 using SatelliteTaskViewer.Avalonia.DataProvider.Json;
-using SatelliteTaskViewer.ViewModels.Editor.Tools;
+using SatelliteTaskViewer.Avalonia.Editor;
 using SatelliteTaskViewer.Avalonia.FileSystem.DotNet;
 using SatelliteTaskViewer.Avalonia.ImageLoader.SOIL;
 using SatelliteTaskViewer.Avalonia.ModelLoader.Assimp;
-using SatelliteTaskViewer.Avalonia.Renderer;
 using SatelliteTaskViewer.Avalonia.Renderer.OpenTK;
 using SatelliteTaskViewer.Avalonia.Serializer.Newtonsoft;
 using SatelliteTaskViewer.Avalonia.ServiceProvider.Autofac;
-using System.Configuration;
-using System.IO;
-using Microsoft.Extensions.Configuration;
+using SatelliteTaskViewer.Avalonia.Views;
 using SatelliteTaskViewer.Models;
-using SatelliteTaskViewer.ViewModels;
-using SatelliteTaskViewer.ViewModels.Containers;
-using SatelliteTaskViewer.Models.Renderer;
-using SatelliteTaskViewer.ViewModels.Renderer;
-using SatelliteTaskViewer.Models.Editor;
-using SatelliteTaskViewer.ViewModels.Editor;
 using SatelliteTaskViewer.Models.Data;
+using SatelliteTaskViewer.Models.Editor;
+using SatelliteTaskViewer.Models.Renderer;
+using SatelliteTaskViewer.ViewModels;
+using SatelliteTaskViewer.ViewModels.Editor;
+using SatelliteTaskViewer.ViewModels.Editor.Tools;
+using System;
+using System.IO;
 
 namespace SatelliteTaskViewer.Avalonia
 {
     public class AppModule : Autofac.Module
     {
-        /// <inheritdoc/>
         protected override void Load(ContainerBuilder builder)
         {
             // Locator
@@ -48,13 +42,9 @@ namespace SatelliteTaskViewer.Avalonia
             // Core
 
             builder.RegisterType<MainViewModel>().As<MainViewModel>().InstancePerLifetimeScope();
-            //    builder.RegisterType<StyleEditor>().As<IStyleEditor>().InstancePerLifetimeScope();
             builder.RegisterType<Factory>().As<IFactory>().InstancePerLifetimeScope();
-            builder.RegisterType<ContainerFactory>().As<IContainerFactory>().InstancePerLifetimeScope();
-          //  builder.RegisterType<DataFactory>().As<IDataFactory>().InstancePerLifetimeScope();
+            builder.RegisterType<Configurator>().As<IConfigurator>().InstancePerLifetimeScope();
             builder.RegisterType<RenderModelFactory>().As<IRenderModelFactory>().InstancePerLifetimeScope();
-          //  builder.RegisterType<ScenarioObjectFactory>().As<IScenarioObjectFactory>().InstancePerLifetimeScope();
-          //  builder.RegisterType<DatabaseFactory>().As<IDatabaseFactory>().InstancePerLifetimeScope();
 
             //builder.RegisterType<OpenTKShaderProgram>().As<IShaderProgram>().InstancePerDependency();
 
@@ -63,10 +53,8 @@ namespace SatelliteTaskViewer.Avalonia
             //builder.RegisterType<AvaloniaTextClipboard>().As<ITextClipboard>().InstancePerLifetimeScope();  
             builder.RegisterType<DotNetFileSystem>().As<IFileSystem>().InstancePerLifetimeScope();
             //builder.RegisterType<RoslynScriptRunner>().As<IScriptRunner>().InstancePerLifetimeScope();
-            builder.RegisterType<NewtonsoftJsonSerializer>().As<IJsonSerializer>().InstancePerLifetimeScope();            
+            builder.RegisterType<NewtonsoftJsonSerializer>().As<IJsonSerializer>().InstancePerLifetimeScope();
             //builder.RegisterType<DataUpdater>().As<IDataUpdater>().InstancePerLifetimeScope();
-
-
 
             // Data
 
@@ -78,18 +66,13 @@ namespace SatelliteTaskViewer.Avalonia
             builder.RegisterType<OpenTKRenderer>().As<IRenderContext>().InstancePerLifetimeScope();
             builder.RegisterType<OpenTKPresenter>().As<IPresenterContract>().InstancePerLifetimeScope();
 
-
-
             //   builder.RegisterType</*OpenTK*/Device>().As<IDevice>().InstancePerLifetimeScope();
             //   builder.RegisterType<SOILDDSLoader>().As<IDDSLoader>().InstancePerLifetimeScope();
             builder.RegisterType<AssimpModelLoader>().As<IModelLoader>().InstancePerLifetimeScope();
 
-
             builder.RegisterType<ImageLibrary>().As<IImageLibrary>().InstancePerLifetimeScope();
             //  builder.RegisterType<PfimImageLoader>().As<IImageLoader>().InstancePerLifetimeScope();
             builder.RegisterType<SOILImageLoader>().As<IImageLoader>().InstancePerLifetimeScope();
-
-
 
             // Editor
 
