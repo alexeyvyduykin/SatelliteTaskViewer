@@ -34,20 +34,20 @@ namespace SatelliteTaskViewer.ViewModels
 
         public IdentityState CreateIdentityState() => new IdentityState();
 
-        public ProjectContainerViewModel CreateProjectContainer(string name = "Project")
-        {
-            var project = new ProjectContainerViewModel()
-            {
-                Name = name,
-                Scenarios = ImmutableArray.Create<ScenarioContainerViewModel>()
-            };
+        //public ProjectContainerViewModel CreateProjectContainer(string name = "Project")
+        //{
+        //    var project = new ProjectContainerViewModel()
+        //    {
+        //        Name = name,
+        //        Scenarios = ImmutableArray.Create<ScenarioContainerViewModel>()
+        //    };
 
-            return project;
-        }
+        //    return project;
+        //}
 
-        public ScenarioContainerViewModel CreateScenarioContainer(string name, DateTime begin, TimeSpan duration)
+        public Scenario CreateScenarioContainer(string name, DateTime begin, TimeSpan duration)
         {    
-            var scenario = new ScenarioContainerViewModel()
+            var scenario = new Scenario()
             {
                 Name = name,       
                 IsExpanded = true,                                  
@@ -122,7 +122,7 @@ namespace SatelliteTaskViewer.ViewModels
             return new SceneTimerEditorViewModel(timer, dateTime, timeSpan);
         }
 
-        public OutlinerEditorViewModel CreateOutlinerEditor(ScenarioContainerViewModel scenario)
+        public OutlinerEditorViewModel CreateOutlinerEditor(Scenario scenario)
         {
             var frame = CreateRootFrame();
 
@@ -144,69 +144,47 @@ namespace SatelliteTaskViewer.ViewModels
             return new DataUpdater();
         }
 
-        public void SaveProjectContainer(ProjectContainerViewModel project, string path, IFileSystem fileIO, IJsonSerializer serializer)
+        public void SaveScenario(Scenario scenario, string path, IFileSystem fileIO, IJsonSerializer serializer)
         {
             //if (project is IImageCache imageCache)
             {
                 using var stream = fileIO.Create(path);
-                SaveProjectContainer(project/*, imageCache*/, stream, fileIO, serializer);
+                SaveScenario(scenario/*, imageCache*/, stream, fileIO, serializer);
             }
         }
 
-        public ProjectContainerViewModel OpenProjectContainer(string path, IFileSystem fileIO, IJsonSerializer serializer)
+        public Scenario OpenScenario(string path, IFileSystem fileIO, IJsonSerializer serializer)
         {
             using var stream = fileIO.Open(path);
-            return OpenProjectContainer(stream, fileIO, serializer);
+            return OpenScenario(stream, fileIO, serializer);
         }
 
-        public ProjectContainerViewModel OpenProjectContainer(Stream stream, IFileSystem fileIO, IJsonSerializer serializer)
+        public Scenario OpenScenario(Stream stream, IFileSystem fileIO, IJsonSerializer serializer)
         {
             //using var archive = new ZipArchive(stream, ZipArchiveMode.Read);
             //var projectEntry = archive.Entries.FirstOrDefault(e => e.FullName == "Project.json");
-            var project = ReadProjectContainer(stream, fileIO, serializer);
-            return project;
+            var scenario = ReadScenario(stream, fileIO, serializer);
+            return scenario;
         }
 
-        //public IProjectContainer OpenProjectContainer(Stream stream, IFileSystem fileIO, IJsonSerializer serializer)
-        //{
-        //    using var archive = new ZipArchive(stream, ZipArchiveMode.Read);
-        //    var projectEntry = archive.Entries.FirstOrDefault(e => e.FullName == "Project.json");
-        //    var project = ReadProjectContainer(projectEntry, fileIO, serializer);
-        //    return project;
-        //}
-
-        public void SaveProjectContainer(ProjectContainerViewModel project, Stream stream, IFileSystem fileIO, IJsonSerializer serializer)
+        public void SaveScenario(Scenario scenario, Stream stream, IFileSystem fileIO, IJsonSerializer serializer)
         {
             //using var archive = new ZipArchive(stream, ZipArchiveMode.Create);
             //var projectEntry = archive.CreateEntry("Project.json");
-            WriteProjectContainer(project, stream, fileIO, serializer);
+            WriteScenario(scenario, stream, fileIO, serializer);
         }
-        //public void SaveProjectContainer(IProjectContainer project/*, IImageCache imageCache*/, Stream stream, IFileSystem fileIO, IJsonSerializer serializer)
-        //{
-        //    using var archive = new ZipArchive(stream, ZipArchiveMode.Create);
-        //    var projectEntry = archive.CreateEntry("Project.json");
-        //    WriteProjectContainer(project, projectEntry, fileIO, serializer);
-        //}
-        private ProjectContainerViewModel ReadProjectContainer(Stream stream, IFileSystem fileIO, IJsonSerializer serializer)
-        {
-            return serializer.Deserialize<ProjectContainerViewModel>(fileIO.ReadUtf8Text(stream));
-        }
-        //private IProjectContainer ReadProjectContainer(ZipArchiveEntry projectEntry, IFileSystem fileIO, IJsonSerializer serializer)
-        //{
-        //    using var entryStream = projectEntry.Open();
-        //    return serializer.Deserialize<ProjectContainer>(fileIO.ReadUtf8Text(entryStream));
-        //}
 
-        private void WriteProjectContainer(ProjectContainerViewModel project, Stream stream, IFileSystem fileIO, IJsonSerializer serializer)
+        private Scenario ReadScenario(Stream stream, IFileSystem fileIO, IJsonSerializer serializer)
+        {
+            return serializer.Deserialize<Scenario>(fileIO.ReadUtf8Text(stream));
+        }
+
+        private void WriteScenario(Scenario scenario, Stream stream, IFileSystem fileIO, IJsonSerializer serializer)
         {
             //using var jsonStream = projectEntry.Open();
-            fileIO.WriteUtf8Text(stream, serializer.Serialize(project));
+            fileIO.WriteUtf8Text(stream, serializer.Serialize(scenario));
         }
-        //private void WriteProjectContainer(IProjectContainer project, ZipArchiveEntry projectEntry, IFileSystem fileIO, IJsonSerializer serializer)
-        //{
-        //    using var jsonStream = projectEntry.Open();
-        //    fileIO.WriteUtf8Text(jsonStream, serializer.Serialize(project));
-        //}
+
         private DateTime FromJulianDate(double jd) => DateTime.FromOADate(jd - 2415018.5);
 
 

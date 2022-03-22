@@ -6,7 +6,8 @@ namespace SatelliteTaskViewer.Models.Data
 {
     public interface IDataProvider
     {
-        Task<ProjectContainerViewModel?> LoadProject();
+        Task<Scenario?> LoadScenario();
+
         Task<ScenarioData?> LoadData();
     }
 }

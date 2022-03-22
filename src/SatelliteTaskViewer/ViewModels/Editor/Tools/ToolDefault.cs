@@ -19,14 +19,14 @@ namespace SatelliteTaskViewer.ViewModels.Editor.Tools
 
         public void LeftDown(InputArgs args)
         {
-            var editor = _serviceProvider.GetService<ProjectEditorViewModel>();
+            var mainViewModel = _serviceProvider.GetService<MainViewModel>();
 
-            if(editor.Project.CurrentScenario == null)
+            if(mainViewModel.Scenario == null)
             {
                 return;
             }
 
-            var camera = (IArcballCamera)editor.Project.CurrentScenario.SceneState.Camera;
+            var camera = (IArcballCamera)mainViewModel.Scenario.SceneState.Camera;
 
             camera.RotateBegin((int)args.X, (int)args.Y);
 
@@ -39,14 +39,14 @@ namespace SatelliteTaskViewer.ViewModels.Editor.Tools
         {
             _currentState = State.None;
             
-            var editor = _serviceProvider.GetService<ProjectEditorViewModel>();
+            var mainViewModel = _serviceProvider.GetService<MainViewModel>();
 
-            if (editor.Project.CurrentScenario == null)
+            if (mainViewModel.Scenario == null)
             {
                 return;
             }
 
-            var camera = (IArcballCamera)editor.Project.CurrentScenario.SceneState.Camera;
+            var camera = (IArcballCamera)mainViewModel.Scenario.SceneState.Camera;
 
             camera.RotateEnd((int)args.X, (int)args.Y);
         }
@@ -65,22 +65,22 @@ namespace SatelliteTaskViewer.ViewModels.Editor.Tools
 
         public void Move(InputArgs args)
         {
-            var editor = _serviceProvider.GetService<ProjectEditorViewModel>();
+            var mainViewModel = _serviceProvider.GetService<MainViewModel>();
 
-            if (editor.Project.CurrentScenario == null)
+            if (mainViewModel.Scenario == null)
             {
                 return;
             }
 
             if (_currentState == State.Rotate)
             {
-                var camera = (IArcballCamera)editor.Project.CurrentScenario.SceneState.Camera;
+                var camera = (IArcballCamera)mainViewModel.Scenario.SceneState.Camera;
 
                 camera.Rotate((int)args.X, (int)args.Y);
             }
             else if (_currentState == State.Zoom)
             {
-                var sceneState = editor.Project.CurrentScenario.SceneState;
+                var sceneState = mainViewModel.Scenario.SceneState;
                 var camera = (IArcballCamera)sceneState.Camera;
                 var target = sceneState.Target;
                 var (_, func) = sceneState.CameraBehaviours[target.GetType()];

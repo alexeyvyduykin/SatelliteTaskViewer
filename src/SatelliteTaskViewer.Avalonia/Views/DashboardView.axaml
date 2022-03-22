@@ -6,54 +6,45 @@
              mc:Ignorable="d"     
              d:DesignWidth="1200" d:DesignHeight="580">
 
-    <Grid ColumnDefinitions="*" RowDefinitions="*">
-        
-        <Grid RowDefinitions="0.2*,50,30,1*,30,1*,30,1*,30,1*,20,0.2*"
-              ColumnDefinitions="5*,65*,30,40*,5*"
-              MaxWidth="800"
-              MaxHeight="600"
-              Grid.Row="1"
-              ShowGridLines="False">
-            <TextBlock Text="Globe3DLight" FontSize="28" FontWeight="SemiBold"
-                       Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="1"/>
-            <Button FontSize="24"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    HorizontalContentAlignment="Center"
-                    VerticalContentAlignment="Center"
-                    Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                    Command="{Binding OnFromJsonProject}"
-                    x:CompileBindings="False">
-                <Button.Content>
-                    <StackPanel Orientation="Horizontal">                   
-                        <TextBlock Text="Starting project with "/>
-                        <TextBlock Text="Json" Foreground="Green"/>
-                        <TextBlock Text=" data"/>
-                    </StackPanel>
-                </Button.Content>
-            </Button>
+  <UserControl.Styles>
+    <Style Selector="Button">
+      <Setter Property="HorizontalAlignment" Value="Stretch"/>
+      <Setter Property="VerticalAlignment" Value="Stretch"/>
+      <Setter Property="HorizontalContentAlignment" Value="Center"/>
+      <Setter Property="VerticalContentAlignment" Value="Center"/>
+      <Setter Property="FontSize" Value="24"/>
+    </Style>    
+  </UserControl.Styles>
 
-            <Button FontSize="24"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    HorizontalContentAlignment="Center"
-                    VerticalContentAlignment="Center"
-                    Grid.Column="1" Grid.Row="5"
-                    Grid.ColumnSpan="1" Grid.RowSpan="1"
-                    Command="{Binding OnFromDatabaseProject}"
-                    x:CompileBindings="False">
-                <Button.Content>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Starting project with "/>
-                        <TextBlock Text="Database" Foreground="Red"/>
-                        <TextBlock Text=" data"/>
-                    </StackPanel>
-                </Button.Content>
-            </Button>
-        </Grid>
+  <Panel>
+    <Grid RowDefinitions="0.2*,50,30,1*,30,1*,30,1*,30,1*,20,0.2*"
+          ColumnDefinitions="5*,65*,30,40*,5*"
+          MaxWidth="800"
+          MaxHeight="600">
+
+      <TextBlock Text="SatelliteTaskViewer" FontSize="28" FontWeight="SemiBold"
+                 Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1"/>
+
+      <Button x:Name="JsonButton" Grid.Column="1" Grid.Row="3">
+        <Button.Content>
+          <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Starting project with "/>
+            <TextBlock Text="Json" Foreground="Green"/>
+            <TextBlock Text=" data"/>
+          </StackPanel>
+        </Button.Content>
+      </Button>
+
+      <Button x:Name="DatabaseButton" Grid.Column="1" Grid.Row="5">
+        <Button.Content>
+          <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Starting project with "/>
+            <TextBlock Text="Database" Foreground="Red"/>
+            <TextBlock Text=" data"/>
+          </StackPanel>
+        </Button.Content>
+      </Button>
     </Grid>
-
-
-
-
+  </Panel>
+  
 </UserControl>

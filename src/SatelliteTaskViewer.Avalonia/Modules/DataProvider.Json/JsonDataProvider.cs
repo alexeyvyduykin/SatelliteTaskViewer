@@ -57,12 +57,12 @@ namespace SatelliteTaskViewer.Avalonia.DataProvider.Json
             fileIO.WriteUtf8Text(Path.Combine(path, projectFilename), json);
         }
 
-        public async Task<ProjectContainerViewModel?> LoadProject()
+        public async Task<Scenario?> LoadScenario()
         {
             var data = await LoadData();
             if (data is not null)
             {
-                return _serviceProvider.GetService<IContainerFactory>().GetProject(data);
+                return _serviceProvider.GetService<IContainerFactory>().GetScenario(data);
             }
 
             return default;

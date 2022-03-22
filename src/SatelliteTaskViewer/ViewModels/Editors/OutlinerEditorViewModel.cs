@@ -15,9 +15,9 @@ namespace SatelliteTaskViewer.ViewModels.Editors
 
     public class OutlinerEditorViewModel : ViewModelBase
     {
-        private readonly ScenarioContainerViewModel _scenario;
+        private readonly Scenario _scenario;
 
-        public OutlinerEditorViewModel(ScenarioContainerViewModel scenario)
+        public OutlinerEditorViewModel(Scenario scenario)
         {
             _scenario = scenario;
 

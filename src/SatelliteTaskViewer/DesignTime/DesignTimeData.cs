@@ -3,16 +3,13 @@ using SatelliteTaskViewer.ViewModels.Containers;
 using SatelliteTaskViewer.ViewModels.Data;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SatelliteTaskViewer.DesignTime
 {
     internal class DesignTimeData
     {
 
-        public ScenarioContainerViewModel GetScenario()
+        public Scenario GetScenario()
         {
             return null;
             var begin = DateTime.Now;

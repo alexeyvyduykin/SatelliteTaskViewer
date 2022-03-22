@@ -1,25 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SatelliteTaskViewer.Models.Editor
+﻿namespace SatelliteTaskViewer.Models.Editor
 {
     public interface IProjectEditorPlatform
     {
-        void OnExit();
+        //void OnExit();
 
-        void OnOpen(string path);
+        //void OnOpen(string path);
 
-        void OnSave();
+        //void OnSave();
 
-        void OnSaveAs();
+        //void OnSaveAs();
 
-        void OnImportJson(string path);
+        //void OnImportJson(string path);
 
-        void OnImportObject(string path);
+        //void OnImportObject(string path);
 
-        void OnExportJson(object item);
+        //void OnExportJson(object item);
 
-        void OnExportObject(object item);
+        //void OnExportObject(object item);
     }
 }

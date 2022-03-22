@@ -1,22 +1,19 @@
-﻿using System.Threading.Tasks;
-using SatelliteTaskViewer.ViewModels.Containers;
+﻿using SatelliteTaskViewer.ViewModels.Containers;
 using SatelliteTaskViewer.ViewModels.Data;
-using System;
+using System.Threading.Tasks;
 
 namespace SatelliteTaskViewer.Models.Editor
 {
     public interface IContainerFactory
     {
-        //ProjectContainerViewModel GetProject();
+        Scenario? GetScenario(ScenarioData data);
 
-        ProjectContainerViewModel? GetProject(ScenarioData data);
+        Task<Scenario?> GetFromDatabase();
 
-        Task<ProjectContainerViewModel?> GetFromDatabase();
-
-        Task<ProjectContainerViewModel?> GetFromJson();
+        Task<Scenario?> GetFromJson();
 
         Task SaveFromDatabaseToJson();
 
-        ProjectContainerViewModel GetEmptyProject();
+        Scenario GetEmptyScenario();
     }
 }

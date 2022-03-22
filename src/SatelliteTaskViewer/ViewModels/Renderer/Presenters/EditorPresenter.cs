@@ -8,9 +8,9 @@ namespace SatelliteTaskViewer.ViewModels.Renderer.Presenters
 {
     public class EditorPresenter : IContainerPresenter
     {
-        public void Render(object dc, IRenderContext renderer, ScenarioContainerViewModel container)
+        public void Render(object dc, IRenderContext renderer, Scenario scenario)
         {
-            renderer.DrawScenario(dc, container);
+            renderer.DrawScenario(dc, scenario);
 
             //if (container.WorkingLayer != null)
             //{

@@ -22,7 +22,7 @@ namespace SatelliteTaskViewer.Avalonia.DatabaseProvider.PostgreSQL
 
         public async Task<ScenarioData?> LoadData() => await Task.Run(() => LoadScenarioDataFromDatabase());
 
-        public async Task<ProjectContainerViewModel?> LoadProject() => await Task.Run(() => LoadProjectFromDatabase());
+        public async Task<Scenario?> LoadScenario() => await Task.Run(() => LoadScenarioFromDatabase());
 
         public async Task Save()
         {
@@ -34,11 +34,11 @@ namespace SatelliteTaskViewer.Avalonia.DatabaseProvider.PostgreSQL
             }
         }
 
-        private ProjectContainerViewModel? LoadProjectFromDatabase()
+        private Scenario? LoadScenarioFromDatabase()
         {
             using var db = new dbGlobe3DLightContext(GetOptions());
             var scenarioData = GetScenarioData(db);
-            return _serviceProvider.GetService<IContainerFactory>().GetProject(scenarioData);
+            return _serviceProvider.GetService<IContainerFactory>().GetScenario(scenarioData);
         }
 
         private ScenarioData LoadScenarioDataFromDatabase()

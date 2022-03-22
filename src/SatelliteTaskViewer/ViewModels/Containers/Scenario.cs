@@ -11,9 +11,9 @@ using ReactiveUI.Fody.Helpers;
 
 namespace SatelliteTaskViewer.ViewModels.Containers
 {
-    public partial class ScenarioContainerViewModel : BaseContainerViewModel
+    public class Scenario : BaseContainerViewModel
     {
-        public ScenarioContainerViewModel()
+        public Scenario()
         {
             this.WhenAnyValue(s => s.Width, s => s.Height, (w, h) => (w, h)).Subscribe(bounds =>
             {

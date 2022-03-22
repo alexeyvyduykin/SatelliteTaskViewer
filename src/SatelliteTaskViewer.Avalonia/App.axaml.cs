@@ -65,20 +65,10 @@ namespace SatelliteTaskViewer.Avalonia
 
             var serviceProvider = container.Resolve<IServiceProvider>();
             var containerFactory = serviceProvider.GetService<IContainerFactory>();
-            var editor = serviceProvider.GetService<ProjectEditorViewModel>();
-
-
-            //  editor.OnOpenProject(containerFactory.GetDemo(), "");
-
-            //  editor.OnOpenProject(containerFactory.GetEmptyProject(), "");
-
-
-            //  editor.IsToolIdle = true;
-
+            var mainViewModel = serviceProvider.GetService<MainViewModel>();
             var mainWindow = serviceProvider.GetService<MainWindow>();
-            // var mainControl = mainWindow.FindControl<MainControl>("MainControl");
 
-            mainWindow.DataContext = editor;
+            mainWindow.DataContext = mainViewModel;
 
             mainWindow.Closing += (sender, e) => { };
 

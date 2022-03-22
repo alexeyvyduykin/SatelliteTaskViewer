@@ -47,7 +47,7 @@ namespace SatelliteTaskViewer.Avalonia
 
             // Core
 
-            builder.RegisterType<ProjectEditorViewModel>().As<ProjectEditorViewModel>().InstancePerLifetimeScope();
+            builder.RegisterType<MainViewModel>().As<MainViewModel>().InstancePerLifetimeScope();
             //    builder.RegisterType<StyleEditor>().As<IStyleEditor>().InstancePerLifetimeScope();
             builder.RegisterType<Factory>().As<IFactory>().InstancePerLifetimeScope();
             builder.RegisterType<ContainerFactory>().As<IContainerFactory>().InstancePerLifetimeScope();

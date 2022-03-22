@@ -40,23 +40,23 @@ namespace SatelliteTaskViewer.Models
 
         ICamera CreateArcballCamera(dvec3 eye);
 
-        ProjectContainerViewModel CreateProjectContainer(string name = "Project");
+        //ProjectContainerViewModel CreateProjectContainer(string name = "Project");
 
-        ScenarioContainerViewModel CreateScenarioContainer(string name, DateTime begin, TimeSpan duration);
+        Scenario CreateScenarioContainer(string name, DateTime begin, TimeSpan duration);
 
         //LogicalCollectionViewModel CreateLogicalCollection(string name);
 
         SceneTimerEditorViewModel CreateSceneTimerEditor(DateTime dateTime, TimeSpan timeSpan);
-        OutlinerEditorViewModel CreateOutlinerEditor(ScenarioContainerViewModel scenario);
+        OutlinerEditorViewModel CreateOutlinerEditor(Scenario scenario);
         IDataUpdater CreateDataUpdater();
 
-        void SaveProjectContainer(ProjectContainerViewModel project, string path, IFileSystem fileIO, IJsonSerializer serializer);
+        void SaveScenario(Scenario scenario, string path, IFileSystem fileIO, IJsonSerializer serializer);
 
-        ProjectContainerViewModel OpenProjectContainer(string path, IFileSystem fileIO, IJsonSerializer serializer);
+        Scenario OpenScenario(string path, IFileSystem fileIO, IJsonSerializer serializer);
 
-        ProjectContainerViewModel OpenProjectContainer(Stream stream, IFileSystem fileIO, IJsonSerializer serializer);
+        Scenario OpenScenario(Stream stream, IFileSystem fileIO, IJsonSerializer serializer);
 
-        void SaveProjectContainer(ProjectContainerViewModel project/*, IImageCache imageCache*/, Stream stream, IFileSystem fileIO, IJsonSerializer serializer);
+        void SaveScenario(Scenario scenario/*, IImageCache imageCache*/, Stream stream, IFileSystem fileIO, IJsonSerializer serializer);
 
         FrameViewModel CreateRootFrame();
     }

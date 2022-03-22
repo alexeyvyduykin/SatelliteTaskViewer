@@ -23,7 +23,7 @@ namespace SatelliteTaskViewer.Avalonia.Behaviors
 
         public void InvalidateChild(double zoomX, double zoomY, double offsetX, double offsetY)
         {
-            if (!(_control.DataContext is ProjectEditorViewModel projectEditor))
+            if (!(_control.DataContext is MainViewModel mainViewModel))
             {
                 return;
             }
@@ -46,7 +46,7 @@ namespace SatelliteTaskViewer.Avalonia.Behaviors
 
         public void Attach()
         {
-            if (!(_control.DataContext is ProjectEditorViewModel projectEditor))
+            if (!(_control.DataContext is MainViewModel mainViewModel))
             {
                 return;
             }
@@ -54,7 +54,7 @@ namespace SatelliteTaskViewer.Avalonia.Behaviors
             var presenterControlEditor = _control.Find<Control>("presenterControlEditor");
             //var zoomBorder = _control.Find<ZoomBorder>("zoomBorder");
 
-            if (projectEditor.CanvasPlatform is IEditorCanvasPlatform canvasPlatform)
+            if (mainViewModel.CanvasPlatform is IEditorCanvasPlatform canvasPlatform)
             {
                 canvasPlatform.InvalidateControl = () =>
                 {
@@ -77,14 +77,14 @@ namespace SatelliteTaskViewer.Avalonia.Behaviors
 
             // _inputSource = new AvaloniaInputSource(zoomBorder, presenterControlEditor, p => p);
             _inputSource = new AvaloniaInputSource__(presenterControlEditor);
-            _inputTarget = new ProjectEditorInputTarget(projectEditor);
+            _inputTarget = new ProjectEditorInputTarget(mainViewModel);
             _inputProcessor = new InputProcessor();
             _inputProcessor.Connect(_inputSource, _inputTarget);
         }
 
         public void Detach()
         {
-            if (!(_control.DataContext is ProjectEditorViewModel projectEditor))
+            if (!(_control.DataContext is MainViewModel mainViewModel))
             {
                 return;
             }

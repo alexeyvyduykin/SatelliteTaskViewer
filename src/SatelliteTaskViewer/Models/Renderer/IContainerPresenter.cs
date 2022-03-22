@@ -8,6 +8,6 @@ namespace SatelliteTaskViewer.Models.Renderer
 {
     public interface IContainerPresenter
     {
-        void Render(object dc, IRenderContext renderer, ScenarioContainerViewModel container);
+        void Render(object dc, IRenderContext renderer, Scenario scenario);
     }
 }

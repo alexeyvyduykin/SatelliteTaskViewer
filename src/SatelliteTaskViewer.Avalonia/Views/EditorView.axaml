@@ -12,21 +12,21 @@
 
     <Grid RowDefinitions="Auto,*" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2">
       <Editors:SceneTimerEditor Grid.Row="0" Width="460" Margin="1"
-                                DataContext="{Binding Project.CurrentScenario.SceneTimerEditor}"/>
+                                DataContext="{Binding Scenario.SceneTimerEditor}"/>
 
-      <Editors:Viewport3DEditor Grid.Row="1" Margin="1" />
+      <Editors:Viewport3DEditor Grid.Row="1" Margin="1"
+                                DataContext="{Binding}"/>
     </Grid>
 
-
     <Editors:TimelineEditor Grid.Column="0" Grid.Row="2" Margin="1"
-                            DataContext="{Binding Project.CurrentScenario}"/>
+                            DataContext="{Binding Scenario}"/>
 
     <Editors:OutlinerEditor Grid.Column="1" Grid.Row="0" Margin="1"                              
-                            DataContext="{Binding Project.CurrentScenario.OutlinerEditor}"/>
+                            DataContext="{Binding Scenario.OutlinerEditor}"/>
 
     <Editors:TaskListEditor Grid.Column="1" Grid.Row="1" Margin="1"
                             Grid.RowSpan="2"
-                            DataContext="{Binding Project.CurrentScenario.TaskListEditor}" />
+                            DataContext="{Binding Scenario.TaskListEditor}"/>
   </Grid>
     
 </UserControl>

@@ -19,31 +19,7 @@ namespace SatelliteTaskViewer.ViewModels.Editor
             _serviceProvider = serviceProvider;
         }
 
-        //public ProjectContainerViewModel GetProject()
-        //{
-        //    var factory = _serviceProvider.GetService<IFactory>();      
-        //    var project = factory.CreateProjectContainer("Project1");
-
-        //    // Templates
-        //    //   var templateBuilder = project.Templates.ToBuilder();
-        //    //   templateBuilder.Add(CreateDefaultTemplate(this, project, "Default"));
-        //    //   project.Templates = templateBuilder.ToImmutable();
-
-        //    //   project.SetCurrentTemplate(project.Templates.FirstOrDefault(t => t.Name == "Default"));
-
-        //    // Documents and Pages      
-        //    var scenario = factory.CreateScenarioContainer("Scenario1", DateTime.Now, TimeSpan.FromDays(1));
-
-        //    var scenarioBuilder = project.Scenarios.ToBuilder();
-        //    scenarioBuilder.Add(scenario);
-        //    project.Scenarios = scenarioBuilder.ToImmutable();
-
-        //    // project.Selected = scenario.Pages.FirstOrDefault();
-
-        //    return project;
-        //}
-
-        public ProjectContainerViewModel? GetProject(ScenarioData data)
+        public Scenario? GetScenario(ScenarioData data)
         {
             var factory = _serviceProvider.GetService<IFactory>();
 
@@ -51,21 +27,17 @@ namespace SatelliteTaskViewer.ViewModels.Editor
             var begin = epoch.AddSeconds(data.ModelingTimeBegin);
             var duration = TimeSpan.FromSeconds(data.ModelingTimeDuration);
 
-            var project = factory.CreateProjectContainer("Project1");
             var scenario = factory.CreateScenarioContainer(data.Name, begin, duration);
-
-            project.AddScenario(scenario);
-            project.SetCurrentScenario(scenario);
 
             var root = scenario.OutlinerEditor.FrameRoot.First();
 
-            project.AddEntity(factory.CreateSpacebox(root));
-            project.AddEntity(factory.CreateSun(data.Sun, root));
-            var earth = project.AddEntity(factory.CreateEarth(data.Earth, root));
-            var gos = project.AddEntity(factory.CreateGroundObjects(data, earth.Frame));
-            var gss = project.AddEntity(factory.CreateGroundStations(data, earth.Frame));
-            var rtrs = project.AddEntity(factory.CreateRetranslators(data, root));
-            var satellites = project.AddEntities(factory.CreateSatellites(data, root, gss, rtrs));
+            scenario.AddEntity(factory.CreateSpacebox(root));
+            scenario.AddEntity(factory.CreateSun(data.Sun, root));
+            var earth = scenario.AddEntity(factory.CreateEarth(data.Earth, root));
+            var gos = scenario.AddEntity(factory.CreateGroundObjects(data, earth.Frame));
+            var gss = scenario.AddEntity(factory.CreateGroundStations(data, earth.Frame));
+            var rtrs = scenario.AddEntity(factory.CreateRetranslators(data, root));
+            var satellites = scenario.AddEntities(factory.CreateSatellites(data, root, gss, rtrs));
 
             var tasks = factory.CreateSatelliteTasks(satellites, data);
             scenario.TaskListEditor = new TaskListEditorViewModel(tasks);
@@ -87,14 +59,14 @@ namespace SatelliteTaskViewer.ViewModels.Editor
                 scenario.SetCameraTo(currentTask.Satellite);
             }
 
-            return project;
+            return scenario;
         }
 
-        public async Task<ProjectContainerViewModel?> GetFromDatabase()
+        public async Task<Scenario?> GetFromDatabase()
         {
             try
             {
-                return await _serviceProvider.GetService<IDatabaseProvider>().LoadProject();
+                return await _serviceProvider.GetService<IDatabaseProvider>().LoadScenario();
             }
             catch (Exception)
             {
@@ -102,11 +74,11 @@ namespace SatelliteTaskViewer.ViewModels.Editor
             }
         }
 
-        public async Task<ProjectContainerViewModel?> GetFromJson()
+        public async Task<Scenario?> GetFromJson()
         {
             try
             {
-                return await _serviceProvider.GetService<IJsonDataProvider>().LoadProject();
+                return await _serviceProvider.GetService<IJsonDataProvider>().LoadScenario();
             }
             catch (Exception)
             {
@@ -128,17 +100,11 @@ namespace SatelliteTaskViewer.ViewModels.Editor
 
         private DateTime FromJulianDate(double jd) => DateTime.FromOADate(jd - 2415018.5);
 
-        public ProjectContainerViewModel GetEmptyProject()
+        public Scenario GetEmptyScenario()
         {
             var factory = _serviceProvider.GetService<IFactory>();
 
-            var project = factory.CreateProjectContainer("Project1");
-            var scenario1 = factory.CreateScenarioContainer("Scenario1", DateTime.Now, TimeSpan.FromDays(1));
-
-            project.AddScenario(scenario1);
-            project.SetCurrentScenario(scenario1);
-
-            return project;
+            return factory.CreateScenarioContainer("Scenario1", DateTime.Now, TimeSpan.FromDays(1));
         }
     }
 }

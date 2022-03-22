@@ -37,7 +37,7 @@ namespace SatelliteTaskViewer.Avalonia.Views
 
         internal struct CustomState
         {
-            public ScenarioContainerViewModel Container;
+            public Scenario Scenario;
             public IRenderContext Renderer;
         }
 
@@ -54,8 +54,8 @@ namespace SatelliteTaskViewer.Avalonia.Views
             AvaloniaXamlLoader.Load(this);
         }
        
-        public static readonly StyledProperty<ScenarioContainerViewModel> ContainerProperty =
-            AvaloniaProperty.Register<PresenterControl, ScenarioContainerViewModel>(nameof(Container), null);
+        public static readonly StyledProperty<Scenario> ScenarioProperty =
+            AvaloniaProperty.Register<PresenterControl, Scenario>(nameof(Scenario), null);
 
         public static readonly StyledProperty<IRenderContext> RendererProperty =
             AvaloniaProperty.Register<PresenterControl, IRenderContext>(nameof(Renderer), null);
@@ -63,10 +63,10 @@ namespace SatelliteTaskViewer.Avalonia.Views
         public static readonly StyledProperty<IPresenterContract> PresenterContractProperty =
             AvaloniaProperty.Register<PresenterControl, IPresenterContract>(nameof(PresenterContract), null);
 
-        public ScenarioContainerViewModel Container
+        public Scenario Scenario
         {
-            get => GetValue(ContainerProperty);
-            set => SetValue(ContainerProperty, value);
+            get => GetValue(ScenarioProperty);
+            set => SetValue(ScenarioProperty, value);
         }
 
         public IRenderContext Renderer
@@ -87,7 +87,7 @@ namespace SatelliteTaskViewer.Avalonia.Views
 
             var customState = new CustomState()
             {
-                Container = Container,
+                Scenario = Scenario,
                 Renderer = Renderer ?? GetValue(RendererOptions.RendererProperty),
             };
 
@@ -95,7 +95,7 @@ namespace SatelliteTaskViewer.Avalonia.Views
             double current = Stopwatch.GetTimestamp() - _last;
 #endif
 
-            Container.LogicalUpdate();
+            Scenario.LogicalUpdate();
 
             Draw(customState, context);
 
@@ -141,7 +141,7 @@ namespace SatelliteTaskViewer.Avalonia.Views
         {
             if (context is DrawingContext drawingContext)
             {
-                if (customState.Container != null && customState.Renderer != null)
+                if (customState.Scenario != null && customState.Renderer != null)
                 {
                     UpdatePresenterContract();
                     //          drawingContext.DrawRectangle(new Pen() { Brush = Brushes.Red, Thickness = 3 },
@@ -151,7 +151,7 @@ namespace SatelliteTaskViewer.Avalonia.Views
                     {
                         PresenterContract.DrawBegin();
                         {
-                            s_editorPresenter.Render(context, customState.Renderer, customState.Container);
+                            s_editorPresenter.Render(context, customState.Renderer, customState.Scenario);
                         }
 
                         var bitmap = new WriteableBitmap(
@@ -200,10 +200,10 @@ namespace SatelliteTaskViewer.Avalonia.Views
                 _width = width;
                 _height = height;
 
-                if (Container is not null)
+                if (Scenario is not null)
                 {
-                    Container.Width = _width;
-                    Container.Height = _height;
+                    Scenario.Width = _width;
+                    Scenario.Height = _height;
                 }
 
                 PresenterContract.Resize(_width, _height);
@@ -214,7 +214,7 @@ namespace SatelliteTaskViewer.Avalonia.Views
 
         private void DrawCameraInput(CustomState customState, DrawingContext context)
         {
-            if (customState.Container.SceneState.Camera is ArcballCamera camera)
+            if (customState.Scenario.SceneState.Camera is ArcballCamera camera)
             {
                 var w = camera.Width;
                 var h = camera.Height;

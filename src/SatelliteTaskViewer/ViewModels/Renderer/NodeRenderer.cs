@@ -36,7 +36,7 @@ namespace SatelliteTaskViewer.ViewModels.Renderer
             _drawNodeFactory = drawNodeFactory;
         }
 
-        public void DrawScenario(object dc, ScenarioContainerViewModel scenario)
+        public void DrawScenario(object dc, Scenario scenario)
         {
             DrawFrames(dc, scenario.OutlinerEditor.FrameRoot.Single(), scenario.SceneState);
 
