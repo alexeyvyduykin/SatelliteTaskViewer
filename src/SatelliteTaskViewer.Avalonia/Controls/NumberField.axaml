@@ -3,38 +3,14 @@
         xmlns:Controls="clr-namespace:SatelliteTaskViewer.Avalonia.Controls"   
         xmlns:sys="using:System">
 
-
-  <Design.PreviewWith>
-    
-    <Border Padding="20" Background="Silver">
-
-      <StackPanel Spacing="5" Width="150" HorizontalAlignment="Center">
-        <StackPanel.Styles>
-          <!--<Style Selector="Controls|NumberField.top /template/ Border#PART_BorderElement">
-            <Setter Property="CornerRadius" Value="6,6,0,0"></Setter>
-          </Style>
-          <Style Selector="Controls|NumberField.top /template/ Button#PART_DecreaseButton /template/ Border#PART_ButtonLayoutBorder">
-            <Setter Property="CornerRadius" Value="6,0,0,0"></Setter>
-          </Style>
-          <Style Selector="Controls|NumberField.top /template/ Button#PART_IncreaseButton /template/ Border#PART_ButtonLayoutBorder">
-            <Setter Property="CornerRadius" Value="0,6,0,0"></Setter>
-          </Style>-->                              
-        </StackPanel.Styles>
-        
-        
-        
-        <Controls:NumberField Value="1" Increment="0.01" FormatString="\{0:0.##\} m" 
-                              CultureInfo="en-US"></Controls:NumberField>
-
-        <Controls:NumberField Value="2" Increment="0.1" FormatString="\{0:0.#\} °"
-                              CultureInfo="en-US"></Controls:NumberField>
-
-        <Controls:NumberField Value="3" Increment="0.01" FormatString="\{0:0.000\}"
-                              CultureInfo="en-US"></Controls:NumberField>
-
+  <Design.PreviewWith>    
+    <Border Padding="20">
+      <StackPanel Spacing="5" Width="150" HorizontalAlignment="Center">                     
+        <Controls:NumberField Value="1" Increment="0.01" FormatString="\{0:0.##\} m" CultureInfo="en-US"/>
+        <Controls:NumberField Value="2" Increment="0.1" FormatString="\{0:0.#\} °" CultureInfo="en-US"/>
+        <Controls:NumberField Value="3" Increment="0.01" FormatString="\{0:0.000\}" CultureInfo="en-US"/>
       </StackPanel>
     </Border>
-
   </Design.PreviewWith>
 
   <Styles.Resources>
@@ -73,7 +49,6 @@
     </Setter>
   </Style>
 
-
   <Style Selector="Controls|NumberField">
     <Setter Property="Padding" Value="0" />
     <Setter Property="Foreground" Value="{DynamicResource NumberFieldTextBrush}" />
@@ -86,18 +61,11 @@
     <Setter Property="CornerRadius" Value="{DynamicResource NumberFieldRoundness}" />
   </Style>
 
-
-
   <!-- pointerover -->
   <Style Selector="Controls|NumberField /template/ TextBox:pointerover#PART_TextBox">
     <Setter Property="Background" Value="{DynamicResource NumberFieldInnerBrush}"></Setter>
   </Style>
 
-  
-  
-  
-  
-  
   <!-- TextBox -->
   <Style Selector="Controls|NumberField /template/ TextBox#PART_TextBox">    
     <Setter Property="Background" Value="{DynamicResource NumberFieldInnerBrush}"></Setter>
@@ -108,7 +76,6 @@
   <Style Selector="Controls|NumberField /template/ TextBox#PART_TextBox /template/ Border#border">
     <Setter Property="CornerRadius" Value="0" />
   </Style>
-
 
   <!-- Button -->
   <Style Selector="Controls|NumberField /template/ Button#PART_DecreaseButton">

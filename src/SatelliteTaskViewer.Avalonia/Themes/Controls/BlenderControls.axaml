@@ -9,7 +9,6 @@
   <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/Text.axaml"/>
   <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/Option.axaml"/>
   <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/RadioButton.axaml"/>
-  <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/NumberField.axaml"/>
   <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/ListItem.axaml"/>
   <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/Box.axaml"/>
   <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/Controls/MenuBack.axaml"/>

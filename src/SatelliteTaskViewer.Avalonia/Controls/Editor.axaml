@@ -5,12 +5,7 @@
   
     <Design.PreviewWith>
         <Border Padding="20">
-          <Border.Styles>
-            <Style Selector="Controls|Editor /template/ Border#PanelBorder">
-              <Setter Property="Background" Value="Red"></Setter>
-            </Style>
-          </Border.Styles>
-
+          
           <Controls:Editor>
 
             <Controls:Editor.Icon>
