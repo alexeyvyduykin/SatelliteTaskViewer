@@ -1,0 +1,105 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20" Height="200" Width="200">
+            <!-- Add Controls for Previewer Here -->
+          <StackPanel VerticalAlignment="Bottom">            
+            <Expander Classes="BottomPanel"         
+                      VerticalAlignment="Bottom"                
+                      IsExpanded="True">              
+              <Border Background="Red" Height="50" Margin="4" CornerRadius="8"/>
+            </Expander>
+          </StackPanel>          
+        </Border>
+    </Design.PreviewWith>
+
+    <!-- Add Styles Here -->
+
+  <Styles.Resources>
+    <x:Double x:Key="BottomPanelHeight">25</x:Double>
+    <SolidColorBrush x:Key="BottomPanelBackground" Color="#424242"/>
+  </Styles.Resources>
+  
+  <Style Selector="Expander.BottomPanel">
+      <Setter Property="ClipToBounds" Value="False"/>
+      <Setter Property="Background" Value="Blue" />
+      <Setter Property="ExpandDirection" Value="Up"/>
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="Padding" Value="0" />
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <Setter Property="VerticalAlignment" Value="Stretch" />
+      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+      <Setter Property="VerticalContentAlignment" Value="Stretch" />
+      <Setter Property="ContentTransition">
+        <Setter.Value>
+          <CrossFade Duration="0.25" />
+        </Setter.Value>
+      </Setter>
+      <Setter Property="Template">
+        <ControlTemplate>
+          <DockPanel>
+            <ToggleButton x:Name="PART_toggle" 
+                          Classes="BottomPanelToggleButton"
+                          DockPanel.Dock="Bottom"
+                          Padding="{TemplateBinding Padding}"
+                          HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                          Background="{TemplateBinding Background}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          Content="{TemplateBinding Header}"
+                          ContentTemplate="{TemplateBinding HeaderTemplate}"
+                          IsChecked="{Binding Path=IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                          IsEnabled="{TemplateBinding IsEnabled}" />
+            <Border Padding="0"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    IsVisible="{Binding Path=IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+              <ContentPresenter x:Name="PART_ContentPresenter"
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}" />
+            </Border>
+          </DockPanel>
+        </ControlTemplate>
+      </Setter>
+  </Style>
+
+  <Style Selector="ToggleButton.BottomPanelToggleButton">
+    <Setter Property="Border.BorderThickness" Value="0"/>
+    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+    <Setter Property="VerticalAlignment" Value="Stretch"/>
+    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    <Setter Property="Foreground" Value="White"/>
+    <Setter Property="Background" Value="{StaticResource BottomPanelBackground}"/>
+    <Setter Property="CornerRadius" Value="0"/>   
+    <Setter Property="Height" Value="{StaticResource BottomPanelHeight}"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Panel Background="{TemplateBinding Background}">
+          <Path Name="PART_ExpandIcon"                              
+                Margin="8"             
+                Stretch="Uniform"              
+                Fill="{TemplateBinding Foreground}"              
+                HorizontalAlignment="Left"              
+                VerticalAlignment="Center"              
+                Data="M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z" />
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+
+  <Style Selector="Expander.BottomPanel[IsExpanded=false] /template/ ToggleButton#PART_toggle /template/ Path#PART_ExpandIcon">
+    <Setter Property="RenderTransform" Value="rotate(180deg)"/>
+  </Style>
+
+  <Style Selector="Expander.BottomPanel /template/ ToggleButton#PART_toggle /template/ Path">
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="0.25" Easing="CubicEaseOut"/>
+      </Transitions>
+    </Setter>
+  </Style>
+
+</Styles>

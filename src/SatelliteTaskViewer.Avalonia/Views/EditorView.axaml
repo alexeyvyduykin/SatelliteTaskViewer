@@ -40,10 +40,11 @@
                               DockPanel.Dock="Top"
                               DataContext="{Binding Scenario.SceneTimerEditor}"/>
 
-    <Editors:TimelineEditor DockPanel.Dock="Bottom" 
-                            Height="300"
-                            Margin="1"                
-                            DataContext="{Binding Scenario}"/>
+    <Expander DockPanel.Dock="Bottom" Classes="BottomPanel">
+      <Editors:TimelineEditor Height="300"                        
+                              Margin="1"                        
+                              DataContext="{Binding Scenario}"/>
+    </Expander>
 
     <Editors:Viewport3DEditor Margin="1"                                
                               DataContext="{Binding}"/>
