@@ -3,30 +3,51 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:Editors="clr-namespace:SatelliteTaskViewer.Avalonia.Views.Editors" 
-             xmlns:reactiveUi="http://reactiveui.net"
-             mc:Ignorable="d"        
+             xmlns:Editors="clr-namespace:SatelliteTaskViewer.Avalonia.Views.Editors"
+             xmlns:controls="clr-namespace:SatelliteTaskViewer.Avalonia.Controls"           
+             xmlns:vm="clr-namespace:SatelliteTaskViewer.ViewModels.Editors;assembly=SatelliteTaskViewer"           
+             mc:Ignorable="d"
              d:DesignWidth="1200" d:DesignHeight="580">
 
-  <Grid ColumnDefinitions="*,300" RowDefinitions="2*,3*,300">
+  <UserControl.Resources>
+    <DataTemplate x:Key="SidePanelHeaderTemplate">
+      <Viewbox Margin="8" Stretch="UniformToFill">
+        <DrawingPresenter Stretch="None" Drawing="{Binding}"/>
+      </Viewbox>
+    </DataTemplate>
+  </UserControl.Resources>
+    
+  <DockPanel>
 
-    <Grid RowDefinitions="Auto,*" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2">
-      <Editors:SceneTimerEditor Grid.Row="0" Width="460" Margin="1"
-                                DataContext="{Binding Scenario.SceneTimerEditor}"/>
+    <controls:SidePanel IsExpanded="True" 
+                        DockPanel.Dock="Right">
+      <controls:SidePanelItem Header="{DynamicResource BlenderEditorOutlinerIcon}"
+                              HeaderTemplate="{StaticResource SidePanelHeaderTemplate}">
+        <Editors:OutlinerEditor Margin="1"
+                                Width="350"
+                                DataContext="{Binding $parent[UserControl].DataContext.Scenario.OutlinerEditor}"/>
+      </controls:SidePanelItem>
+      <controls:SidePanelItem Header="{DynamicResource BlenderEditorTaskListIcon}"
+                              HeaderTemplate="{StaticResource SidePanelHeaderTemplate}">
+        <Editors:TaskListEditor Margin="1"
+                                Width="350"
+                                DataContext="{Binding $parent[UserControl].DataContext.Scenario.TaskListEditor}"/>
+      </controls:SidePanelItem>
+    </controls:SidePanel>
 
-      <Editors:Viewport3DEditor Grid.Row="1" Margin="1"
-                                DataContext="{Binding}"/>
-    </Grid>
+    <Editors:SceneTimerEditor Width="460" 
+                              Margin="1"
+                              DockPanel.Dock="Top"
+                              DataContext="{Binding Scenario.SceneTimerEditor}"/>
 
-    <Editors:TimelineEditor Grid.Column="0" Grid.Row="2" Margin="1"
+    <Editors:TimelineEditor DockPanel.Dock="Bottom" 
+                            Height="300"
+                            Margin="1"                
                             DataContext="{Binding Scenario}"/>
 
-    <Editors:OutlinerEditor Grid.Column="1" Grid.Row="0" Margin="1"                              
-                            DataContext="{Binding Scenario.OutlinerEditor}"/>
+    <Editors:Viewport3DEditor Margin="1"                                
+                              DataContext="{Binding}"/>
 
-    <Editors:TaskListEditor Grid.Column="1" Grid.Row="1" Margin="1"
-                            Grid.RowSpan="2"
-                            DataContext="{Binding Scenario.TaskListEditor}"/>
-  </Grid>
+  </DockPanel>
     
 </UserControl>
