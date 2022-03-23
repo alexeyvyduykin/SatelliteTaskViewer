@@ -4,6 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Editors="clr-namespace:SatelliteTaskViewer.Avalonia.Views.Editors"
+             xmlns:tabs="clr-namespace:SatelliteTaskViewer.Avalonia.Views.SidePanelTabs"
              xmlns:controls="clr-namespace:SatelliteTaskViewer.Avalonia.Controls"           
              xmlns:vm="clr-namespace:SatelliteTaskViewer.ViewModels.Editors;assembly=SatelliteTaskViewer"           
              mc:Ignorable="d"
@@ -21,18 +22,28 @@
 
     <controls:SidePanel IsExpanded="True" 
                         DockPanel.Dock="Right">
-      <controls:SidePanelItem Header="{DynamicResource BlenderEditorOutlinerIcon}"
-                              HeaderTemplate="{StaticResource SidePanelHeaderTemplate}">
-        <Editors:OutlinerEditor Margin="1"
-                                Width="350"
-                                DataContext="{Binding $parent[UserControl].DataContext.Scenario.OutlinerEditor}"/>
+
+      <controls:SidePanelItem Header="{DynamicResource BlenderOutlinerVisualIcon}"
+                        HeaderTemplate="{StaticResource SidePanelHeaderTemplate}">
+        <tabs:SceneInfoTabView Margin="1"
+                               Width="350"
+                               DataContext="{Binding $parent[UserControl].DataContext.Scenario.SceneInfoTab}"/>
       </controls:SidePanelItem>
+            
       <controls:SidePanelItem Header="{DynamicResource BlenderEditorTaskListIcon}"
                               HeaderTemplate="{StaticResource SidePanelHeaderTemplate}">
         <Editors:TaskListEditor Margin="1"
                                 Width="350"
                                 DataContext="{Binding $parent[UserControl].DataContext.Scenario.TaskListEditor}"/>
       </controls:SidePanelItem>
+
+      <controls:SidePanelItem Header="{DynamicResource BlenderEditorOutlinerIcon}"
+                        HeaderTemplate="{StaticResource SidePanelHeaderTemplate}">
+        <Editors:OutlinerEditor Margin="1"
+                                Width="350"
+                                DataContext="{Binding $parent[UserControl].DataContext.Scenario.OutlinerEditor}"/>
+      </controls:SidePanelItem>
+      
     </controls:SidePanel>
 
     <Editors:SceneTimerEditor Width="460" 

@@ -1,0 +1,83 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:SatelliteTaskViewer.Avalonia.Controls"             
+             xmlns:items="clr-namespace:SatelliteTaskViewer.Avalonia.Views.SidePanelTabs.Items"             
+             xmlns:dt="clr-namespace:SatelliteTaskViewer.DesignTime;assembly=SatelliteTaskViewer"
+             xmlns:vm="clr-namespace:SatelliteTaskViewer.ViewModels.Editors;assembly=SatelliteTaskViewer"
+             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="450"
+             x:Class="SatelliteTaskViewer.Avalonia.Views.SidePanelTabs.SceneInfoTabView">
+
+  <Design.DataContext>
+    <dt:DesignTimeSceneInfoTab/>
+  </Design.DataContext>
+
+  <UserControl.DataTemplates>
+
+    <DataTemplate DataType="vm:EarthInfo">
+      <items:EarthInfoView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="vm:SatelliteInfo">
+      <items:SatelliteInfoView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="vm:RetranslatorInfo">
+      <items:RetranslatorInfoView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="vm:GroundStationInfo">
+      <items:GroundStationInfoView/>
+    </DataTemplate>
+    
+  </UserControl.DataTemplates>
+
+  <UserControl.Styles>
+
+    <Style Selector="Expander">
+      <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+    </Style>
+
+  </UserControl.Styles>
+  
+  <controls:Editor>
+
+    <controls:Editor.Icon>
+      <Viewbox Stretch="UniformToFill" Width="12" Height="12">
+        <DrawingPresenter Stretch="None" Drawing="{DynamicResource BlenderOutlinerVisualIcon}"/>
+      </Viewbox>
+    </controls:Editor.Icon>
+
+    <controls:Editor.PanelContent>
+
+      <ScrollViewer VerticalScrollBarVisibility="Auto" 
+                    HorizontalScrollBarVisibility="Disabled">
+      
+      <StackPanel>
+
+        <Expander Header="Scene">
+          <ContentControl Content="{Binding EarthInfo}"/>
+        </Expander>
+
+        <Expander Header="Satellites">
+          <ItemsControl Items="{Binding SatelliteInfos}"/>
+        </Expander>
+
+        <Expander Header="Retranslators">
+          <ItemsControl Items="{Binding RetranslatorInfos}"/>
+        </Expander>
+
+        <Expander Header="GroundStations">
+          <ItemsControl Items="{Binding GroundStationInfos}"/>
+        </Expander>
+
+      </StackPanel>
+
+      </ScrollViewer>
+
+    </controls:Editor.PanelContent>
+
+  </controls:Editor>
+
+</UserControl>

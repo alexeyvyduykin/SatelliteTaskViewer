@@ -15,6 +15,7 @@
     <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Controls/SidePanelItem.axaml"/> 
     <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Controls/SidePanel.axaml"/>
     <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Controls/BottomPanel.axaml"/>
+    <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Themes/CustomStyles.axaml"/>
     <StyleInclude Source="resm:SatelliteTaskViewer.Avalonia.TimelineChart.Themes.Default.xaml?assembly=SatelliteTaskViewer.Avalonia.TimelineChart"/>
   </Application.Styles>
 

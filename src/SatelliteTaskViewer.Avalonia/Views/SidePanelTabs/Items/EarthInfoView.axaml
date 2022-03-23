@@ -1,0 +1,33 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:dt="clr-namespace:SatelliteTaskViewer.DesignTime;assembly=SatelliteTaskViewer"
+             
+             mc:Ignorable="d" d:DesignWidth="100" d:DesignHeight="80"
+             x:Class="SatelliteTaskViewer.Avalonia.Views.SidePanelTabs.Items.EarthInfoView">
+
+  <Design.DataContext>
+    <dt:DesignTimeEarthInfo/>
+  </Design.DataContext>
+  
+  <Border Background="{DynamicResource TaskListItemBackgroundBrush}"
+          CornerRadius="4"
+          Margin="1"
+          Padding="4">
+    <StackPanel>
+
+      <TextBlock Text="{Binding Name}" Margin="0,0,0,4"/>
+
+      <DockPanel HorizontalAlignment="Left">
+
+        <ToggleButton IsChecked="{Binding IsVisible}"
+                      Classes="IsVisible"/>
+
+      </DockPanel>
+
+    </StackPanel>
+
+  </Border>
+        
+</UserControl>
