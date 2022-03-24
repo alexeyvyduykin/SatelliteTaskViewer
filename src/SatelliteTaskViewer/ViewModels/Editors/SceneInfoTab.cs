@@ -1,27 +1,24 @@
-﻿using DynamicData;
-using ReactiveUI;
+﻿using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using SatelliteTaskViewer.ViewModels.Entities;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace SatelliteTaskViewer.ViewModels.Editors
 {
     public class SceneInfoTab : ViewModelBase
     {
         private readonly OutlinerEditorViewModel _outliner;
+        private readonly Scenario _scenario;
 
-        public SceneInfoTab(OutlinerEditorViewModel outliner)
+        public SceneInfoTab(Scenario scenario)
         {
-            _outliner = outliner;
+            _scenario = scenario;
+            _outliner = scenario.OutlinerEditor;
 
-            var logical = outliner.FrameRoot;
-            var visual = outliner.Entities;
+            var logical = _outliner.FrameRoot;
+            var visual = _outliner.Entities;
 
             if (visual != null)
             {
@@ -47,67 +44,17 @@ namespace SatelliteTaskViewer.ViewModels.Editors
             switch (entity)
             {
                 case Earth earth:
-                {
-                    EarthInfo = new EarthInfo()
-                    {
-                        Name = earth.Name,
-                        IsVisible = earth.IsVisible,
-                    };
-
-                    EarthInfo.WhenAnyValue(s => s.IsVisible).Subscribe(visible =>
-                    {
-                        earth.IsVisible = visible;
-                    });
-                }                    
-                break;
+                    EarthInfo = EarthInfo.BuildFrom(earth, _scenario);
+                    break;
                 case Satellite satellite:
-                {
-                    var satelliteInfo = new SatelliteInfo()
-                    {
-                        Name = satellite.Name,
-                        IsVisible = satellite.IsVisible,
-                    };
-
-                    satelliteInfo.WhenAnyValue(s => s.IsVisible).Subscribe(visible =>
-                    {
-                        satellite.IsVisible = visible;
-                    });
-
-                    SatelliteInfos.Add(satelliteInfo);
-                }                    
-                break;
+                    SatelliteInfos.Add(SatelliteInfo.BuildFrom(satellite, _scenario));
+                    break;
                 case Retranslator retranslator:
-                {
-                    var retranslatorInfo = new RetranslatorInfo()
-                    {
-                        Name = retranslator.Name,
-                        IsVisible = retranslator.IsVisible,
-                    };
-
-                    retranslatorInfo.WhenAnyValue(s => s.IsVisible).Subscribe(visible =>
-                    {
-                        retranslator.IsVisible = visible;
-                    });
-
-                    RetranslatorInfos.Add(retranslatorInfo);
-                }                    
-                break;
+                    RetranslatorInfos.Add(RetranslatorInfo.BuildFrom(retranslator));
+                    break;
                 case GroundStation groundStation:
-                {
-                    var groundStationInfo = new GroundStationInfo()
-                    {
-                        Name = groundStation.Name,
-                        IsVisible = groundStation.IsVisible,
-                    };
-
-                    groundStationInfo.WhenAnyValue(s => s.IsVisible).Subscribe(visible =>
-                    {
-                        groundStation.IsVisible = visible;
-                    });
-
-                    GroundStationInfos.Add(groundStationInfo);
-                }                   
-                break;
+                    GroundStationInfos.Add(GroundStationInfo.BuildFrom(groundStation));
+                    break;
             }
         }
 
@@ -127,24 +74,119 @@ namespace SatelliteTaskViewer.ViewModels.Editors
 
     public class EarthInfo : ViewModelBase
     {
+        public static EarthInfo BuildFrom(Earth earth, Scenario scenario)
+        {
+            EarthInfo info = new EarthInfo();
+
+            info.Name = earth.Name;
+
+            info.IsVisible = earth.IsVisible;
+
+            info.IsFrameVisible = earth.Frame.IsVisible;
+
+            info.IsCameraTarget = (scenario.SceneState.Target == earth);
+
+            info.WhenAnyValue(s => s.IsVisible).Subscribe(visible =>
+            {
+                earth.IsVisible = visible;
+            });
+
+            info.WhenAnyValue(s => s.IsFrameVisible).Subscribe(frameVisible =>
+            {
+                earth.Frame.IsVisible = frameVisible;
+            });
+
+            info.WhenAnyValue(s => s.IsCameraTarget).Subscribe(cameraTarget =>
+            {
+                if (cameraTarget == true)
+                {
+                    scenario.SetCameraTo(earth);
+                }
+            });
+
+            return info;
+        }
+
         [Reactive]
         public bool IsVisible { get; set; }
 
         [Reactive]
         public bool IsFrameVisible { get; set; }
+
+        [Reactive]
+        public bool IsCameraTarget { get; set; }
     }
 
     public class SatelliteInfo : ViewModelBase
     {
+        public static SatelliteInfo BuildFrom(Satellite satellite, Scenario scenario)
+        {
+            SatelliteInfo info = new SatelliteInfo();
+
+            info.Name = satellite.Name;
+
+            info.IsVisible = satellite.IsVisible;
+
+            info.IsFrameVisible = satellite.Frame.IsVisible;
+
+            info.IsCameraTarget = (scenario.SceneState.Target == satellite);
+
+            info.WhenAnyValue(s => s.IsVisible).Subscribe(visible =>
+            {
+                satellite.IsVisible = visible;
+            });
+
+            info.WhenAnyValue(s => s.IsFrameVisible).Subscribe(frameVisible =>
+            {
+                satellite.Frame.IsVisible = frameVisible;
+            });
+
+            info.WhenAnyValue(s => s.IsCameraTarget).Subscribe(cameraTarget =>
+            {
+                if (cameraTarget == true)
+                {
+                    scenario.SetCameraTo(satellite);
+                }
+            });
+
+            return info;
+        }
+
         [Reactive]
         public bool IsVisible { get; set; }
 
         [Reactive]
         public bool IsFrameVisible { get; set; }
+
+        [Reactive]
+        public bool IsCameraTarget { get; set; }
     }
 
     public class RetranslatorInfo : ViewModelBase
     {
+        public static RetranslatorInfo BuildFrom(Retranslator retranslator)
+        {
+            RetranslatorInfo info = new RetranslatorInfo();
+
+            info.Name = retranslator.Name;
+
+            info.IsVisible = retranslator.IsVisible;
+
+            info.IsFrameVisible = retranslator.Frame.IsVisible;
+
+            info.WhenAnyValue(s => s.IsVisible).Subscribe(visible =>
+            {
+                retranslator.IsVisible = visible;
+            });
+
+            info.WhenAnyValue(s => s.IsFrameVisible).Subscribe(frameVisible =>
+            {
+                retranslator.Frame.IsVisible = frameVisible;
+            });
+
+            return info;
+        }
+
         [Reactive]
         public bool IsVisible { get; set; }
 
@@ -154,6 +196,29 @@ namespace SatelliteTaskViewer.ViewModels.Editors
 
     public class GroundStationInfo : ViewModelBase
     {
+        public static GroundStationInfo BuildFrom(GroundStation groundStation)
+        {
+            GroundStationInfo info = new GroundStationInfo();
+
+            info.Name = groundStation.Name;
+
+            info.IsVisible = groundStation.IsVisible;
+
+            info.IsFrameVisible = groundStation.Frame.IsVisible;
+
+            info.WhenAnyValue(s => s.IsVisible).Subscribe(visible =>
+            {
+                groundStation.IsVisible = visible;
+            });
+
+            info.WhenAnyValue(s => s.IsFrameVisible).Subscribe(frameVisible =>
+            {
+                groundStation.Frame.IsVisible = frameVisible;
+            });
+
+            return info;
+        }
+
         [Reactive]
         public bool IsVisible { get; set; }
 

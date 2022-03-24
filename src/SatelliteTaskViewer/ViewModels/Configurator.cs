@@ -57,7 +57,7 @@ namespace SatelliteTaskViewer.ViewModels
                 scenario.SetCameraTo(currentTask.Satellite);
             }
 
-            scenario.SceneInfoTab = new SceneInfoTab(scenario.OutlinerEditor);
+            scenario.SceneInfoTab = new SceneInfoTab(scenario);
 
             return scenario;
         }

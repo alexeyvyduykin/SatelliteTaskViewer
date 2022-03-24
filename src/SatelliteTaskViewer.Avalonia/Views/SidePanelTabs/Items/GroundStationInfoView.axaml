@@ -23,7 +23,10 @@
 
         <ToggleButton IsChecked="{Binding IsVisible}"
                       Classes="IsVisible"/>
-
+        
+        <ToggleButton IsChecked="{Binding IsFrameVisible}"
+                      Classes="IsFrameVisible"/>
+        
       </DockPanel>
 
     </StackPanel>

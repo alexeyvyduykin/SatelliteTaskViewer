@@ -1,5 +1,6 @@
 ﻿using ReactiveUI.Fody.Helpers;
 using SatelliteTaskViewer.ViewModels.Editors;
+using SatelliteTaskViewer.ViewModels.Entities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,7 +12,7 @@ namespace SatelliteTaskViewer.DesignTime
 {
     public class DesignTimeSceneInfoTab : SceneInfoTab
     {
-        public DesignTimeSceneInfoTab() : base(new DesignTimeOutlinerEditor())
+        public DesignTimeSceneInfoTab() : base(new ViewModels.Scenario() { OutlinerEditor = new DesignTimeOutlinerEditor() } /*new DesignTimeOutlinerEditor()*/)
         {
             EarthInfo = new EarthInfo() { Name = "Earth", IsVisible = true };
 
@@ -25,10 +26,10 @@ namespace SatelliteTaskViewer.DesignTime
             };
 
             RetranslatorInfos = new ObservableCollection<RetranslatorInfo>()
-            {
-            new RetranslatorInfo(){ Name = "Retranslator1", IsVisible = false },
-            new RetranslatorInfo(){ Name = "Retranslator2", IsVisible = false  },
-            new RetranslatorInfo(){ Name = "Retranslator3", IsVisible = true},
+            {           
+                new RetranslatorInfo(){ Name = "Retranslator1", IsVisible = false },            
+                new RetranslatorInfo(){ Name = "Retranslator2", IsVisible = false },            
+                new RetranslatorInfo(){ Name = "Retranslator3", IsVisible = true },
             };
 
             GroundStationInfos = new ObservableCollection<GroundStationInfo>() 

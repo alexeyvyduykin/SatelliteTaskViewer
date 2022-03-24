@@ -6,6 +6,12 @@
 
           <StackPanel>
             <ToggleButton Classes="IsVisible"/>
+            <ToggleButton Classes="IsFrameVisible"/>
+            <DockPanel>            
+              <RadioButton Classes="IsCameraTarget" GroupName="g1"/>           
+              <RadioButton Classes="IsCameraTarget" GroupName="g1"/>            
+              <RadioButton Classes="IsCameraTarget" GroupName="g1"/>
+            </DockPanel>            
           </StackPanel>
           
         </Border>
@@ -14,14 +20,15 @@
     <!-- Add Styles Here -->
 
   <Styles.Resources>
-    <StreamGeometry x:Key="OutlinerHideIcon">F1 M96,96z M0,0z M3.4786428,48.007653A3.7031208,4.7978532,0,0,0,1.0197832,56.103141C10.823929,69.90217 23.84651,96 48.01286,96 72.179321,96 85.216342,69.90217 95.020461,56.103141A3.7055568,4.8010092,0,1,0,89.567587,49.600351C78.936525,64.563079 68.046673,86.405374 48.01286,86.405374 27.979128,86.405374 17.089277,64.563079 6.4582432,49.600351A3.7031208,4.7978532,0,0,0,3.4786148,48.008378z</StreamGeometry>
-    <StreamGeometry x:Key="OutlinerVisibleIcon">F1 M96,96z M0,0z M48.000002,-0.000158C23.778056,-0.01018249 10.785945,29.018616 0.97786896,44.386056 -0.32595316,46.427854 -0.32595316,49.571812 0.97786896,51.613609 10.787497,66.983503 23.781676,95.978495 48.000002,95.999823 72.223205,96.021153 85.214576,66.980197 95.022136,51.613609 96.325958,49.571812 96.325958,46.427854 95.022136,44.386056 85.213098,29.017123 72.219732,0.00986649 48.000002,-0.000158z M48.000002,10.664196A25.863586,37.325168,0,0,1,73.863624,47.989435A25.863586,37.325168,0,0,1,48.000002,85.314674A25.863586,37.325168,0,0,1,22.136381,47.989435A25.863586,37.325168,0,0,1,48.000002,10.664196z M48.000002,31.992904A11.084374,15.996471,0,0,0,36.915593,47.989435A11.084374,15.996471,0,0,0,48.000002,63.985966A11.084374,15.996471,0,0,0,59.084412,47.989435A11.084374,15.996471,0,0,0,48.000002,31.992904z</StreamGeometry>
+    <x:Double x:Key="IconSize">34</x:Double>
+    <StreamGeometry x:Key="HideIcon">F1 M96,96z M0,0z M3.4786428,48.007653A3.7031208,4.7978532,0,0,0,1.0197832,56.103141C10.823929,69.90217 23.84651,96 48.01286,96 72.179321,96 85.216342,69.90217 95.020461,56.103141A3.7055568,4.8010092,0,1,0,89.567587,49.600351C78.936525,64.563079 68.046673,86.405374 48.01286,86.405374 27.979128,86.405374 17.089277,64.563079 6.4582432,49.600351A3.7031208,4.7978532,0,0,0,3.4786148,48.008378z</StreamGeometry>
+    <StreamGeometry x:Key="VisibleIcon">F1 M96,96z M0,0z M48.000002,-0.000158C23.778056,-0.01018249 10.785945,29.018616 0.97786896,44.386056 -0.32595316,46.427854 -0.32595316,49.571812 0.97786896,51.613609 10.787497,66.983503 23.781676,95.978495 48.000002,95.999823 72.223205,96.021153 85.214576,66.980197 95.022136,51.613609 96.325958,49.571812 96.325958,46.427854 95.022136,44.386056 85.213098,29.017123 72.219732,0.00986649 48.000002,-0.000158z M48.000002,10.664196A25.863586,37.325168,0,0,1,73.863624,47.989435A25.863586,37.325168,0,0,1,48.000002,85.314674A25.863586,37.325168,0,0,1,22.136381,47.989435A25.863586,37.325168,0,0,1,48.000002,10.664196z M48.000002,31.992904A11.084374,15.996471,0,0,0,36.915593,47.989435A11.084374,15.996471,0,0,0,48.000002,63.985966A11.084374,15.996471,0,0,0,59.084412,47.989435A11.084374,15.996471,0,0,0,48.000002,31.992904z</StreamGeometry>
   </Styles.Resources>
-  
+                
   <Style Selector="ToggleButton.IsVisible">
     <Setter Property="Margin" Value="0" />
-    <Setter Property="Width" Value="34" />
-    <Setter Property="Height" Value="34" />
+    <Setter Property="Width" Value="{StaticResource IconSize}" />
+    <Setter Property="Height" Value="{StaticResource IconSize}" />
     <Setter Property="Template">
       <ControlTemplate>
         <Border Background="{TemplateBinding Background}"
@@ -39,14 +46,72 @@
   </Style>
 
   <Style Selector="ToggleButton.IsVisible /template/ Path#ChevronPath">
-    <Setter Property="Data" Value="{StaticResource OutlinerHideIcon}" />
+    <Setter Property="Data" Value="{StaticResource HideIcon}" />
     <Setter Property="Fill" Value="#E6E6E6" />
   </Style>
 
   <Style Selector="ToggleButton.IsVisible:checked /template/ Path#ChevronPath">
-    <Setter Property="Data" Value="{StaticResource OutlinerVisibleIcon}" />
+    <Setter Property="Data" Value="{StaticResource VisibleIcon}" />
     <Setter Property="Fill" Value="#E6E6E6" />
     <Setter Property="Opacity" Value="0.9" />
+  </Style>
+
+  <Style Selector="ToggleButton.IsVisible:checked">
+    <Setter Property="Background" Value="#5680C2" />
+  </Style>
+
+  <Style Selector="ToggleButton.IsFrameVisible">
+    <Setter Property="Margin" Value="0" />
+    <Setter Property="Width" Value="{StaticResource IconSize}" />
+    <Setter Property="Height" Value="{StaticResource IconSize}" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{TemplateBinding Background}"
+                Width="{TemplateBinding Width}"
+                Height="{TemplateBinding Height}">
+          <Viewbox Stretch="Fill" Margin="4">                         
+            <DrawingPresenter Stretch="None" Drawing="{DynamicResource BlenderOutlinerLogicalIcon}"/>          
+          </Viewbox>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+
+  <Style Selector="ToggleButton.IsFrameVisible:checked">
+    <Setter Property="Background" Value="#5680C2" />
+  </Style>
+
+  <Style Selector="RadioButton.IsCameraTarget">
+    <Setter Property="Margin" Value="0" />
+    <Setter Property="Width" Value="{StaticResource IconSize}" />
+    <Setter Property="Height" Value="{StaticResource IconSize}" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{TemplateBinding Background}"
+                Width="{TemplateBinding Width}"
+                Height="{TemplateBinding Height}">
+          <Viewbox Stretch="UniformToFill" Margin="6">
+            <DrawingPresenter x:Name="ChevronPath" Stretch="None"/>
+          </Viewbox>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+
+  <Style Selector="RadioButton.IsCameraTarget /template/ DrawingPresenter#ChevronPath">
+    <Setter Property="Drawing" Value="{DynamicResource BlenderSceneCameraOffIcon}" />
+  </Style>
+
+  <Style Selector="RadioButton.IsCameraTarget:checked /template/ DrawingPresenter#ChevronPath">
+    <Setter Property="Drawing" Value="{DynamicResource BlenderSceneCameraOnIcon}" />
+  </Style>
+
+  <Style Selector="RadioButton.IsCameraTarget:checked">
+    <Setter Property="Background" Value="#5680C2" />
+  </Style>
+  
+  <Style Selector="RadioButton.IsCameraTarget:pointerover">
+    <Setter Property="Opacity" Value="1.0"/>
   </Style>
   
 </Styles>
