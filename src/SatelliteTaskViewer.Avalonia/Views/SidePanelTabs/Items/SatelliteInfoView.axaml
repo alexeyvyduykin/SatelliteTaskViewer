@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:dt="clr-namespace:SatelliteTaskViewer.DesignTime;assembly=SatelliteTaskViewer"
              
-             mc:Ignorable="d" d:DesignWidth="150" d:DesignHeight="80"
+             mc:Ignorable="d" d:DesignWidth="180" d:DesignHeight="80"
              x:Class="SatelliteTaskViewer.Avalonia.Views.SidePanelTabs.Items.SatelliteInfoView">
 
   <Design.DataContext>
@@ -30,6 +30,9 @@
         <RadioButton IsChecked="{Binding IsCameraTarget}"
                      GroupName="CameraTargetGroupName"
                      Classes="IsCameraTarget"/>
+        
+        <ToggleButton IsChecked="{Binding IsOrbitVisible}"
+                      Classes="IsOrbitVisible"/>
         
       </DockPanel>
 

@@ -4,6 +4,7 @@ using SatelliteTaskViewer.ViewModels.Entities;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 
 namespace SatelliteTaskViewer.ViewModels.Editors
 {
@@ -122,6 +123,8 @@ namespace SatelliteTaskViewer.ViewModels.Editors
         public static SatelliteInfo BuildFrom(Satellite satellite, Scenario scenario)
         {
             SatelliteInfo info = new SatelliteInfo();
+            
+            var orbit = satellite.Children.Where(s => s is Orbit).Cast<Orbit>().FirstOrDefault();
 
             info.Name = satellite.Name;
 
@@ -130,6 +133,8 @@ namespace SatelliteTaskViewer.ViewModels.Editors
             info.IsFrameVisible = satellite.Frame.IsVisible;
 
             info.IsCameraTarget = (scenario.SceneState.Target == satellite);
+
+            info.IsOrbitVisible = (orbit != null);
 
             info.WhenAnyValue(s => s.IsVisible).Subscribe(visible =>
             {
@@ -149,6 +154,14 @@ namespace SatelliteTaskViewer.ViewModels.Editors
                 }
             });
 
+            info.WhenAnyValue(s => s.IsOrbitVisible).Subscribe(orbitVisible =>
+            {
+                if(orbit != null)
+                {
+                    orbit.IsVisible = orbitVisible;
+                }
+            });
+
             return info;
         }
 
@@ -160,6 +173,9 @@ namespace SatelliteTaskViewer.ViewModels.Editors
 
         [Reactive]
         public bool IsCameraTarget { get; set; }
+
+        [Reactive]
+        public bool IsOrbitVisible { get; set; }
     }
 
     public class RetranslatorInfo : ViewModelBase

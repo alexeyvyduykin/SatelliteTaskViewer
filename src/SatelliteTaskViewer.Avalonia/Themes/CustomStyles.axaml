@@ -11,7 +11,8 @@
               <RadioButton Classes="IsCameraTarget" GroupName="g1"/>           
               <RadioButton Classes="IsCameraTarget" GroupName="g1"/>            
               <RadioButton Classes="IsCameraTarget" GroupName="g1"/>
-            </DockPanel>            
+            </DockPanel>      
+            <ToggleButton Classes="IsOrbitVisible"/>            
           </StackPanel>
           
         </Border>
@@ -113,5 +114,26 @@
   <Style Selector="RadioButton.IsCameraTarget:pointerover">
     <Setter Property="Opacity" Value="1.0"/>
   </Style>
-  
+
+  <Style Selector="ToggleButton.IsOrbitVisible">
+    <Setter Property="Margin" Value="0" />
+    <Setter Property="Width" Value="{StaticResource IconSize}" />
+    <Setter Property="Height" Value="{StaticResource IconSize}" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{TemplateBinding Background}"
+                Width="{TemplateBinding Width}"
+                Height="{TemplateBinding Height}">
+          <Viewbox Stretch="UniformToFill" Margin="6">
+            <DrawingPresenter Stretch="None" Drawing="{DynamicResource BlenderEditorOrbitIcon}"/>
+          </Viewbox>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+
+  <Style Selector="ToggleButton.IsOrbitVisible:checked">
+    <Setter Property="Background" Value="#5680C2" />
+  </Style>
+
 </Styles>
