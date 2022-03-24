@@ -5,6 +5,7 @@ using Avalonia.Markup.Xaml.Templates;
 using Avalonia.Media;
 using Spatial;
 using model = TimelineChart.Core;
+#nullable disable
 
 namespace SatelliteTaskViewer.Avalonia.TimelineChart
 {
@@ -29,10 +30,10 @@ namespace SatelliteTaskViewer.Avalonia.TimelineChart
         private OxyRect _rightRect;
         private (Point p0, Point p1) _plotSlider;
         private (Point p0, Point p1) _axisSlider;
-        private string? _label;
+        private string _label;
         private ScreenPoint _labelPoint;
         private static DateTime TimeOrigin { get; } = new DateTime(1899, 12, 31, 0, 0, 0, DateTimeKind.Utc);
-        private model.Axis? _axisX;
+        private model.Axis _axisX;
 
         static Slider()
         {

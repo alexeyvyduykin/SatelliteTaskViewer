@@ -1,4 +1,6 @@
-﻿namespace TimelineChart.Core
+﻿#nullable disable
+
+namespace TimelineChart.Core
 {
     public abstract class Element
     {

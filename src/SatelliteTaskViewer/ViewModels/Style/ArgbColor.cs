@@ -68,9 +68,9 @@ namespace SatelliteTaskViewer.ViewModels.Style
             {
                 var upper = s.ToUpperInvariant();
                 var member = typeof(Colors).GetTypeInfo().DeclaredProperties.FirstOrDefault(x => x.Name.ToUpperInvariant() == upper);
-                if (member is not null)
+                if (member != null)
                 {
-                    color = (uint)member.GetValue(null);
+                    color = (uint)(member.GetValue(null) ?? throw new Exception());
                 }
                 else
                 {

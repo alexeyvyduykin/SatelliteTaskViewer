@@ -4,6 +4,6 @@ namespace TimelineChart.Core
 {
     public abstract class OxyInputGesture : IEquatable<OxyInputGesture>
     {
-        public abstract bool Equals(OxyInputGesture other);
+        public abstract bool Equals(OxyInputGesture? other);
     }
 }

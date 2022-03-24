@@ -7,15 +7,7 @@ namespace SatelliteTaskViewer.Avalonia.Converters
 {
     public class GlmDvec3Converter : IValueConverter
     {
-        /// <summary>
-        /// Converts a value.
-        /// </summary>
-        /// <param name="value">The value to convert.</param>
-        /// <param name="targetType">The type of the target.</param>
-        /// <param name="parameter">A user-defined parameter.</param>
-        /// <param name="culture">The culture to use.</param>
-        /// <returns>The converted value.</returns>
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is dvec3 vec)
             {
@@ -33,15 +25,7 @@ namespace SatelliteTaskViewer.Avalonia.Converters
             return string.Empty;
         }
 
-        /// <summary>
-        /// Converts a value.
-        /// </summary>
-        /// <param name="value">The value to convert.</param>
-        /// <param name="targetType">The type of the target.</param>
-        /// <param name="parameter">A user-defined parameter.</param>
-        /// <param name="culture">The culture to use.</param>
-        /// <returns>The converted value.</returns>
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

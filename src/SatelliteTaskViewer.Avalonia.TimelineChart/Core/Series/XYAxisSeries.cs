@@ -1,5 +1,6 @@
 ﻿using System;
 using Spatial;
+#nullable disable
 
 namespace TimelineChart.Core
 {
@@ -22,13 +23,13 @@ namespace TimelineChart.Core
         // Gets or sets the minimum y-coordinate of the dataset.
         public double MinY { get; protected set; }
 
-        public Axis? XAxis { get; private set; }
+        public Axis XAxis { get; private set; }
 
-        public string? XAxisKey { get; set; }
+        public string XAxisKey { get; set; }
 
-        public Axis? YAxis { get; private set; }
+        public Axis YAxis { get; private set; }
 
-        public string? YAxisKey { get; set; }
+        public string YAxisKey { get; set; }
 
         // Gets the rectangle the series uses on the screen (screen coordinates).
         public OxyRect GetScreenRectangle()

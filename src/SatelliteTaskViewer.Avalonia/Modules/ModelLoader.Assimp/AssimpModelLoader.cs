@@ -12,7 +12,7 @@ namespace SatelliteTaskViewer.Avalonia.ModelLoader.Assimp
     public class AssimpModelLoader : IModelLoader
     {
         private readonly IServiceProvider _serviceProvider;
-        private IList<Mesh> _meshes;
+        private IList<Mesh>? _meshes;
 
         public AssimpModelLoader(IServiceProvider serviceProvider)
         {
@@ -43,14 +43,14 @@ namespace SatelliteTaskViewer.Avalonia.ModelLoader.Assimp
             }
             catch (Exception)
             {
-                return null;
+                throw new Exception();
             }
 
             _meshes = new List<Mesh>();
 
             processNode(scene.RootNode, scene);
 
-            string currentDirectory = Path.GetDirectoryName(path);
+            string currentDirectory = Path.GetDirectoryName(path) ?? throw new Exception();
             string modelPath = Path.GetFullPath(currentDirectory);
 
             var materials = CreateMaterials(modelPath, scene.Materials);
@@ -71,7 +71,7 @@ namespace SatelliteTaskViewer.Avalonia.ModelLoader.Assimp
                 // The scene contains all the data, node is just to keep stuff organized (like relations between nodes).
                 var mesh = scene.Meshes[node.MeshIndices[i]];
 
-                _meshes.Add(CreateMesh(mesh));
+                _meshes?.Add(CreateMesh(mesh));
             }
             // After we've processed all of the meshes (if any) we then recursively process each of the children nodes
             for (int i = 0; i < node.ChildCount; i++)

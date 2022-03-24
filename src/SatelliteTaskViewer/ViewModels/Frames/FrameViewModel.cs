@@ -12,20 +12,20 @@ namespace SatelliteTaskViewer.ViewModels.Entities
     public class FrameViewModel : BaseContainerViewModel, IDrawable
     {
         [Reactive]
-        public FrameViewModel Parent { get; set; }
+        public FrameViewModel? Parent { get; set; }
 
         [Reactive]
         public ImmutableArray<FrameViewModel> Children { get; set; }
 
         [Reactive]
-        public BaseState State { get; set; }
+        public BaseState? State { get; set; }
 
         [Reactive]
-        public FrameRenderModel RenderModel { get; set; }
+        public FrameRenderModel? RenderModel { get; set; }
 
         public void DrawShape(object dc, IRenderContext renderer, ISceneState scene)
         {
-            if (IsVisible == true && State is not null)
+            if (IsVisible == true && State != null && RenderModel != null)
             {
                 renderer.DrawFrame(dc, RenderModel, State.AbsoluteModelMatrix, scene);
             }

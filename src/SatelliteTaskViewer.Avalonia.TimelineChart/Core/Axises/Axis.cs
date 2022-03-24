@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Spatial;
+#nullable disable
 
 namespace TimelineChart.Core
 {
@@ -17,7 +18,7 @@ namespace TimelineChart.Core
 
     public record AxisLabelPosition
     {
-        public string? Label { get; init; }
+        public string Label { get; init; }
         public double Value { get; init; }
     }
 

@@ -1,7 +1,6 @@
-﻿using System;
+﻿using GlmSharp;
+using System;
 using System.Collections.Generic;
-using System.Text;
-using GlmSharp;
 
 namespace SatelliteTaskViewer.Models.Scene
 {
@@ -26,7 +25,7 @@ namespace SatelliteTaskViewer.Models.Scene
         float AmbientIntensity { get; set; }
 
         float Shininess { get; set; }
-        
+
         float HighResolutionSnapScale { get; set; }
 
         // FOV

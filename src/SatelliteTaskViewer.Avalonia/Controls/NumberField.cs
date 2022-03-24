@@ -1,19 +1,15 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
-using Avalonia.Controls.Templates;
-using System.Globalization;
-using System;
-using System.IO;
-using System.Linq;
 using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
-using Avalonia.Threading;
 using Avalonia.Utilities;
-using Avalonia.Controls.Metadata;
+using System;
+using System.Globalization;
+using System.IO;
+using System.Linq;
 
 
 namespace SatelliteTaskViewer.Avalonia.Controls
@@ -74,25 +70,25 @@ namespace SatelliteTaskViewer.Avalonia.Controls
         public static readonly StyledProperty<VerticalAlignment> VerticalContentAlignmentProperty =
             ContentControl.VerticalContentAlignmentProperty.AddOwner<NumberField>();
 
-        private IDisposable _textBoxTextChangedSubscription;
+        private IDisposable? _textBoxTextChangedSubscription;
 
         private double _value;
-        private string _text;
+        private string _text = string.Empty;
         private bool _internalValueSet;
         private bool _clipValueToMinMax;
         private bool _isSyncingTextAndValueProperties;
         private bool _isTextChangedFromUI;
-        private CultureInfo _cultureInfo;
+        private CultureInfo _cultureInfo = CultureInfo.CurrentCulture;
         private NumberStyles _parsingNumberStyle = NumberStyles.Any;
 
         //-------------------------------------------------
         //private Spinner Spinner { get; set; }
 
-        private Button DecreaseButton { get; set; }
-        private Button IncreaseButton { get; set; }
+        private Button? DecreaseButton { get; set; }
+        private Button? IncreaseButton { get; set; }
 
         //-------------------------------------------------
-        private TextBox TextBox { get; set; }
+        private TextBox? TextBox { get; set; }
 
         public bool ClipValueToMinMax
         {
@@ -176,7 +172,7 @@ namespace SatelliteTaskViewer.Avalonia.Controls
             {
                 if (!_internalValueSet && IsInitialized)
                 {
-                    SyncTextAndValueProperties(false, null, true);
+                    SyncTextAndValueProperties(false, string.Empty, true);
                 }
 
                 SetValidSpinDirection();
@@ -194,7 +190,7 @@ namespace SatelliteTaskViewer.Avalonia.Controls
             TextProperty.Changed.Subscribe(OnTextChanged);
             ValueProperty.Changed.Subscribe(OnValueChanged);
         }
-     
+
         protected override void OnLostFocus(RoutedEventArgs e)
         {
             CommitInput();
@@ -269,13 +265,13 @@ namespace SatelliteTaskViewer.Avalonia.Controls
         //    }
         //}
 
-        private void OnDecreaseButtonClick(object sender, RoutedEventArgs e)
+        private void OnDecreaseButtonClick(object? sender, RoutedEventArgs e)
         {
             OnSpin(new SpinEventArgs(SpinDirection.Decrease));
         }
 
-        private void IncreaseButtonClick(object sender, RoutedEventArgs e)
-        {          
+        private void IncreaseButtonClick(object? sender, RoutedEventArgs e)
+        {
             OnSpin(new SpinEventArgs(SpinDirection.Increase));
         }
 
@@ -308,7 +304,7 @@ namespace SatelliteTaskViewer.Avalonia.Controls
         {
             if (IsInitialized)
             {
-                SyncTextAndValueProperties(false, null);
+                SyncTextAndValueProperties(false, string.Empty);
             }
         }
 
@@ -316,7 +312,7 @@ namespace SatelliteTaskViewer.Avalonia.Controls
         {
             if (IsInitialized)
             {
-                SyncTextAndValueProperties(false, null);
+                SyncTextAndValueProperties(false, string.Empty);
             }
         }
 
@@ -369,7 +365,7 @@ namespace SatelliteTaskViewer.Avalonia.Controls
         {
             if (!_internalValueSet && IsInitialized)
             {
-                SyncTextAndValueProperties(false, null, true);
+                SyncTextAndValueProperties(false, string.Empty, true);
             }
 
             SetValidSpinDirection();
@@ -503,8 +499,8 @@ namespace SatelliteTaskViewer.Avalonia.Controls
         {
             if (e.Sender is NumberField upDown)
             {
-                var oldValue = (CultureInfo)e.OldValue;
-                var newValue = (CultureInfo)e.NewValue;
+                var oldValue = (CultureInfo)(e.OldValue ?? throw new Exception());
+                var newValue = (CultureInfo)(e.NewValue ?? throw new Exception());
                 upDown.OnCultureInfoChanged(oldValue, newValue);
             }
         }
@@ -513,8 +509,8 @@ namespace SatelliteTaskViewer.Avalonia.Controls
         {
             if (e.Sender is NumberField upDown)
             {
-                var oldValue = (double)e.OldValue;
-                var newValue = (double)e.NewValue;
+                var oldValue = (double)(e.OldValue ?? throw new Exception());
+                var newValue = (double)(e.NewValue ?? throw new Exception());
                 upDown.OnIncrementChanged(oldValue, newValue);
             }
         }
@@ -523,8 +519,8 @@ namespace SatelliteTaskViewer.Avalonia.Controls
         {
             if (e.Sender is NumberField upDown)
             {
-                var oldValue = (string)e.OldValue;
-                var newValue = (string)e.NewValue;
+                var oldValue = (string)(e.OldValue ?? throw new Exception());
+                var newValue = (string)(e.NewValue ?? throw new Exception());
                 upDown.OnFormatStringChanged(oldValue, newValue);
             }
         }
@@ -533,8 +529,8 @@ namespace SatelliteTaskViewer.Avalonia.Controls
         {
             if (e.Sender is NumberField upDown)
             {
-                var oldValue = (bool)e.OldValue;
-                var newValue = (bool)e.NewValue;
+                var oldValue = (bool)(e.OldValue ?? throw new Exception());
+                var newValue = (bool)(e.NewValue ?? throw new Exception());
                 upDown.OnIsReadOnlyChanged(oldValue, newValue);
             }
         }
@@ -543,8 +539,8 @@ namespace SatelliteTaskViewer.Avalonia.Controls
         {
             if (e.Sender is NumberField upDown)
             {
-                var oldValue = (double)e.OldValue;
-                var newValue = (double)e.NewValue;
+                var oldValue = (double)(e.OldValue ?? throw new Exception());
+                var newValue = (double)(e.NewValue ?? throw new Exception());
                 upDown.OnMaximumChanged(oldValue, newValue);
             }
         }
@@ -553,8 +549,8 @@ namespace SatelliteTaskViewer.Avalonia.Controls
         {
             if (e.Sender is NumberField upDown)
             {
-                var oldValue = (double)e.OldValue;
-                var newValue = (double)e.NewValue;
+                var oldValue = (double)(e.OldValue ?? throw new Exception());
+                var newValue = (double)(e.NewValue ?? throw new Exception());
                 upDown.OnMinimumChanged(oldValue, newValue);
             }
         }
@@ -563,8 +559,8 @@ namespace SatelliteTaskViewer.Avalonia.Controls
         {
             if (e.Sender is NumberField upDown)
             {
-                var oldValue = (string)e.OldValue;
-                var newValue = (string)e.NewValue;
+                var oldValue = (string)(e.OldValue ?? throw new Exception());
+                var newValue = (string)(e.NewValue ?? throw new Exception());
                 upDown.OnTextChanged(oldValue, newValue);
             }
         }
@@ -573,8 +569,8 @@ namespace SatelliteTaskViewer.Avalonia.Controls
         {
             if (e.Sender is NumberField upDown)
             {
-                var oldValue = (double)e.OldValue;
-                var newValue = (double)e.NewValue;
+                var oldValue = (double)(e.OldValue ?? throw new Exception());
+                var newValue = (double)(e.NewValue ?? throw new Exception());
                 upDown.OnValueChanged(oldValue, newValue);
             }
         }
@@ -653,9 +649,9 @@ namespace SatelliteTaskViewer.Avalonia.Controls
             }
         }
 
-        public event EventHandler<SpinEventArgs> Spinned;
+        public event EventHandler<SpinEventArgs>? Spinned;
 
-        private void TextBoxOnPointerPressed(object sender, PointerPressedEventArgs e)
+        private void TextBoxOnPointerPressed(object? sender, PointerPressedEventArgs e)
         {
             //if (e.Pointer.Captured != Spinner)
             {
@@ -686,7 +682,9 @@ namespace SatelliteTaskViewer.Avalonia.Controls
         private bool SyncTextAndValueProperties(bool updateValueFromText, string text, bool forceTextUpdate)
         {
             if (_isSyncingTextAndValueProperties)
+            {
                 return true;
+            }
 
             _isSyncingTextAndValueProperties = true;
             var parsedTextIsValid = true;

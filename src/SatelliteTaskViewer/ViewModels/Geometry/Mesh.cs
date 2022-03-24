@@ -1,19 +1,19 @@
-﻿using System.Collections.Generic;
-using GlmSharp;
+﻿using GlmSharp;
+using System.Collections.Generic;
 
 namespace SatelliteTaskViewer.ViewModels.Geometry
 {
     public record Mesh
     {
-        public IList<vec3> Vertices { get; init; }
+        public IList<vec3> Vertices { get; init; } = new List<vec3>();
 
-        public IList<vec3> Normals { get; init; }
+        public IList<vec3> Normals { get; init; } = new List<vec3>();
 
-        public IList<vec2> TexCoords { get; init; }
+        public IList<vec2> TexCoords { get; init; } = new List<vec2>();
 
-        public IList<vec3> Tangents { get; init; }
+        public IList<vec3> Tangents { get; init; } = new List<vec3>();
 
-        public IList<ushort> Indices { get; init; }
+        public IList<ushort> Indices { get; init; } = new List<ushort>();
 
         // public Material Material { get; init; }
 

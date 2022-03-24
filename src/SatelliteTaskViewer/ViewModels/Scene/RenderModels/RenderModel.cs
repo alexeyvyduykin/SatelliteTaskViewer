@@ -6,7 +6,7 @@ namespace SatelliteTaskViewer.ViewModels.Scene
     {
         //public FrameRenderModel Frame { get; set; }
 
-        public Model Model { get; set; }
+        public Model? Model { get; set; }
 
         public double Scale { get; set; }
     }

@@ -113,7 +113,7 @@ color = finalColor;
             _device = new Device();
             _dirty = true;
 
-            _model = groundStation.Model;
+            _model = groundStation.Model ?? throw new Exception();
             _scale = groundStation.Scale;
 
             _sp = _device.CreateShaderProgram(_groundStationVS, _groundStationFS);

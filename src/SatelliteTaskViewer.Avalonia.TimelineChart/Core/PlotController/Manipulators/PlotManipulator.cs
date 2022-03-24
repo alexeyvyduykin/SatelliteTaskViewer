@@ -1,4 +1,5 @@
 ﻿using Spatial;
+#nullable disable
 
 namespace TimelineChart.Core
 {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Avalonia;
 using model = TimelineChart.Core;
+#nullable disable
 
 namespace SatelliteTaskViewer.Avalonia.TimelineChart
 {

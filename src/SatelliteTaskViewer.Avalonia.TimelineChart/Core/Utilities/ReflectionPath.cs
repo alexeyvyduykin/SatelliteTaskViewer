@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+#nullable disable
 
 namespace TimelineChart.Core
 {
@@ -19,9 +20,9 @@ namespace TimelineChart.Core
             _reflectedTypes = new Type[_items.Length];
         }
 
-        public object? GetValue(object instance)
+        public object GetValue(object instance)
         {
-            if (TryGetValue(instance, out object? result))
+            if (TryGetValue(instance, out object result))
             {
                 return result;
             }
@@ -29,7 +30,7 @@ namespace TimelineChart.Core
             throw new InvalidOperationException("Could not find property " + string.Join(".", _items) + " in " + instance);
         }
 
-        public bool TryGetValue(object instance, out object? result)
+        public bool TryGetValue(object instance, out object result)
         {
             var current = instance;
             for (int i = 0; i < _items.Length; i++)

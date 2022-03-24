@@ -34,7 +34,7 @@ namespace SatelliteTaskViewer.Models
 
         GroundObjectList CreateGroundObjectList(EntityList gos);
 
-        ICache<TKey, TValue> CreateCache<TKey, TValue>(Action<TValue>? dispose = null);
+        ICache<TKey, TValue> CreateCache<TKey, TValue>(Action<TValue>? dispose = null) where TKey : notnull;
 
         ISceneState CreateSceneState();
 

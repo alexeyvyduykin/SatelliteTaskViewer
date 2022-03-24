@@ -9,15 +9,15 @@ namespace SatelliteTaskViewer.Avalonia.Modules.Renderer
         /// <summary>
         /// Renderer options attached property.
         /// </summary>
-        public static readonly AttachedProperty<IRenderContext> RendererProperty =
-            AvaloniaProperty.RegisterAttached<RendererOptions, AvaloniaObject, IRenderContext>("Renderer", null, true, BindingMode.TwoWay);
+        public static readonly AttachedProperty<IRenderContext?> RendererProperty =
+            AvaloniaProperty.RegisterAttached<RendererOptions, AvaloniaObject, IRenderContext?>("Renderer", null, true, BindingMode.TwoWay);
 
         /// <summary>
         /// Gets renderer attached property.
         /// </summary>
         /// <param name="obj">The avalonia object.</param>
         /// <returns>The shape renderer property.</returns>
-        public static IRenderContext GetRenderer(AvaloniaObject obj)
+        public static IRenderContext? GetRenderer(AvaloniaObject obj)
         {
             return obj.GetValue(RendererProperty);
         }

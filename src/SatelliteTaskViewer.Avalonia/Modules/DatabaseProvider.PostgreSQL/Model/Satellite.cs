@@ -1,5 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
+#nullable disable
 
 namespace SatelliteTaskViewer.Avalonia.DatabaseProvider.PostgreSQL
 {

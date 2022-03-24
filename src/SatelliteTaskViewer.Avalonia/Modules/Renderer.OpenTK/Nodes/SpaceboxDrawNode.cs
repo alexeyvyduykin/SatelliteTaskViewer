@@ -10,14 +10,14 @@ namespace SatelliteTaskViewer.Avalonia.Renderer.OpenTK
 {
     internal class SpaceboxDrawNode : DrawNode, ISpaceboxDrawNode
     {
-        private B.Context _context;
-        private B.Device _device;
+        private readonly B.Context _context;
+        private readonly B.Device _device;
         private bool _dirty;
         private readonly B.ShaderProgram _sp;
-        private B.DrawState _drawState;
+        private B.DrawState? _drawState;
         private int _spaceboxCubemapName;
         private bool _isComplete = false;
-        private string _key;
+        private readonly string _key;
         private readonly string _spaceboxVS = @"
 #version 330
 layout (location = 0) in vec3 POSITION;
@@ -61,14 +61,17 @@ void main(void)
         {
             if (_dirty)
             {
-                var mesh = Spacebox.Mesh;
+                var mesh = Spacebox.Mesh ?? throw new System.Exception();
 
                 var va = _context.CreateVertexArray(mesh, _sp.VertexAttributes, A.BufferUsageHint.StaticDraw);
-                
+
                 var state = _device.CreateRenderState();
 
-                state.FacetCulling.Face = A.CullFaceMode.Front;
-                state.FacetCulling.FrontFaceWindingOrder = A.FrontFaceDirection.Cw;
+                if (state.FacetCulling != null)
+                {
+                    state.FacetCulling.Face = A.CullFaceMode.Front;
+                    state.FacetCulling.FrontFaceWindingOrder = A.FrontFaceDirection.Cw;
+                }
 
                 state.DepthMask = false;
 
@@ -80,7 +83,7 @@ void main(void)
 
         public override void OnDraw(object dc, dmat4 modelMatrix, ISceneState scene)
         {
-            if (_dirty == false && _isComplete == true)
+            if (_dirty == false && _isComplete == true && _drawState != null)
             {
                 _sp.Bind();
 

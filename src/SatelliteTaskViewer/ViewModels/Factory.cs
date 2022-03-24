@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.IO;
-using System.Linq;
-using GlmSharp;
+﻿using GlmSharp;
 using SatelliteTaskViewer.Models;
 using SatelliteTaskViewer.Models.Data;
 using SatelliteTaskViewer.Models.Renderer;
 using SatelliteTaskViewer.Models.Scene;
 using SatelliteTaskViewer.Timer;
-using SatelliteTaskViewer.ViewModels.Containers;
 using SatelliteTaskViewer.ViewModels.Data;
+using SatelliteTaskViewer.ViewModels.Editors;
 using SatelliteTaskViewer.ViewModels.Entities;
 using SatelliteTaskViewer.ViewModels.Renderer;
 using SatelliteTaskViewer.ViewModels.Scene;
-using SatelliteTaskViewer.ViewModels.Editors;
+using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.IO;
+using System.Linq;
 
 namespace SatelliteTaskViewer.ViewModels
 {
@@ -27,7 +26,7 @@ namespace SatelliteTaskViewer.ViewModels
             _serviceProvider = serviceProvider;
         }
 
-        public ICache<TKey, TValue> CreateCache<TKey, TValue>(Action<TValue> dispose = null)
+        public ICache<TKey, TValue> CreateCache<TKey, TValue>(Action<TValue>? dispose = null) where TKey : notnull
         {
             return new Cache<TKey, TValue>(dispose);
         }
@@ -46,18 +45,18 @@ namespace SatelliteTaskViewer.ViewModels
         //}
 
         public Scenario CreateScenarioContainer(string name, DateTime begin, TimeSpan duration)
-        {    
+        {
             var scenario = new Scenario()
             {
-                Name = name,       
-                IsExpanded = true,                                  
+                Name = name,
+                IsExpanded = true,
                 SceneState = CreateSceneState(),
                 Updater = CreateDataUpdater(),
-                SceneTimerEditor = CreateSceneTimerEditor(begin, duration),                          
+                SceneTimerEditor = CreateSceneTimerEditor(begin, duration),
             };
-      
+
             scenario.OutlinerEditor = CreateOutlinerEditor(scenario);
-             
+
             return scenario;
         }
 
@@ -89,7 +88,7 @@ namespace SatelliteTaskViewer.ViewModels
                 AspectRatio = 1,
                 CameraBehaviours = cameraBehaviours,
                 PerspectiveNearPlaneDistance = 85,// 10.5, // 0.5;
-                PerspectiveFarPlaneDistance = 2500000.0,                
+                PerspectiveFarPlaneDistance = 2500000.0,
             };
         }
 
@@ -128,10 +127,10 @@ namespace SatelliteTaskViewer.ViewModels
 
             frame.Owner = scenario;
 
-            var editor = new OutlinerEditorViewModel(scenario) 
-            {        
+            var editor = new OutlinerEditorViewModel(scenario)
+            {
                 SelectedMode = DisplayMode.Visual,
-                FrameRoot = ImmutableArray.Create<FrameViewModel>(frame),            
+                FrameRoot = ImmutableArray.Create<FrameViewModel>(frame),
                 CurrentFrame = frame,
                 Entities = ImmutableArray.Create<BaseEntity>(),
             };
@@ -193,11 +192,11 @@ namespace SatelliteTaskViewer.ViewModels
             var frame = new FrameViewModel()
             {
                 Parent = null,
-                Children = ImmutableArray.Create<FrameViewModel>(),                
+                Children = ImmutableArray.Create<FrameViewModel>(),
                 Name = "fr_root",
                 IsExpanded = true,
                 IsVisible = false,
-                State = CreateIdentityState(),                               
+                State = CreateIdentityState(),
                 RenderModel = null,
             };
 
@@ -241,7 +240,7 @@ namespace SatelliteTaskViewer.ViewModels
         }
 
         public FrameViewModel CreateSunFrame(SunData data, FrameViewModel parent)
-        {    
+        {
             var frame = new FrameViewModel()
             {
                 Parent = parent,
@@ -261,7 +260,7 @@ namespace SatelliteTaskViewer.ViewModels
         public FrameViewModel CreateEarthFrame(EarthData data, FrameViewModel parent, float scale)
         {
             var renderModelFactory = _serviceProvider.GetService<IRenderModelFactory>();
-         
+
             var frame = new FrameViewModel()
             {
                 Parent = parent,
@@ -279,7 +278,7 @@ namespace SatelliteTaskViewer.ViewModels
         }
 
         public FrameViewModel CreateGroundObjectFrame(GroundObjectData data, FrameViewModel parent, FrameRenderModel model)
-        {          
+        {
             var fr_groundObject = new FrameViewModel()
             {
                 Parent = parent,
@@ -297,7 +296,7 @@ namespace SatelliteTaskViewer.ViewModels
         }
 
         public FrameViewModel CreateGroundStationFrame(GroundStationData data, FrameViewModel parent, FrameRenderModel model)
-        {       
+        {
             var fr_groundStation = new FrameViewModel()
             {
                 Parent = parent,
@@ -315,7 +314,7 @@ namespace SatelliteTaskViewer.ViewModels
         }
 
         public FrameViewModel CreateRetranslatorFrame(RetranslatorData data, FrameViewModel parent, FrameRenderModel model)
-        {           
+        {
             var fr_retranslator = new FrameViewModel()
             {
                 Parent = parent,
@@ -334,7 +333,7 @@ namespace SatelliteTaskViewer.ViewModels
 
         public (FrameViewModel fr_sat, FrameViewModel fr_rot, FrameViewModel fr_sen, FrameViewModel fr_ant, FrameViewModel fr_orb)
             CreateSatellitesFrame(SatelliteData satelliteData, RotationData rotationData, SensorData sensorData,
-            AntennaData antennaData, OrbitData orbitData, FrameViewModel parent, 
+            AntennaData antennaData, OrbitData orbitData, FrameViewModel parent,
             FrameRenderModel satelliteModel, FrameRenderModel antennaModel, EntityList gss, EntityList rtrs)
         {
             var fr_satellite = new FrameViewModel()
@@ -378,7 +377,7 @@ namespace SatelliteTaskViewer.ViewModels
                 IsExpanded = false,
                 IsVisible = true,
                 State = new AntennaAnimator(antennaData)
-                {                   
+                {
                     Assets = ImmutableArray.Create<BaseEntity>(),
                     AttachPosition = new dvec3(67.74, -12.22, -23.5),
                 },
@@ -421,11 +420,14 @@ namespace SatelliteTaskViewer.ViewModels
                 Name = "Spacebox",
                 RenderModel = renderModelFactory.CreateSpacebox(),
                 IsVisible = true,
-                Children = ImmutableArray.Create<BaseEntity>(),            
+                Children = ImmutableArray.Create<BaseEntity>(),
                 Frame = fr_spacebox,
             };
 
-            fr_spacebox.State.Parent = parent.State;
+            if (fr_spacebox.State != null)
+            {
+                fr_spacebox.State.Parent = parent.State;
+            }
 
             fr_spacebox.Owner = obj;
 
@@ -446,8 +448,12 @@ namespace SatelliteTaskViewer.ViewModels
                 Children = ImmutableArray.Create<BaseEntity>(),
                 Frame = fr_sun,
             };
-            
-            fr_sun.State.Parent = parent.State;
+
+            if (fr_sun.State != null)
+            {
+                fr_sun.State.Parent = parent.State;
+            }
+
             fr_sun.Owner = obj;
 
             return obj;
@@ -458,24 +464,28 @@ namespace SatelliteTaskViewer.ViewModels
             var renderModelFactory = _serviceProvider.GetService<IRenderModelFactory>();
 
             var fr_earth = CreateEarthFrame(data, parent, 6371.0f * 1.3f);
-       
+
             var obj = new Earth()
             {
-                Name = data.Name,            
+                Name = data.Name,
                 RenderModel = renderModelFactory.CreateEarth(),
                 IsVisible = true,
                 Children = ImmutableArray.Create<BaseEntity>(),
                 Frame = fr_earth,
             };
 
-            fr_earth.State.Parent = parent.State;
+            if (fr_earth.State != null)
+            {
+                fr_earth.State.Parent = parent.State;
+            }
+
             fr_earth.Owner = obj;
 
             return obj;
         }
 
         public EntityList CreateGroundObjects(ScenarioData data, FrameViewModel parent)
-        {       
+        {
             var renderModel = _serviceProvider.GetService<IRenderModelFactory>().CreateGroundObject();
             var frameRenderModel = _serviceProvider.GetService<IRenderModelFactory>().CreateFrame(30.0f);
 
@@ -491,12 +501,16 @@ namespace SatelliteTaskViewer.ViewModels
                 {
                     Name = item.Name,
                     IsVisible = true,
-                    RenderModel = renderModel,                  
+                    RenderModel = renderModel,
                     Children = ImmutableArray.Create<BaseEntity>(),
                     Frame = fr_go,
                 };
 
-                fr_go.State.Parent = parent.State;
+                if (fr_go.State != null)
+                {
+                    fr_go.State.Parent = parent.State;
+                }
+
                 fr_go.Owner = go;
 
                 entities.Add(go);
@@ -509,13 +523,13 @@ namespace SatelliteTaskViewer.ViewModels
             {
                 Name = "GroundObjects",
                 IsVisible = true,
-                IsExpanded = false,              
+                IsExpanded = false,
                 Values = builder.ToImmutable(),
             };
         }
 
         public EntityList CreateGroundStations(ScenarioData data, FrameViewModel parent)
-        {          
+        {
             var renderModel = _serviceProvider.GetService<IRenderModelFactory>().CreateGroundStation(180.0);
             var frameRenderModel = _serviceProvider.GetService<IRenderModelFactory>().CreateFrame(200.0f);
 
@@ -526,7 +540,7 @@ namespace SatelliteTaskViewer.ViewModels
             foreach (var item in data.GroundStations)
             {
                 var fr_gs = CreateGroundStationFrame(item, fr_gs_collection, frameRenderModel);
-              
+
                 var gs = new GroundStation()
                 {
                     Name = item.Name,
@@ -535,8 +549,12 @@ namespace SatelliteTaskViewer.ViewModels
                     Children = ImmutableArray.Create<BaseEntity>(),
                     Frame = fr_gs,
                 };
-                
-                fr_gs.State.Parent = parent.State;
+
+                if (fr_gs.State != null)
+                {
+                    fr_gs.State.Parent = parent.State;
+                }
+
                 fr_gs.Owner = gs;
 
                 entities.Add(gs);
@@ -556,7 +574,7 @@ namespace SatelliteTaskViewer.ViewModels
         }
 
         public EntityList CreateRetranslators(ScenarioData data, FrameViewModel parent)
-        { 
+        {
             var renderModel = _serviceProvider.GetService<IRenderModelFactory>().CreateRetranslator(500.0);
             var frameRenderModel = _serviceProvider.GetService<IRenderModelFactory>().CreateFrame(6050.0f);
 
@@ -576,8 +594,12 @@ namespace SatelliteTaskViewer.ViewModels
                     Children = ImmutableArray.Create<BaseEntity>(),
                     Frame = fr_rtr,
                 };
-                
-                fr_rtr.State.Parent = parent.State;
+
+                if (fr_rtr.State != null)
+                {
+                    fr_rtr.State.Parent = parent.State;
+                }
+
                 fr_rtr.Owner = rtr;
 
                 entities.Add(rtr);
@@ -610,17 +632,17 @@ namespace SatelliteTaskViewer.ViewModels
             for (int i = 0; i < data.SatellitePositions.Count; i++)
             {
                 var (fr_sat, fr_rot, fr_sen, fr_ant, fr_orb) = CreateSatellitesFrame(
-                    data.SatellitePositions[i], data.SatelliteRotations[i], 
+                    data.SatellitePositions[i], data.SatelliteRotations[i],
                     data.SatelliteShootings[i], data.SatelliteTransfers[i], data.SatelliteOrbits[i],
                     parent, satelliteFrameModel, antennaFrameModel, gss, rtrs);
-                                        
+
                 var satellite = new Satellite()
                 {
                     Name = data.SatellitePositions[i].Name,
                     IsVisible = true,
                     RenderModel = satelliteModel,
                     Children = ImmutableArray.Create<BaseEntity>(),
-                    Frame = fr_rot,               
+                    Frame = fr_rot,
                 };
                 var sensor = new Sensor()
                 {
@@ -634,7 +656,7 @@ namespace SatelliteTaskViewer.ViewModels
                 {
                     Name = string.Format("Antenna{0}", i + 1),
                     IsVisible = true,
-                    RenderModel = antennaModel,                 
+                    RenderModel = antennaModel,
                     Children = ImmutableArray.Create<BaseEntity>(),
                     Frame = fr_ant,
                 };
@@ -647,11 +669,11 @@ namespace SatelliteTaskViewer.ViewModels
                     Frame = fr_orb,
                 };
 
-                fr_sat.State.Parent = parent.State;
-                fr_rot.State.Parent = fr_sat.State;
-                fr_sen.State.Parent = fr_sat.State;
-                fr_ant.State.Parent = fr_rot.State;
-                fr_orb.State.Parent = parent.State;
+                fr_sat.State!.Parent = parent.State;
+                fr_rot.State!.Parent = fr_sat.State;
+                fr_sen.State!.Parent = fr_sat.State;
+                fr_ant.State!.Parent = fr_rot.State;
+                fr_orb.State!.Parent = parent.State;
 
                 fr_rot.Owner = satellite;
                 fr_sen.Owner = sensor;
@@ -683,7 +705,7 @@ namespace SatelliteTaskViewer.ViewModels
                 events.AddRange(CreateRotationEvents(data.SatelliteRotations[i], epochOnDay));
                 events.AddRange(CreateObservationEvents(data.SatelliteShootings[i], epochOnDay));
                 events.AddRange(CreateTransmissionEvents(data.SatelliteTransfers[i], epochOnDay));
-                
+
                 events = events.OrderBy(s => s.BeginTime).ToList();
                 //var sortEvents = events.OrderBy(s => s.BeginTime).ToList();
 

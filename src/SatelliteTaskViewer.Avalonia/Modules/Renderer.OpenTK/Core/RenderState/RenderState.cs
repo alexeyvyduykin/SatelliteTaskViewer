@@ -10,25 +10,25 @@ namespace SatelliteTaskViewer.Avalonia.Renderer.OpenTK.Core
 
     internal class RenderState
     {
-        public PrimitiveRestart PrimitiveRestart { get; set; }
+        public PrimitiveRestart? PrimitiveRestart { get; set; }
 
-        public FacetCulling FacetCulling { get; set; }
+        public FacetCulling? FacetCulling { get; set; }
 
         public ProgramPointSize ProgramPointSize { get; set; }
 
         public PolygonMode RasterizationMode { get; set; }
 
-        public ScissorTest ScissorTest { get; set; }
+        public ScissorTest? ScissorTest { get; set; }
 
-        public StencilTest StencilTest { get; set; }
+        public StencilTest? StencilTest { get; set; }
 
-        public DepthTest DepthTest { get; set; }
+        public DepthTest? DepthTest { get; set; }
 
-        public DepthRange DepthRange { get; set; }
+        public DepthRange? DepthRange { get; set; }
 
-        public Blending Blending { get; set; }
+        public Blending? Blending { get; set; }
 
-        public ColorMask ColorMask { get; set; }
+        public ColorMask? ColorMask { get; set; }
 
         public bool DepthMask { get; set; }
     }

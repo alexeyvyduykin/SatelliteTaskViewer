@@ -1,11 +1,11 @@
-﻿using System.Linq;
-using GlmSharp;
+﻿using GlmSharp;
+using ReactiveUI.Fody.Helpers;
 using SatelliteTaskViewer.Models;
 using SatelliteTaskViewer.Models.Renderer;
 using SatelliteTaskViewer.Models.Scene;
 using SatelliteTaskViewer.ViewModels.Data;
 using SatelliteTaskViewer.ViewModels.Scene;
-using ReactiveUI.Fody.Helpers;
+using System.Linq;
 
 namespace SatelliteTaskViewer.ViewModels.Entities
 {
@@ -26,13 +26,18 @@ namespace SatelliteTaskViewer.ViewModels.Entities
         }
 
         [Reactive]
-        public FrameViewModel Frame { get; set; }
+        public FrameViewModel Frame { get; set; } = new FrameViewModel();
 
         [Reactive]
-        public OrbitRenderModel RenderModel { get; set; }
+        public OrbitRenderModel? RenderModel { get; set; }
 
         public void DrawShape(object dc, IRenderContext renderer, ISceneState scene)
         {
+            if (RenderModel == null || Frame.State == null)
+            {
+                return;
+            }
+
             if (IsVisible == true)
             {
                 renderer.DrawOrbit(dc, RenderModel, Frame.State.ModelMatrix, scene);

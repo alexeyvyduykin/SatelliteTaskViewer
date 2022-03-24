@@ -1,13 +1,12 @@
-﻿using System;
+﻿using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
+using SatelliteTaskViewer.Models;
+using SatelliteTaskViewer.ViewModels.Entities;
+using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Linq;
-using SatelliteTaskViewer.Models;
-using SatelliteTaskViewer.ViewModels.Containers;
-using SatelliteTaskViewer.ViewModels.Entities;
-using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
-using System.Collections.Generic;
 
 namespace SatelliteTaskViewer.ViewModels.Editors
 {
@@ -100,7 +99,7 @@ namespace SatelliteTaskViewer.ViewModels.Editors
         public List<DisplayMode> DisplayModes => Enum.GetValues(typeof(DisplayMode)).Cast<DisplayMode>().ToList();
 
         [Reactive]
-        public ObservableCollection<ViewModelBase> Items { get; set; }
+        public ObservableCollection<ViewModelBase> Items { get; set; } = new ObservableCollection<ViewModelBase>();
 
         [Reactive]
         public ViewModelBase? SelectedItem { get; set; }

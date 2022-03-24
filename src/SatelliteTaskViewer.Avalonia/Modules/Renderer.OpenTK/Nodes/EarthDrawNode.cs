@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Immutable;
-using GlmSharp;
+﻿using GlmSharp;
 using SatelliteTaskViewer.Models.Image;
 using SatelliteTaskViewer.Models.Renderer;
 using SatelliteTaskViewer.Models.Scene;
 using SatelliteTaskViewer.ViewModels.Geometry;
 using SatelliteTaskViewer.ViewModels.Scene;
+using System;
+using System.Collections.Immutable;
 using A = OpenTK.Graphics.OpenGL;
 using B = SatelliteTaskViewer.Avalonia.Renderer.OpenTK.Core;
 
@@ -13,8 +13,8 @@ namespace SatelliteTaskViewer.Avalonia.Renderer.OpenTK
 {
     internal class EarthDrawNode : DrawNode, IEarthDrawNode, IDisposable
     {
-        private readonly B.Context _context; 
-        private B.Device _device;
+        private readonly B.Context _context;
+        private readonly B.Device _device;
         private readonly B.Uniform<mat4> u_model;
         private readonly B.Uniform<mat4> u_mvp;
         private readonly B.Uniform<mat3> u_normalMatrix;
@@ -303,13 +303,20 @@ color = finalColor;
             if (_dirty)
             {
                 var state = _device.CreateRenderState();
-                state.FacetCulling.Face = A.CullFaceMode.Back;
-                state.FacetCulling.FrontFaceWindingOrder = A.FrontFaceDirection.Cw; // default
 
-                for (int i = 0; i < 6; i++)
-                {                                
-                    var va = _context.CreateVertexArray(_meshes[i], _sp.VertexAttributes, A.BufferUsageHint.StaticDraw);
-                    _drawStates[i] = _device.CreateDrawState(state, _sp, va);
+                if (state != null)
+                {
+                    if (state.FacetCulling != null)
+                    {
+                        state.FacetCulling.Face = A.CullFaceMode.Back;
+                        state.FacetCulling.FrontFaceWindingOrder = A.FrontFaceDirection.Cw; // default
+                    }
+
+                    for (int i = 0; i < 6; i++)
+                    {
+                        var va = _context.CreateVertexArray(_meshes[i], _sp.VertexAttributes, A.BufferUsageHint.StaticDraw);
+                        _drawStates[i] = _device.CreateDrawState(state, _sp, va);
+                    }
                 }
 
                 _dirty = false;
@@ -317,7 +324,7 @@ color = finalColor;
         }
 
         public bool IsComplete => !(_currentLoadingTexture < _keys.Length);
-        
+
         public string WaitKey => IsComplete ? string.Empty : _keys[_currentLoadingTexture];
 
         public int SetImage(IDdsImage image)

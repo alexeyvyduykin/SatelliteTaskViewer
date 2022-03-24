@@ -1,23 +1,28 @@
 ﻿using GlmSharp;
+using ReactiveUI.Fody.Helpers;
 using SatelliteTaskViewer.Models;
 using SatelliteTaskViewer.Models.Renderer;
 using SatelliteTaskViewer.Models.Scene;
 using SatelliteTaskViewer.ViewModels.Data;
 using SatelliteTaskViewer.ViewModels.Scene;
-using ReactiveUI.Fody.Helpers;
 
 namespace SatelliteTaskViewer.ViewModels.Entities
 {
     public class Sensor : BaseEntity, IDrawable
     {
         [Reactive]
-        public FrameViewModel Frame { get; set; }
+        public FrameViewModel Frame { get; set; } = new FrameViewModel();
 
         [Reactive]
-        public SensorRenderModel RenderModel { get; set; }
+        public SensorRenderModel? RenderModel { get; set; }
 
         public void DrawShape(object dc, IRenderContext renderer, ISceneState scene)
         {
+            if (RenderModel == null)
+            {
+                return;
+            }
+
             if (IsVisible == true)
             {
                 if (Frame.State is SensorAnimator state)

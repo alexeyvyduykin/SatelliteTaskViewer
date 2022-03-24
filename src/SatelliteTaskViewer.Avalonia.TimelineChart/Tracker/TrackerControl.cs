@@ -136,7 +136,7 @@ namespace SatelliteTaskViewer.Avalonia.TimelineChart
             Control parent = this;
             while (!(parent is Canvas) && parent != null)
             {
-                parent = parent.GetVisualParent() as Control;
+                parent = (Control)parent.GetVisualParent();
             }
 
             if (parent == null)

@@ -1,6 +1,6 @@
-﻿using System;
+﻿using SatelliteTaskViewer.ViewModels.Geometry;
+using System;
 using System.Linq;
-using SatelliteTaskViewer.ViewModels.Geometry;
 using A = OpenTK.Graphics.OpenGL;
 
 namespace SatelliteTaskViewer.Avalonia.Renderer.OpenTK.Core
@@ -19,7 +19,7 @@ namespace SatelliteTaskViewer.Avalonia.Renderer.OpenTK.Core
             _renderState = _device.CreateRenderState();
             _textureUnits = new TextureUnits();
 
-            ForceApplyRenderState(_renderState);            
+            ForceApplyRenderState(_renderState);
         }
 
         public TextureUnits TextureUnits => _textureUnits;
@@ -74,7 +74,7 @@ namespace SatelliteTaskViewer.Avalonia.Renderer.OpenTK.Core
 
         private void ApplyPrimitiveRestart(PrimitiveRestart primitiveRestart)
         {
-            if (_renderState.PrimitiveRestart.Enabled != primitiveRestart.Enabled)
+            if (_renderState.PrimitiveRestart!.Enabled != primitiveRestart.Enabled)
             {
                 Enable(A.EnableCap.PrimitiveRestart, primitiveRestart.Enabled);
                 _renderState.PrimitiveRestart.Enabled = primitiveRestart.Enabled;
@@ -92,7 +92,7 @@ namespace SatelliteTaskViewer.Avalonia.Renderer.OpenTK.Core
 
         private void ApplyFacetCulling(FacetCulling facetCulling)
         {
-            if (_renderState.FacetCulling.Enabled != facetCulling.Enabled)
+            if (_renderState.FacetCulling!.Enabled != facetCulling.Enabled)
             {
                 Enable(A.EnableCap.CullFace, facetCulling.Enabled);
                 _renderState.FacetCulling.Enabled = facetCulling.Enabled;
@@ -150,7 +150,7 @@ namespace SatelliteTaskViewer.Avalonia.Renderer.OpenTK.Core
                     "renderState");
             }
 
-            if (_renderState.ScissorTest.Enabled != scissorTest.Enabled)
+            if (_renderState.ScissorTest!.Enabled != scissorTest.Enabled)
             {
                 Enable(A.EnableCap.ScissorTest, scissorTest.Enabled);
                 _renderState.ScissorTest.Enabled = scissorTest.Enabled;
@@ -211,7 +211,7 @@ namespace SatelliteTaskViewer.Avalonia.Renderer.OpenTK.Core
 
         private void ApplyDepthTest(DepthTest depthTest)
         {
-            if (_renderState.DepthTest.Enabled != depthTest.Enabled)
+            if (_renderState.DepthTest!.Enabled != depthTest.Enabled)
             {
                 Enable(A.EnableCap.DepthTest, depthTest.Enabled);
                 _renderState.DepthTest.Enabled = depthTest.Enabled;
@@ -239,7 +239,7 @@ namespace SatelliteTaskViewer.Avalonia.Renderer.OpenTK.Core
                 throw new ArgumentOutOfRangeException(nameof(depthRange), "renderState.DepthRange.Far must be between zero and one.");
             }
 
-            if ((_renderState.DepthRange.Near != depthRange.Near) ||
+            if ((_renderState.DepthRange!.Near != depthRange.Near) ||
                 (_renderState.DepthRange.Far != depthRange.Far))
             {
                 A.GL.DepthRange(depthRange.Near, depthRange.Far);
@@ -251,7 +251,7 @@ namespace SatelliteTaskViewer.Avalonia.Renderer.OpenTK.Core
 
         private void ApplyBlending(Blending blending)
         {
-            if (_renderState.Blending.Enabled != blending.Enabled)
+            if (_renderState.Blending!.Enabled != blending.Enabled)
             {
                 Enable(A.EnableCap.Blend, blending.Enabled);
                 _renderState.Blending.Enabled = blending.Enabled;
@@ -332,17 +332,17 @@ namespace SatelliteTaskViewer.Avalonia.Renderer.OpenTK.Core
 
         public void ApplyRenderState(RenderState renderState)
         {
-            ApplyPrimitiveRestart(renderState.PrimitiveRestart);
+            ApplyPrimitiveRestart(renderState.PrimitiveRestart!);
 
-            ApplyFacetCulling(renderState.FacetCulling);
+            ApplyFacetCulling(renderState.FacetCulling!);
             ApplyProgramPointSize(renderState.ProgramPointSize);
             ApplyRasterizationMode(renderState.RasterizationMode);
-            ApplyScissorTest(renderState.ScissorTest);
+            ApplyScissorTest(renderState.ScissorTest!);
             //         ApplyStencilTest(renderState.StencilTest);
-            ApplyDepthTest(renderState.DepthTest);
-            ApplyDepthRange(renderState.DepthRange);
-            ApplyBlending(renderState.Blending);
-            ApplyColorMask(renderState.ColorMask);
+            ApplyDepthTest(renderState.DepthTest!);
+            ApplyDepthRange(renderState.DepthRange!);
+            ApplyBlending(renderState.Blending!);
+            ApplyColorMask(renderState.ColorMask!);
             ApplyDepthMask(renderState.DepthMask);
         }
 
@@ -443,7 +443,7 @@ namespace SatelliteTaskViewer.Avalonia.Renderer.OpenTK.Core
             //ForceApplyRenderStateStencil(StencilFace.Front, renderState.StencilTest.FrontFace);
             //ForceApplyRenderStateStencil(StencilFace.Back, renderState.StencilTest.BackFace);
 
-            Enable(A.EnableCap.DepthTest, renderState.DepthTest.Enabled);
+            Enable(A.EnableCap.DepthTest, renderState.DepthTest!.Enabled);
             A.GL.DepthFunc(renderState.DepthTest.Function);
 
             //           GL.DepthRange(renderState.DepthRange.Near, renderState.DepthRange.Far);

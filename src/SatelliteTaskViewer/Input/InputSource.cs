@@ -1,4 +1,5 @@
 ﻿using System;
+#nullable disable
 
 namespace SatelliteTaskViewer.Input
 {

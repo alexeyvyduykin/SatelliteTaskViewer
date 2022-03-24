@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+#nullable disable
 
 namespace TimelineChart.Core
 {
     public abstract class SelectableElement : Element
     {
-        private Selection? _selection;
+        private Selection _selection;
 
         protected SelectableElement()
         {
@@ -16,7 +17,7 @@ namespace TimelineChart.Core
         /// <summary>
         /// Occurs when the selected items is changed.
         /// </summary>
-        public event EventHandler? SelectionChanged;
+        public event EventHandler SelectionChanged;
 
         /// <summary>
         /// Gets or sets a value indicating whether this element can be selected. The default is <c>true</c>.

@@ -1,7 +1,7 @@
-﻿using System;
-using SatelliteTaskViewer.Input;
+﻿using SatelliteTaskViewer.Input;
 using SatelliteTaskViewer.Models.Editor;
 using SatelliteTaskViewer.Models.Scene;
+using System;
 
 namespace SatelliteTaskViewer.ViewModels.Editor.Tools
 {
@@ -21,7 +21,7 @@ namespace SatelliteTaskViewer.ViewModels.Editor.Tools
         {
             var mainViewModel = _serviceProvider.GetService<MainViewModel>();
 
-            if(mainViewModel.Scenario == null)
+            if (mainViewModel.Scenario == null || mainViewModel.Scenario.SceneState == null)
             {
                 return;
             }
@@ -38,10 +38,10 @@ namespace SatelliteTaskViewer.ViewModels.Editor.Tools
         public void LeftUp(InputArgs args)
         {
             _currentState = State.None;
-            
+
             var mainViewModel = _serviceProvider.GetService<MainViewModel>();
 
-            if (mainViewModel.Scenario == null)
+            if (mainViewModel.Scenario == null || mainViewModel.Scenario.SceneState == null)
             {
                 return;
             }
@@ -72,13 +72,13 @@ namespace SatelliteTaskViewer.ViewModels.Editor.Tools
                 return;
             }
 
-            if (_currentState == State.Rotate)
+            if (_currentState == State.Rotate && mainViewModel.Scenario.SceneState != null)
             {
                 var camera = (IArcballCamera)mainViewModel.Scenario.SceneState.Camera;
 
                 camera.Rotate((int)args.X, (int)args.Y);
             }
-            else if (_currentState == State.Zoom)
+            else if (_currentState == State.Zoom && mainViewModel.Scenario.SceneState != null)
             {
                 var sceneState = mainViewModel.Scenario.SceneState;
                 var camera = (IArcballCamera)sceneState.Camera;

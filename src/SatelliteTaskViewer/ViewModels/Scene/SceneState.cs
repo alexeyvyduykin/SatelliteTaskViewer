@@ -4,6 +4,7 @@ using GlmSharp;
 using SatelliteTaskViewer.Models;
 using SatelliteTaskViewer.Models.Scene;
 using ReactiveUI.Fody.Helpers;
+#nullable disable
 
 namespace SatelliteTaskViewer.ViewModels.Scene
 {
@@ -11,7 +12,18 @@ namespace SatelliteTaskViewer.ViewModels.Scene
     {
         public SceneState() { }
 
-        public dmat4 ViewMatrix => Camera.ViewMatrix * Target.InverseAbsoluteModel;
+        public dmat4 ViewMatrix
+        {
+            get
+            {
+                if (Camera == null || Target == null)
+                {
+                    return dmat4.AllNaN;
+                }
+
+                return Camera.ViewMatrix * Target.InverseAbsoluteModel;
+            }
+        }
 
         public dmat4 ProjectionMatrix => dmat4.Perspective(FieldOfViewY, AspectRatio, PerspectiveNearPlaneDistance, PerspectiveFarPlaneDistance);
 

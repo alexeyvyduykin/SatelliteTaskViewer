@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+#nullable disable
 
 namespace TimelineChart.Core
 {
@@ -279,7 +280,7 @@ namespace TimelineChart.Core
         }
 
         // Gets the command for the specified <see cref="OxyInputGesture" />.
-        protected virtual IViewCommand? GetCommand(OxyInputGesture gesture)
+        protected virtual IViewCommand GetCommand(OxyInputGesture gesture)
         {
             var binding = InputCommandBindings.FirstOrDefault(b => b.Gesture.Equals(gesture));
             if (binding == null)

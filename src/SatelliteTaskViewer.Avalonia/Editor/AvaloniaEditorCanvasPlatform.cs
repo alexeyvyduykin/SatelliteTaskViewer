@@ -15,6 +15,6 @@ namespace SatelliteTaskViewer.Avalonia.Editor
         }
 
         [Reactive]
-        public Action InvalidateControl { get; set; }
+        public Action? InvalidateControl { get; set; }
     }
 }

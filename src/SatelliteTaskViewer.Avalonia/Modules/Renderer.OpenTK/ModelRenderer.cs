@@ -1,9 +1,9 @@
-﻿using System;
-using System.Linq;
-using GlmSharp;
-using SatelliteTaskViewer.Models.Renderer;
+﻿using GlmSharp;
 using SatelliteTaskViewer.Avalonia.Renderer.OpenTK.Core;
+using SatelliteTaskViewer.Models.Renderer;
 using SatelliteTaskViewer.ViewModels.Geometry;
+using System;
+using System.Linq;
 using A = OpenTK.Graphics.OpenGL;
 
 namespace SatelliteTaskViewer.Avalonia.Renderer.OpenTK

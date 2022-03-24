@@ -8,7 +8,7 @@ namespace SatelliteTaskViewer.Avalonia.Converters
     {
         private readonly string _format = "dd-MMM-yyyy hh:mm:ss";
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is DateTime dt)
             {
@@ -18,7 +18,7 @@ namespace SatelliteTaskViewer.Avalonia.Converters
             return DateTime.MinValue;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }
@@ -28,7 +28,7 @@ namespace SatelliteTaskViewer.Avalonia.Converters
     {
         private readonly string _format = @"mm\:ss";
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is TimeSpan timeSpan)
             {
@@ -38,7 +38,7 @@ namespace SatelliteTaskViewer.Avalonia.Converters
             return DateTime.MinValue;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

@@ -6,7 +6,7 @@ namespace SatelliteTaskViewer.Models.Editor
 {
     public interface IEditorCanvasPlatform
     {
-        Action InvalidateControl { get; set; }
+        Action? InvalidateControl { get; set; }
 
     }
 }

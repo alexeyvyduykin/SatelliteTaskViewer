@@ -1,10 +1,11 @@
 ﻿using Spatial;
+#nullable disable
 
 namespace TimelineChart.Core
 {
     public class TrackerManipulator : MouseManipulator
     {
-        private Series? _currentSeries;
+        private Series _currentSeries;
 
         public TrackerManipulator(IPlotView plotView) : base(plotView)
         {
@@ -80,7 +81,7 @@ namespace TimelineChart.Core
             Delta(e);
         }
 
-        private static TrackerHitResult? GetNearestHit(Series series, ScreenPoint point, bool snap, bool pointsOnly)
+        private static TrackerHitResult GetNearestHit(Series series, ScreenPoint point, bool snap, bool pointsOnly)
         {
             if (series == null)
             {

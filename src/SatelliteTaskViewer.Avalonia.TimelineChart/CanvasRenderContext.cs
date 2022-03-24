@@ -19,8 +19,8 @@ namespace SatelliteTaskViewer.Avalonia.TimelineChart
         private const int _minPointsPerPolyline = 16;
         private readonly Dictionary<Color, IBrush> _abrushCache = new Dictionary<Color, IBrush>();
         private readonly Canvas _canvas;
-        private readonly Rect? _clip;
-        private readonly string _currentToolTip;
+        private Rect? _clip;
+        private string _currentToolTip = string.Empty;
 
         public CanvasRenderContext(Canvas canvas)
         {
@@ -187,7 +187,7 @@ namespace SatelliteTaskViewer.Avalonia.TimelineChart
                 return new double[] { 1, 1 };
             }
 
-            return null;
+            return new double[] { };
         }
 
         // Draws line segments defined by points (0,1) (2,3) (4,5) etc.
@@ -200,8 +200,8 @@ namespace SatelliteTaskViewer.Avalonia.TimelineChart
                 return;
             }
 
-            Path path = null;
-            PathGeometry pathGeometry = null;
+            Path? path = null;
+            PathGeometry? pathGeometry = null;
 
             var count = 0;
 
@@ -215,8 +215,8 @@ namespace SatelliteTaskViewer.Avalonia.TimelineChart
                 }
 
                 var figure = new PathFigure { StartPoint = ToPoint(points[i], aliased), IsClosed = false };
-                figure.Segments.Add(new LineSegment { Point = ToPoint(points[i + 1], aliased) });
-                pathGeometry.Figures.Add(figure);
+                figure.Segments!.Add(new LineSegment { Point = ToPoint(points[i + 1], aliased) });
+                pathGeometry!.Figures.Add(figure);
 
                 count++;
 
@@ -372,8 +372,8 @@ namespace SatelliteTaskViewer.Avalonia.TimelineChart
         // Draws the line segments by stream geometry.
         private void DrawLineSegmentsByStreamGeometry(IList<ScreenPoint> points, Color stroke, double[] dashArray, bool aliased)
         {
-            StreamGeometry streamGeometry = null;
-            StreamGeometryContext streamGeometryContext = null;
+            StreamGeometry? streamGeometry = null;
+            StreamGeometryContext? streamGeometryContext = null;
 
             var count = 0;
 
@@ -385,7 +385,7 @@ namespace SatelliteTaskViewer.Avalonia.TimelineChart
                     streamGeometryContext = streamGeometry.Open();
                 }
 
-                streamGeometryContext.BeginFigure(ToPoint(points[i], aliased), false);
+                streamGeometryContext!.BeginFigure(ToPoint(points[i], aliased), false);
                 streamGeometryContext.LineTo(ToPoint(points[i + 1], aliased));
 
                 count++;
@@ -404,21 +404,21 @@ namespace SatelliteTaskViewer.Avalonia.TimelineChart
 
             if (streamGeometry != null)
             {
-                streamGeometryContext.Dispose();
+                streamGeometryContext!.Dispose();
                 var path = CreateAndAdd<Path>();
                 SetStroke(path, stroke, null, 0, aliased);
                 path.Data = streamGeometry;
             }
         }
 
-        private IBrush GetCachedBrush(Color color)
+        private IBrush? GetCachedBrush(Color color)
         {
             if (color.A == 0)
             {
                 return null;
             }
 
-            if (!_abrushCache.TryGetValue(color, out IBrush brush))
+            if (!_abrushCache.TryGetValue(color, out IBrush? brush))
             {
                 brush = new SolidColorBrush(color);
                 _abrushCache.Add(color, brush);
@@ -428,9 +428,9 @@ namespace SatelliteTaskViewer.Avalonia.TimelineChart
         }
 
         // Sets the stroke properties of the specified shape object.        
-        private void SetStroke(Shape shape, Color stroke, IEnumerable<double> dashArray = null, double dashOffset = 0, bool aliased = false)
+        private void SetStroke(Shape shape, Color stroke, IEnumerable<double>? dashArray = null, double dashOffset = 0, bool aliased = false)
         {
-            if (stroke != null)
+            //if (stroke != null)
             {
                 shape.Stroke = GetCachedBrush(stroke);
                 shape.StrokeJoin = PenLineJoin.Miter;

@@ -1,5 +1,6 @@
 ﻿using System;
 using Spatial;
+#nullable disable
 
 namespace TimelineChart.Core
 {
@@ -12,15 +13,15 @@ namespace TimelineChart.Core
 
     public partial class PlotModel
     {
-        public event EventHandler<InputEventArgs> MouseDown;
+        public new event EventHandler<InputEventArgs> MouseDown;
 
-        public event EventHandler<InputEventArgs> MouseMove;
+        public new event EventHandler<InputEventArgs> MouseMove;
 
-        public event EventHandler<InputEventArgs> MouseUp;
+        public new event EventHandler<InputEventArgs> MouseUp;
 
-        public event EventHandler<InputEventArgs> MouseEnter;
+        public new event EventHandler<InputEventArgs> MouseEnter;
 
-        public event EventHandler<InputEventArgs> MouseLeave;
+        public new event EventHandler<InputEventArgs> MouseLeave;
 
         public virtual void HandleMouseDown(object sender, InputEventArgs e)
         {

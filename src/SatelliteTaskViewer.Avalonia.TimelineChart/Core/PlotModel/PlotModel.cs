@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Spatial;
+#nullable disable
 
 namespace TimelineChart.Core
 {

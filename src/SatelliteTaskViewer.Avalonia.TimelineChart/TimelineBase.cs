@@ -14,6 +14,7 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using TimelineChart.Core;
 using Spatial;
+#nullable disable
 
 namespace SatelliteTaskViewer.Avalonia.TimelineChart
 {
@@ -23,14 +24,14 @@ namespace SatelliteTaskViewer.Avalonia.TimelineChart
         private Canvas _canvasFront;
         private Canvas _canvasX;
         private DrawCanvas _drawCanvas;
-        private Panel? _panel;
-        protected Panel? _panelX;
+        private Panel _panel;
+        protected Panel _panelX;
         // Invalidation flag (0: no update, 1: update visual elements).  
         private int _isPlotInvalidated;
         private Canvas _overlays;
         private ContentControl _zoomControl;
         private readonly ObservableCollection<TrackerDefinition> _trackerDefinitions;
-        private IControl? _currentTracker;
+        private IControl _currentTracker;
 
         protected TimelineBase()
         {
@@ -237,7 +238,7 @@ namespace SatelliteTaskViewer.Avalonia.TimelineChart
         // Stores text on the clipboard.
         public async void SetClipboardText(string text)
         {
-            await AvaloniaLocator.Current.GetService<IClipboard>().SetTextAsync(text);
+            await (AvaloniaLocator.Current.GetService<IClipboard>() ?? throw new Exception()).SetTextAsync(text);
         }
 
         // Provides the behavior for the Arrange pass of Silverlight layout.

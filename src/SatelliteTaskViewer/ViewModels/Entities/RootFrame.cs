@@ -1,9 +1,4 @@
 ﻿using GlmSharp;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using SatelliteTaskViewer.Models.Entities;
-using SatelliteTaskViewer.Models.Scene;
 using SatelliteTaskViewer.Models;
 
 namespace SatelliteTaskViewer.ViewModels.Entities

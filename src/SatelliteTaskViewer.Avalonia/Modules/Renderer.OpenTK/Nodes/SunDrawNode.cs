@@ -1,9 +1,9 @@
-﻿using System;
-using GlmSharp;
+﻿using GlmSharp;
 using SatelliteTaskViewer.Models.Image;
 using SatelliteTaskViewer.Models.Renderer;
 using SatelliteTaskViewer.Models.Scene;
 using SatelliteTaskViewer.ViewModels.Scene;
+using System;
 using A = OpenTK.Graphics.OpenGL;
 using B = SatelliteTaskViewer.Avalonia.Renderer.OpenTK.Core;
 
@@ -261,9 +261,9 @@ vec3 color = temperatureColor * unColorMult;
 }
 ";
         private readonly B.ShaderProgram _sp;
-        private B.DrawState _drawState;
+        private B.DrawState? _drawState;
         private readonly B.TextureCreator _textureCreator;
-        private string _key;
+        private readonly string? _key;
         private int _textureSunGlowName;
         private bool _dirty;
         private bool _isComplete = false;
@@ -313,7 +313,7 @@ vec3 color = temperatureColor * unColorMult;
 
         public bool IsComplete => _isComplete;
 
-        public string WaitKey => _key;
+        public string WaitKey => _key ?? throw new Exception();
 
         public override void OnDraw(object dc, dmat4 modelMatrix, ISceneState scene)
         {
@@ -329,7 +329,10 @@ vec3 color = temperatureColor * unColorMult;
             A.GL.BlendFuncSeparate(A.BlendingFactorSrc.One, A.BlendingFactorDest.Zero, A.BlendingFactorSrc.One, A.BlendingFactorDest.Zero);
             A.GL.BlendEquationSeparate(A.BlendEquationMode.FuncAdd, A.BlendEquationMode.FuncAdd);
 
-            _context.Draw(A.PrimitiveType.Triangles, _drawState, scene);
+            if (_drawState != null)
+            {
+                _context.Draw(A.PrimitiveType.Triangles, _drawState, scene);
+            }
 
             B.ShaderProgram.UnBind();
 
@@ -340,20 +343,26 @@ vec3 color = temperatureColor * unColorMult;
         {
             if (_dirty)
             {
-                var mesh = Sun.Billboard;
+                var mesh = Sun.Billboard ?? throw new Exception();
 
                 var va = _context.CreateVertexArray(mesh, _sp.VertexAttributes, A.BufferUsageHint.StaticDraw);
 
                 var state = _device.CreateRenderState();
 
-                state.FacetCulling.Face = A.CullFaceMode.Back;
-                state.FacetCulling.FrontFaceWindingOrder = A.FrontFaceDirection.Cw;
+                if (state.FacetCulling != null)
+                {
+                    state.FacetCulling.Face = A.CullFaceMode.Back;
+                    state.FacetCulling.FrontFaceWindingOrder = A.FrontFaceDirection.Cw;
+                }
 
-                state.Blending.Enabled = true;
-                state.Blending.SourceRGBFactor = A.BlendingFactorSrc.One;
-                state.Blending.DestinationRGBFactor = A.BlendingFactorDest.One;
+                if (state.Blending != null)
+                {
+                    state.Blending.Enabled = true;
+                    state.Blending.SourceRGBFactor = A.BlendingFactorSrc.One;
+                    state.Blending.DestinationRGBFactor = A.BlendingFactorDest.One;
+                }
 
-                _drawState = _device.CreateDrawState(state, _sp, va); 
+                _drawState = _device.CreateDrawState(state, _sp, va);
 
                 _dirty = false;
             }
@@ -369,6 +378,11 @@ vec3 color = temperatureColor * unColorMult;
             dvec3 sunPosition_WS = pos.ToDvec3();// new dvec3(glm.Normalized(pos) * range);
             dvec3 sunPosition_KM = modelMatrix.Column3.ToDvec3();// sunPosition_WS;// * toKM;
 
+            if (scene.Camera == null)
+            {
+                return;
+            }
+
             dvec3 cameraPosition_WS = scene.Camera.Eye;
             dvec3 cameraPosition_KM = scene.Camera.Eye;// * toKM;
 
@@ -380,7 +394,9 @@ vec3 color = temperatureColor * unColorMult;
 
             DT += 0.0005f;
             if (DT >= 10000.0f)
+            {
                 DT = 0.0f;
+            }
 
             u_dims.Value = dims;
             u_center.Value = sunPosition_WS.ToVec3();

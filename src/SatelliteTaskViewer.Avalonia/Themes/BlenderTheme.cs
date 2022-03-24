@@ -19,7 +19,8 @@ namespace SatelliteTaskViewer.Avalonia.Themes
 
         public BlenderTheme(IServiceProvider serviceProvider)
         {
-            _baseUri = ((IUriContext)serviceProvider.GetService(typeof(IUriContext))).BaseUri;
+            var res = serviceProvider.GetService(typeof(IUriContext)) ?? throw new Exception();
+            _baseUri = ((IUriContext)res).BaseUri;
         }
 
         public IResourceHost? Owner => (Loaded as IResourceProvider)?.Owner;

@@ -36,7 +36,7 @@ namespace SatelliteTaskViewer.Avalonia.Serializer.Newtonsoft
 
         public T Deserialize<T>(string json)
         {
-            return JsonConvert.DeserializeObject<T>(json, _settings);
+            return JsonConvert.DeserializeObject<T>(json, _settings) ?? throw new Exception();
         }
 
         public string SerializerWithSettings<T>(T value)
@@ -46,7 +46,7 @@ namespace SatelliteTaskViewer.Avalonia.Serializer.Newtonsoft
 
         public T DeserializeWithSettings<T>(string json)
         {
-            return JsonConvert.DeserializeObject<T>(json, _settings);
+            return JsonConvert.DeserializeObject<T>(json, _settings) ?? throw new Exception();
         }
     }
 }

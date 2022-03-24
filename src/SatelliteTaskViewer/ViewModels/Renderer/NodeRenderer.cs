@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using GlmSharp;
+﻿using GlmSharp;
 using SatelliteTaskViewer.Models;
 using SatelliteTaskViewer.Models.Entities;
 using SatelliteTaskViewer.Models.Renderer;
 using SatelliteTaskViewer.Models.Scene;
 using SatelliteTaskViewer.ViewModels.Entities;
 using SatelliteTaskViewer.ViewModels.Scene;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SatelliteTaskViewer.ViewModels.Renderer
 {
@@ -37,6 +37,11 @@ namespace SatelliteTaskViewer.ViewModels.Renderer
 
         public void DrawScenario(object dc, Scenario scenario)
         {
+            if (scenario.OutlinerEditor == null || scenario.SceneState == null)
+            {
+                return;
+            }
+
             DrawFrames(dc, scenario.OutlinerEditor.FrameRoot.Single(), scenario.SceneState);
 
             foreach (var entity in scenario.OutlinerEditor.Entities)
@@ -79,7 +84,7 @@ namespace SatelliteTaskViewer.ViewModels.Renderer
 
                     foreach (var item in frame.Children)
                     {
-                        DrawFrames(dc, item, scene);                    
+                        DrawFrames(dc, item, scene);
                     }
                 }
             }

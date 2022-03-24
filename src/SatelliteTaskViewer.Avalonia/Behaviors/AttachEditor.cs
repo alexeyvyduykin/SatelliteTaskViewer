@@ -1,19 +1,19 @@
-﻿using System;
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
 using SatelliteTaskViewer.Avalonia.Editor;
 using SatelliteTaskViewer.Input;
 using SatelliteTaskViewer.Models.Editor;
 using SatelliteTaskViewer.ViewModels.Editor;
+using System;
 
 namespace SatelliteTaskViewer.Avalonia.Behaviors
 {
     public class AttachEditor
     {
         private readonly Control _control;
-        private AvaloniaInputSource__ _inputSource;
-        private ProjectEditorInputTarget _inputTarget;
-        private InputProcessor _inputProcessor;
+        private AvaloniaInputSource__? _inputSource;
+        private ProjectEditorInputTarget? _inputTarget;
+        private InputProcessor? _inputProcessor;
 
         public AttachEditor(Control control)
         {
@@ -38,7 +38,7 @@ namespace SatelliteTaskViewer.Avalonia.Behaviors
             //}
         }
 
-        public void Changed(object context)
+        public void Changed(object? context)
         {
             Detach();
             Attach();

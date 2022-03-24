@@ -6,9 +6,9 @@ namespace SatelliteTaskViewer
 {
     public static class ScenarioExtensions
     {
-        public static T AddEntity<T>(this Scenario scenario, T entity) where T : BaseEntity
+        public static T AddEntity<T>(this Scenario scenario, T entity) where T : notnull, BaseEntity
         {
-            if (entity != null)
+            if (scenario.OutlinerEditor != null)
             {
                 var builder = scenario.OutlinerEditor.Entities.ToBuilder();
                 builder.Add(entity);
@@ -18,9 +18,9 @@ namespace SatelliteTaskViewer
             return entity;
         }
 
-        public static IList<T> AddEntities<T>(this Scenario scenario, IList<T> entities) where T : BaseEntity
+        public static IList<T> AddEntities<T>(this Scenario scenario, IList<T> entities) where T : notnull, BaseEntity
         {
-            if (entities != null)
+            if (scenario.OutlinerEditor != null)
             {
                 var builder = scenario.OutlinerEditor.Entities.ToBuilder();
                 builder.AddRange(entities);
@@ -29,39 +29,6 @@ namespace SatelliteTaskViewer
 
             return entities;
         }
-
-
-        //public static void AddSatelliteTask(this ScenarioContainerViewModel scenario, SatelliteTask task)
-        //{
-        //    if (scenario?.TaskListEditor.Tasks != null && task != null)
-        //    {
-        //        var builder = scenario.TaskListEditor.Tasks.ToBuilder();
-        //        builder.Add(task);
-        //        scenario.TaskListEditor.Tasks = builder.ToImmutable();
-        //    }
-        //}
-
-        //public static void AddSatelliteTasks(this ScenarioContainerViewModel scenario, IList<SatelliteTask> tasks)
-        //{
-        //    if (scenario?.TaskListEditor.Tasks != null && tasks != null)
-        //    {
-        //        var builder = scenario.TaskListEditor.Tasks.ToBuilder();
-        //        builder.AddRange(tasks);
-        //        scenario.TaskListEditor.Tasks = builder.ToImmutable();
-        //    }
-        //}
-
-        //public static void AddSatelliteTask(this ScenarioContainerViewModel scenario, SatelliteTask task)
-        //{
-        //    if (scenario?.TaskListEditor.Tasks != null && task != null)
-        //    {
-        //        scenario.TaskListEditor.Tasks.Add(task);
-
-        //        var list = scenario.TaskListEditor.Tasks;//.ToList();
-        //        list.Add(task);
-        //        scenario.TaskListEditor.Tasks = list;// new SourceList<SatelliteTask>(list);
-        //    }
-        //}
 
         public static void AddGroundObjectList(this Scenario scenario, GroundObjectList list)
         {

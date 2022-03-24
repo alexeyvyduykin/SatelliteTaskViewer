@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+#nullable disable
 
 namespace SatelliteTaskViewer.Avalonia.DatabaseProvider.PostgreSQL
 {

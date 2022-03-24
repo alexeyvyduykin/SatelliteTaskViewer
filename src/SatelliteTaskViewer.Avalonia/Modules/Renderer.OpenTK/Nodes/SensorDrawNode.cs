@@ -10,8 +10,8 @@ namespace SatelliteTaskViewer.Avalonia.Renderer.OpenTK
     internal class SensorDrawNode : DrawNode, ISensorDrawNode
     {
         private readonly SensorRenderModel _sensor;
-        private Scan _scan;
-        private Shoot _shoot;
+        private Scan? _scan;
+        private Shoot? _shoot;
 
         public SensorDrawNode(SensorRenderModel sensor)
         {
@@ -29,8 +29,8 @@ namespace SatelliteTaskViewer.Avalonia.Renderer.OpenTK
         public override void OnDraw(object dc, dmat4 modelMatrix, ISceneState scene)
         {
             // Temporary solution
-            _scan = Sensor.Scan;
-            _shoot = Sensor.Shoot;
+            _scan = Sensor.Scan ?? throw new System.Exception();
+            _shoot = Sensor.Shoot ?? throw new System.Exception();
 
             var mvp = scene.ViewMatrix * modelMatrix;
 

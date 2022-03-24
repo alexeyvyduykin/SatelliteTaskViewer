@@ -25,7 +25,7 @@ namespace SatelliteTaskViewer.ViewModels
                 }
             });
 
-            this.WhenAnyValue(s => s.TaskListEditor.CurrentTask).Subscribe(task =>
+            this.WhenAnyValue(s => s.TaskListEditor!.CurrentTask).Subscribe(task =>
             {
                 if (task == null)
                 {
@@ -37,13 +37,13 @@ namespace SatelliteTaskViewer.ViewModels
         }
 
         [Reactive]
-        public IDataUpdater Updater { get; set; }
+        public IDataUpdater? Updater { get; set; }
 
         [Reactive]
-        public GroundObjectList GroundObjectList { get; set; }
+        public GroundObjectList? GroundObjectList { get; set; }
 
         [Reactive]
-        public ISceneState SceneState { get; set; }
+        public ISceneState? SceneState { get; set; }
 
         [Reactive]
         public double Width { get; set; }
@@ -52,21 +52,31 @@ namespace SatelliteTaskViewer.ViewModels
         public double Height { get; set; }
 
         [Reactive]
-        public SceneTimerEditorViewModel SceneTimerEditor { get; set; }
+        public SceneTimerEditorViewModel? SceneTimerEditor { get; set; }
 
         [Reactive]
-        public TaskListEditorViewModel TaskListEditor { get; set; }
+        public TaskListEditorViewModel? TaskListEditor { get; set; }
 
         [Reactive]
-        public OutlinerEditorViewModel OutlinerEditor { get; set; }
+        public OutlinerEditorViewModel? OutlinerEditor { get; set; }
 
         [Reactive]
-        public SceneInfoTab SceneInfoTab { get; set; }
+        public SceneInfoTab? SceneInfoTab { get; set; }
 
         public void SetCameraTo(ITargetable target)
         {
+            if (SceneState == null)
+            {
+                return;
+            }
+
             var behaviours = SceneState.CameraBehaviours;
             var targetType = target.GetType();
+
+            if (behaviours == null || SceneState.Target == null || SceneState.Camera == null)
+            {
+                return;
+            }
 
             if (behaviours.ContainsKey(targetType))
             {
@@ -81,11 +91,16 @@ namespace SatelliteTaskViewer.ViewModels
         }
 
         public void LogicalUpdate()
-        {
+        {         
+            if (OutlinerEditor == null || SceneTimerEditor == null)
+            {
+                return;
+            }
+
             //if (TimePresenter.Timer.IsRunning == true)
             {
                 var root = OutlinerEditor.FrameRoot.Single();
-                Updater.Update(SceneTimerEditor.Timer.CurrentTime, root);
+                Updater?.Update(SceneTimerEditor.Timer.CurrentTime, root);
             }
         }
 

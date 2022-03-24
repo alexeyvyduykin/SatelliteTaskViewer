@@ -6,6 +6,7 @@ using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Utilities;
 using model = TimelineChart.Core;
+#nullable disable
 
 namespace SatelliteTaskViewer.Avalonia.TimelineChart
 {
@@ -103,7 +104,7 @@ namespace SatelliteTaskViewer.Avalonia.TimelineChart
             }
         }
 
-        private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
+        private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
         {
             OnDataChanged();
         }

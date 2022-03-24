@@ -1,5 +1,4 @@
 ﻿using SatelliteTaskViewer.ViewModels;
-using SatelliteTaskViewer.ViewModels.Containers;
 using SatelliteTaskViewer.ViewModels.Data;
 using System;
 using System.Collections.Generic;
@@ -11,10 +10,9 @@ namespace SatelliteTaskViewer.DesignTime
 
         public Scenario GetScenario()
         {
-            return null;
             var begin = DateTime.Now;
             var duration = TimeSpan.FromDays(1);
-            var factory = new Factory(null);
+            var factory = new Factory(null!);
             return factory.CreateScenarioContainer("Scenario1", begin, duration);
         }
 

@@ -1,23 +1,21 @@
-﻿using System;
-using System.Linq;
-using GlmSharp;
-using SatelliteTaskViewer.ViewModels.Geometry;
+﻿using GlmSharp;
+using SatelliteTaskViewer.Avalonia.Renderer.OpenTK.Core;
 using SatelliteTaskViewer.Models.Renderer;
 using SatelliteTaskViewer.Models.Scene;
-using SatelliteTaskViewer.Avalonia.Renderer.OpenTK.Core;
+using SatelliteTaskViewer.ViewModels.Geometry;
 using SatelliteTaskViewer.ViewModels.Scene;
 using A = OpenTK.Graphics.OpenGL;
 
 namespace SatelliteTaskViewer.Avalonia.Renderer.OpenTK
 {
     internal class RetranslatorDrawNode : DrawNode, IRetranslatorDrawNode
-    {    
-        private Device _device;
+    {
+        private readonly Device _device;
         private readonly ShaderProgram _sp;
         private bool _dirty;
         private readonly double _scale;
         private readonly Model _model;
-        private ModelRenderer _modelRenderer;
+        private readonly ModelRenderer _modelRenderer;
         private readonly string retranslatorVS = @"
 #version 330
 
@@ -132,12 +130,12 @@ if( u_isTexture == 1.0 )
 
 color = finalColor;
 }";
-        
+
         public RetranslatorDrawNode(RenderModel retranslator, ICache<string, int> textureCache)
         {
-            Retranslator = retranslator;           
+            Retranslator = retranslator;
             _scale = retranslator.Scale;
-            _model = retranslator.Model;
+            _model = retranslator.Model ?? throw new System.Exception();
             _device = new Device();
             _modelRenderer = new ModelRenderer(_model, textureCache);
             _sp = _device.CreateShaderProgram(retranslatorVS, retranslatorFS);

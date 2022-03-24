@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Spatial;
+#nullable disable
 
 namespace TimelineChart.Core
 {
@@ -29,20 +30,20 @@ namespace TimelineChart.Core
 
         public IList<TimelineItem> Items { get; private set; }
 
-        public string? CategoryField { get; set; }
+        public string CategoryField { get; set; }
 
-        public string? EndField { get; set; }
+        public string EndField { get; set; }
 
-        public string? BeginField { get; set; }
+        public string BeginField { get; set; }
 
-        protected internal IList<OxyRect>? ActualBarRectangles { get; set; }
+        protected internal IList<OxyRect> ActualBarRectangles { get; set; }
 
         protected internal IList<TimelineItem> ValidItems { get; set; }
 
         protected internal Dictionary<int, int> ValidItemsIndexInversion { get; set; }
 
         // Gets the point in the dataset that is nearest the specified point.
-        public override TrackerHitResult? GetNearestPoint(ScreenPoint point, bool interpolate)
+        public override TrackerHitResult GetNearestPoint(ScreenPoint point, bool interpolate)
         {
             if(ActualBarRectangles == null)
             {

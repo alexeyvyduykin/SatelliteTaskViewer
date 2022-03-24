@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using GlmSharp;
-using B = SatelliteTaskViewer.Avalonia.Renderer.OpenTK.Core;
-using A = OpenTK.Graphics.OpenGL;
-using SatelliteTaskViewer.Models.Scene;
+﻿using GlmSharp;
 using SatelliteTaskViewer.Models.Renderer;
-using SatelliteTaskViewer.ViewModels.Scene;
+using SatelliteTaskViewer.Models.Scene;
 using SatelliteTaskViewer.ViewModels.Geometry;
+using SatelliteTaskViewer.ViewModels.Scene;
+using A = OpenTK.Graphics.OpenGL;
+using B = SatelliteTaskViewer.Avalonia.Renderer.OpenTK.Core;
 
 namespace SatelliteTaskViewer.Avalonia.Renderer.OpenTK
 {
-    
+
     internal class SatelliteDrawNode : DrawNode, ISatelliteDrawNode
-    { 
+    {
         private readonly string satelliteVS = @"
 #version 330
 
@@ -127,14 +124,14 @@ if( u_isTexture == 1.0 )
   finalColor *= sampler;  
 
 color = finalColor;
-}";       
+}";
         private readonly B.ShaderProgram _sp;
-        private readonly Model _model;  
+        private readonly Model _model;
         private readonly double _scale;// = 0.009;// 0.002;
         private readonly B.Device _device;
         private bool _dirty;
         private readonly ICache<string, int> _textureCache;
-        private IModelRenderer _modelRenderer;
+        private readonly IModelRenderer _modelRenderer;
 
         public SatelliteDrawNode(RenderModel satellite, ICache<string, int> textureCache)
         {
@@ -144,7 +141,7 @@ color = finalColor;
 
             _scale = satellite.Scale;
 
-            _model = satellite.Model;
+            _model = satellite.Model ?? throw new System.Exception();
 
             _device = new B.Device();
 
@@ -178,9 +175,9 @@ color = finalColor;
             _sp.SetUniform("light.position", scene.LightPosition.ToVec4());
             _sp.SetUniform("light.ambient", new vec4(1.0f, 1.0f, 1.0f, 1.0f));
             _sp.SetUniform("light.diffuse", new vec4(1.0f, 1.0f, 1.0f, 1.0f));
-            _sp.SetUniform("light.specular", new vec4(0.7f, 0.7f, 0.7f, 1.0f));      
+            _sp.SetUniform("light.specular", new vec4(0.7f, 0.7f, 0.7f, 1.0f));
         }
-       
+
         public override void UpdateGeometry()
         {
             if (_dirty == true)
@@ -191,7 +188,7 @@ color = finalColor;
             }
         }
 
-        public override void OnDraw(object dc, dmat4 modelMatrix, 
+        public override void OnDraw(object dc, dmat4 modelMatrix,
             ISceneState scene)
         {
             if (_dirty == false)
@@ -199,12 +196,12 @@ color = finalColor;
                 _sp.Bind();
 
                 SetUniforms(modelMatrix, scene);
-             
+
                 _modelRenderer.Draw(_sp);
 
                 B.ShaderProgram.UnBind();
             }
-        }  
+        }
     }
 
 

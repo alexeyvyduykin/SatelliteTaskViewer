@@ -1,9 +1,9 @@
-﻿using System.Collections.Immutable;
-using GlmSharp;
+﻿using GlmSharp;
+using ReactiveUI.Fody.Helpers;
 using SatelliteTaskViewer.Models.Data;
 using SatelliteTaskViewer.Models.Entities;
 using SatelliteTaskViewer.ViewModels.Entities;
-using ReactiveUI.Fody.Helpers;
+using System.Collections.Immutable;
 
 namespace SatelliteTaskViewer.ViewModels.Data
 {
@@ -47,7 +47,7 @@ namespace SatelliteTaskViewer.ViewModels.Data
                 {
                     if (item is GroundStation gs)
                     {
-                        if (gs.Name.Equals(target) == true)
+                        if (gs.Name.Equals(target) == true && gs.Frame != null && gs.Frame.State != null)
                         {
                             _translationEvents.Add(new AntennaInterval(begin, end, target, gs.Frame.State));
                             break;
@@ -55,7 +55,7 @@ namespace SatelliteTaskViewer.ViewModels.Data
                     }
                     else if (item is Retranslator retranslator)
                     {
-                        if (retranslator.Name.Equals(target) == true)
+                        if (retranslator.Name.Equals(target) == true && retranslator.Frame != null && retranslator.Frame.State != null)
                         {
                             _translationEvents.Add(new AntennaInterval(begin, end, target, retranslator.Frame.State));
                         }

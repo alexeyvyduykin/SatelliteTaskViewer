@@ -6,9 +6,9 @@ namespace SatelliteTaskViewer.ViewModels.Scene
     public class SensorRenderModel : BaseRenderModel
     {
         [Reactive]
-        public Scan Scan { get; set; }
+        public Scan? Scan { get; set; }
 
         [Reactive]
-        public Shoot Shoot { get; set; }
+        public Shoot? Shoot { get; set; }
     }
 }

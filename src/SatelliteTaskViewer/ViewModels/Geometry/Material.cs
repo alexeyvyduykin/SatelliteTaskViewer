@@ -16,9 +16,9 @@ namespace SatelliteTaskViewer.ViewModels.Geometry
 
         public bool HasTextureDiffuse { get; init; }
 
-        public string TextureDiffusePath { get; init; }
+        public string TextureDiffusePath { get; init; } = string.Empty;
 
-        public string TextureDiffuseKey { get; init; }
+        public string TextureDiffuseKey { get; init; } = string.Empty;
 
         //   public ITexture MapDiffuse { get; init; }
     }

@@ -1,19 +1,17 @@
-﻿using System;
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 using Avalonia.Threading;
 using Avalonia.Visuals.Media.Imaging;
-using SatelliteTaskViewer.Models.Renderer;
 using SatelliteTaskViewer.Avalonia.Modules.Renderer;
+using SatelliteTaskViewer.Models.Renderer;
 using SatelliteTaskViewer.ViewModels;
 using SatelliteTaskViewer.ViewModels.Renderer.Presenters;
-using System.Diagnostics;
-using Avalonia.Input;
 using SatelliteTaskViewer.ViewModels.Scene;
-using Avalonia.Platform;
+using System;
 
 namespace SatelliteTaskViewer.Avalonia.Views
 {
@@ -25,9 +23,9 @@ namespace SatelliteTaskViewer.Avalonia.Views
 
         private int _width;
         private int _height;
-        private DispatcherTimer _timer;
-        private double _fps = 60; 
-        private double _currentFps = 0.0;
+        private DispatcherTimer? _timer;
+        private readonly double _fps = 60;
+        private readonly double _currentFps = 0.0;
 
 #if USE_DIAGNOSTICS
         private double _last = 0.0;
@@ -53,29 +51,29 @@ namespace SatelliteTaskViewer.Avalonia.Views
         {
             AvaloniaXamlLoader.Load(this);
         }
-       
-        public static readonly StyledProperty<Scenario> ScenarioProperty =
-            AvaloniaProperty.Register<PresenterControl, Scenario>(nameof(Scenario), null);
 
-        public static readonly StyledProperty<IRenderContext> RendererProperty =
-            AvaloniaProperty.Register<PresenterControl, IRenderContext>(nameof(Renderer), null);
+        public static readonly StyledProperty<Scenario?> ScenarioProperty =
+            AvaloniaProperty.Register<PresenterControl, Scenario?>(nameof(Scenario), null);
 
-        public static readonly StyledProperty<IPresenterContract> PresenterContractProperty =
-            AvaloniaProperty.Register<PresenterControl, IPresenterContract>(nameof(PresenterContract), null);
+        public static readonly StyledProperty<IRenderContext?> RendererProperty =
+            AvaloniaProperty.Register<PresenterControl, IRenderContext?>(nameof(Renderer), null);
 
-        public Scenario Scenario
+        public static readonly StyledProperty<IPresenterContract?> PresenterContractProperty =
+            AvaloniaProperty.Register<PresenterControl, IPresenterContract?>(nameof(PresenterContract), null);
+
+        public Scenario? Scenario
         {
             get => GetValue(ScenarioProperty);
             set => SetValue(ScenarioProperty, value);
         }
 
-        public IRenderContext Renderer
+        public IRenderContext? Renderer
         {
             get => GetValue(RendererProperty);
             set => SetValue(RendererProperty, value);
         }
 
-        public IPresenterContract PresenterContract
+        public IPresenterContract? PresenterContract
         {
             get => GetValue(PresenterContractProperty);
             set => SetValue(PresenterContractProperty, value);
@@ -87,8 +85,8 @@ namespace SatelliteTaskViewer.Avalonia.Views
 
             var customState = new CustomState()
             {
-                Scenario = Scenario,
-                Renderer = Renderer ?? GetValue(RendererOptions.RendererProperty),
+                Scenario = Scenario ?? throw new Exception(),
+                Renderer = Renderer ?? GetValue(RendererOptions.RendererProperty) ?? throw new Exception(),
             };
 
 #if USE_DIAGNOSTICS
@@ -149,14 +147,19 @@ namespace SatelliteTaskViewer.Avalonia.Views
 
                     try
                     {
+                        if (PresenterContract == null)
+                        {
+                            return;
+                        }
+
                         PresenterContract.DrawBegin();
                         {
                             s_editorPresenter.Render(context, customState.Renderer, customState.Scenario);
                         }
 
                         var bitmap = new WriteableBitmap(
-                            new PixelSize(PresenterContract.Width, PresenterContract.Height), 
-                            new Vector(/*144,144*/96.0, 96.0),            
+                            new PixelSize(PresenterContract.Width, PresenterContract.Height),
+                            new Vector(/*144,144*/96.0, 96.0),
                             PixelFormat.Rgba8888, AlphaFormat.Unpremul);
 
                         using (var buffer = bitmap.Lock())
@@ -206,7 +209,7 @@ namespace SatelliteTaskViewer.Avalonia.Views
                     Scenario.Height = _height;
                 }
 
-                PresenterContract.Resize(_width, _height);
+                PresenterContract?.Resize(_width, _height);
 
                 _transform.Y = _height;
             }
@@ -214,7 +217,7 @@ namespace SatelliteTaskViewer.Avalonia.Views
 
         private void DrawCameraInput(CustomState customState, DrawingContext context)
         {
-            if (customState.Scenario.SceneState.Camera is ArcballCamera camera)
+            if (customState.Scenario.SceneState != null && customState.Scenario.SceneState.Camera is ArcballCamera camera)
             {
                 var w = camera.Width;
                 var h = camera.Height;
@@ -230,11 +233,11 @@ namespace SatelliteTaskViewer.Avalonia.Views
             }
         }
 
-        void UpdatePresenterContract()
+        private void UpdatePresenterContract()
         {
-            if (PresenterContract.Width != _width || PresenterContract.Height != _height)
+            if (PresenterContract?.Width != _width || PresenterContract.Height != _height)
             {
-                PresenterContract.Resize(_width, _height);
+                PresenterContract?.Resize(_width, _height);
             }
         }
 
@@ -252,15 +255,15 @@ namespace SatelliteTaskViewer.Avalonia.Views
         {
             InvalidateVisual();
         }
-  
+
         protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
         {
             if (_timer is not null)
             {
                 _timer.Stop();
-                _timer.Tick -= _timer_Tick;              
+                _timer.Tick -= _timer_Tick;
             }
-           
+
             base.OnDetachedFromVisualTree(e);
         }
     }

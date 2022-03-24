@@ -5,9 +5,9 @@ namespace SatelliteTaskViewer.Avalonia.TimelineChart
 {
     public abstract class XYAxisSeries : ItemsSeries
     {
-        public static readonly StyledProperty<string> XAxisKeyProperty = AvaloniaProperty.Register<XYAxisSeries, string>(nameof(XAxisKey), null);
+        public static readonly StyledProperty<string> XAxisKeyProperty = AvaloniaProperty.Register<XYAxisSeries, string>(nameof(XAxisKey), string.Empty);
 
-        public static readonly StyledProperty<string> YAxisKeyProperty = AvaloniaProperty.Register<XYAxisSeries, string>(nameof(YAxisKey), null);
+        public static readonly StyledProperty<string> YAxisKeyProperty = AvaloniaProperty.Register<XYAxisSeries, string>(nameof(YAxisKey), string.Empty);
 
         static XYAxisSeries()
         {

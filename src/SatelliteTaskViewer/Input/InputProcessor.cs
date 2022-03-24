@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SatelliteTaskViewer.Input
 {
@@ -32,11 +30,11 @@ namespace SatelliteTaskViewer.Input
     // Provides mouse input for target object.
     public class InputProcessor : IDisposable
     {
-        private IDisposable _leftDownDisposable = null;
-        private IDisposable _leftUpDisposable = null;
-        private IDisposable _rightDownDisposable = null;
-        private IDisposable _rightUpDisposable = null;
-        private IDisposable _moveDisposable = null;
+        private IDisposable? _leftDownDisposable = null;
+        private IDisposable? _leftUpDisposable = null;
+        private IDisposable? _rightDownDisposable = null;
+        private IDisposable? _rightUpDisposable = null;
+        private IDisposable? _moveDisposable = null;
 
         private static IDisposable ConnectLeftDown(IInputSource source, IInputTarget target)
         {
@@ -108,27 +106,27 @@ namespace SatelliteTaskViewer.Input
             }
         }
 
-        private static void DisconnectLeftDown(IDisposable disposable)
+        private static void DisconnectLeftDown(IDisposable? disposable)
         {
             disposable?.Dispose();
         }
 
-        private static void DisconnectLeftUp(IDisposable disposable)
+        private static void DisconnectLeftUp(IDisposable? disposable)
         {
             disposable?.Dispose();
         }
 
-        private static void DisconnectRightDown(IDisposable disposable)
+        private static void DisconnectRightDown(IDisposable? disposable)
         {
             disposable?.Dispose();
         }
 
-        private static void DisconnectRightUp(IDisposable disposable)
+        private static void DisconnectRightUp(IDisposable? disposable)
         {
             disposable?.Dispose();
         }
 
-        private static void DisconnectMove(IDisposable disposable)
+        private static void DisconnectMove(IDisposable? disposable)
         {
             disposable?.Dispose();
         }

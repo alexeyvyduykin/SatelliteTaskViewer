@@ -27,7 +27,7 @@ namespace SatelliteTaskViewer.ViewModels
 
             var scenario = factory.CreateScenarioContainer(data.Name, begin, duration);
 
-            var root = scenario.OutlinerEditor.FrameRoot.First();
+            var root = scenario.OutlinerEditor!.FrameRoot.First();
 
             scenario.AddEntity(factory.CreateSpacebox(root));
             scenario.AddEntity(factory.CreateSun(data.Sun, root));
