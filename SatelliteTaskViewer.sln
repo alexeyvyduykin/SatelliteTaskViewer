@@ -13,9 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SatelliteTaskViewer.Avaloni
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{24B80544-9523-4797-9564-6C42C20FBF93}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonLoaderSample", "samples\JsonLoaderSample\JsonLoaderSample.csproj", "{6939CD8A-1167-4B8B-9822-022BA51F2C9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonLoaderSample", "samples\JsonLoaderSample\JsonLoaderSample.csproj", "{6939CD8A-1167-4B8B-9822-022BA51F2C9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskListEditorSample", "samples\TaskListEditorSample\TaskListEditorSample.csproj", "{551892E6-4EDC-4807-A19F-5E7439816C5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskListEditorSample", "samples\TaskListEditorSample\TaskListEditorSample.csproj", "{551892E6-4EDC-4807-A19F-5E7439816C5B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{4FB7069E-58A1-4C87-B584-A4039704BFD2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "build", "build\build.csproj", "{4F790F8A-E3A0-4C07-9DAF-3AA9A7E97871}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +47,10 @@ Global
 		{551892E6-4EDC-4807-A19F-5E7439816C5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{551892E6-4EDC-4807-A19F-5E7439816C5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{551892E6-4EDC-4807-A19F-5E7439816C5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F790F8A-E3A0-4C07-9DAF-3AA9A7E97871}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F790F8A-E3A0-4C07-9DAF-3AA9A7E97871}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F790F8A-E3A0-4C07-9DAF-3AA9A7E97871}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F790F8A-E3A0-4C07-9DAF-3AA9A7E97871}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +61,7 @@ Global
 		{AF7324E5-6E2F-43B8-A85E-6E1EE1B92397} = {008BA519-57FA-4389-907C-1FD09D5BF3FA}
 		{6939CD8A-1167-4B8B-9822-022BA51F2C9F} = {24B80544-9523-4797-9564-6C42C20FBF93}
 		{551892E6-4EDC-4807-A19F-5E7439816C5B} = {24B80544-9523-4797-9564-6C42C20FBF93}
+		{4F790F8A-E3A0-4C07-9DAF-3AA9A7E97871} = {4FB7069E-58A1-4C87-B584-A4039704BFD2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4940FAB7-0C01-4126-98DD-1E2521C59C99}
