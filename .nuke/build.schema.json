@@ -73,7 +73,9 @@
             "enum": [
               "Clean",
               "Compile",
-              "Restore"
+              "Publish",
+              "Restore",
+              "Run"
             ]
           }
         },
@@ -89,7 +91,9 @@
             "enum": [
               "Clean",
               "Compile",
-              "Restore"
+              "Publish",
+              "Restore",
+              "Run"
             ]
           }
         },

@@ -30,9 +30,9 @@ class Build : NukeBuild
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
+    const string RunProjectName = "SatelliteTaskViewer.Avalonia";
+
     [Solution] readonly Solution Solution;
-    [GitRepository] readonly GitRepository GitRepository;
-    [GitVersion] readonly GitVersion GitVersion;
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
     AbsolutePath TestsDirectory => RootDirectory / "tests";
@@ -48,23 +48,53 @@ class Build : NukeBuild
         });
 
     Target Restore => _ => _
-        .Executes(() =>
+    .Executes(() => SourceDirectory
+        .GlobFiles("**/*.Avalonia.csproj")
+        .ForEach(path =>
         {
-            DotNetRestore(s => s
-                .SetProjectFile(Solution));
-        });
+            DotNetRestore(settings => settings
+                .SetProjectFile(path));
+        }));
 
     Target Compile => _ => _
         .DependsOn(Restore)
-        .Executes(() =>
-        {
-            DotNetBuild(s => s
-                .SetProjectFile(Solution)
-                .SetConfiguration(Configuration)
-                .SetAssemblyVersion(GitVersion.AssemblySemVer)
-                .SetFileVersion(GitVersion.AssemblySemFileVer)
-                .SetInformationalVersion(GitVersion.InformationalVersion)
-                .EnableNoRestore());
-        });
+        .Executes(() => SourceDirectory
+            .GlobFiles("**/*.Avalonia.csproj")
+            .ForEach(path =>
+            {
+                DotNetBuild(settings => settings
+                    .SetProjectFile(path)
+                    .SetConfiguration(Configuration)
+                    .EnableNoRestore());
+            }));
 
+    Target Run => _ => _
+    .DependsOn(Compile)
+    .Executes(() => SourceDirectory
+        .GlobFiles($"**/{RunProjectName}.csproj")
+        .ForEach(path =>
+        {
+            DotNetRun(settings => settings
+                .SetProjectFile(path)
+                .SetConfiguration(Configuration)
+                .EnableNoRestore()
+                .EnableNoBuild());
+        }));
+
+    Target Publish => _ => _
+    .DependsOn(Clean)
+    .DependsOn(Compile)
+    .Executes(() =>
+    {
+        var rids = new[] { "win-x64", "linux-x64" };
+
+        DotNetPublish(settings => settings
+            .SetProject(Solution.GetProject($"{RunProjectName}"))
+            .SetPublishSingleFile(true)
+            .SetSelfContained(true)
+            .SetConfiguration(Configuration)
+            .CombineWith(rids, (settings, rid) => settings
+                .SetRuntime(rid)
+                .SetOutput(ArtifactsDirectory / "Publish" / rid)));
+    });
 }
