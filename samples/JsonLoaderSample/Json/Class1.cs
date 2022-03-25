@@ -48,7 +48,7 @@ namespace JsonLoaderSample
     {
         public SceneObjectTypes Type { get; set; }
 
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
     }
 
     public enum SceneObjectTypes

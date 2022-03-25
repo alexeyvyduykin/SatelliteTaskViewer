@@ -7,6 +7,6 @@ namespace SatelliteTaskViewer.ViewModels.Scene
     public class OrbitRenderModel : BaseRenderModel
     {
         [Reactive]
-        public IList<dvec3>? Vertices { get; set; }
+        public IList<dvec3> Vertices { get; set; } = new List<dvec3>();
     }
 }

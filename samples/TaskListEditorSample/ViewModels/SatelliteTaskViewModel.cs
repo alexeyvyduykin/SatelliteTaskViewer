@@ -144,7 +144,7 @@ namespace TaskListEditorSample.ViewModels
 
     public class LabelItem
     {
-        public string Label { get; set; }
+        public string Label { get; set; } = string.Empty;
     }
 
     public class Rotation

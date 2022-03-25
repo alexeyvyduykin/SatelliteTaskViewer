@@ -7,7 +7,7 @@ namespace JsonLoaderSample.LogicalTreeNode
 {
     public interface ILogicalTreeNode
     {
-        ILogicalTreeNode Parent { get; set; }
+        ILogicalTreeNode? Parent { get; set; }
 
         IList<ILogicalTreeNode> Children { get; set; }
 
@@ -21,11 +21,11 @@ namespace JsonLoaderSample.LogicalTreeNode
 
         TimeSpan TimeSpan { get; set; }
 
-        event TimeSynchronizerChanged OnTimeChanged;
+        event TimeSynchronizerChanged? OnTimeChanged;
 
         ILogicalTreeNode AddChild(ILogicalTreeNode node);
 
-        ILogicalTreeNode Find(Func<ILogicalTreeNode, bool> equal);
+        ILogicalTreeNode? Find(Func<ILogicalTreeNode, bool> equal);
 
         void Calculate(double t);
 

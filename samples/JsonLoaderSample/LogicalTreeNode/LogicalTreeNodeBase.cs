@@ -13,13 +13,13 @@ namespace JsonLoaderSample.LogicalTreeNode
             this.Name = name;
         }
 
-        public ILogicalTreeNode Parent { get; set; }
+        public ILogicalTreeNode? Parent { get; set; }
 
-        public IList<ILogicalTreeNode> Children { get; set; }
+        public IList<ILogicalTreeNode> Children { get; set; } = new List<ILogicalTreeNode>();
 
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
-        public IDataProviderPass DataProvider { get; protected set; }
+        public IDataProviderPass? DataProvider { get; protected set; }
 
         public DateTime DateTimeBegin { get; set; }
 
@@ -31,8 +31,18 @@ namespace JsonLoaderSample.LogicalTreeNode
         {
             get
             {
+                if (DataProvider == null)
+                {
+                    return dmat4.Zero;
+                }
+
                 if (DataProvider.ModelMatrix == dmat4.AllNaN)
                 {
+                    if (Parent == null)
+                    {
+                        return dmat4.Zero;
+                    }
+
                     return Parent.ModelMatrix;
                 }
 
@@ -52,7 +62,7 @@ namespace JsonLoaderSample.LogicalTreeNode
             return node;
         }
 
-        public ILogicalTreeNode Find(Func<ILogicalTreeNode, bool> equal)
+        public ILogicalTreeNode? Find(Func<ILogicalTreeNode, bool> equal)
         {
             if (equal.Invoke(Self()) == true)
                 return Self();
@@ -101,7 +111,7 @@ namespace JsonLoaderSample.LogicalTreeNode
             }
         }
 
-        public event TimeSynchronizerChanged OnTimeChanged;
+        public event TimeSynchronizerChanged? OnTimeChanged;
 
         public ILogicalTreeNode Root
         {

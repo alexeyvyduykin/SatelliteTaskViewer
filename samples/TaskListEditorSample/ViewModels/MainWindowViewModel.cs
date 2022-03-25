@@ -84,6 +84,11 @@ namespace TaskListEditorSample.ViewModels
 
             var obj = JsonConvert.DeserializeAnonymousType(json, definition);
 
+            if (obj == null)
+            {
+                throw new Exception();
+            }
+
             List<BaseSatelliteEvent> events = new();
 
             int index = 0;

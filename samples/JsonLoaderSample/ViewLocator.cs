@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using JsonLoaderSample.ViewModels;
+using ReactiveUI;
 using System;
 
 namespace JsonLoaderSample
@@ -24,7 +24,7 @@ namespace JsonLoaderSample
 
         public bool Match(object data)
         {
-            return data is ViewModelBase;
+            return data is ReactiveObject;
         }
     }
 }

@@ -8,15 +8,10 @@
     </Application.DataTemplates>
 
   <Application.Styles>
-
     <theme:BlenderTheme/>
-
     <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Icons.axaml"/>
-
-    <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Styles/EditorStyle.axaml"/>
-
-    <StyleInclude Source="resm:SatelliteTaskViewer.Avalonia.TimelineChart.Themes.Default.xaml?assembly=SatelliteTaskViewer.Avalonia.TimelineChart"/>
-
+    <StyleInclude Source="avares://SatelliteTaskViewer.Avalonia/Controls/Editor.axaml"/>
+    <StyleInclude Source="resm:SatelliteTaskViewer.Avalonia.TimelineChart.Themes.Default.xaml?assembly=SatelliteTaskViewer.Avalonia.TimelineChart"/>  
   </Application.Styles>
 
 </Application>
