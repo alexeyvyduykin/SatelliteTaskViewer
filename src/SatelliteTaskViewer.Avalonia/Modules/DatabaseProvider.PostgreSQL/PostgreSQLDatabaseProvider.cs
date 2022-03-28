@@ -1,13 +1,12 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using SatelliteTaskViewer.Models;
 using SatelliteTaskViewer.Models.Data;
 using SatelliteTaskViewer.ViewModels;
 using SatelliteTaskViewer.ViewModels.Data;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using SatelliteTaskViewer.Models;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SatelliteTaskViewer.Avalonia.DatabaseProvider.PostgreSQL
 {
@@ -15,50 +14,46 @@ namespace SatelliteTaskViewer.Avalonia.DatabaseProvider.PostgreSQL
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly IConfigurator _configurator;
+        private readonly IConfigurationRoot _configurationRoot;
 
         public PostgreSQLDatabaseProvider(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _configurator = serviceProvider.GetService<IConfigurator>();
+            _configurationRoot = serviceProvider.GetService<IConfigurationRoot>();
         }
 
-        public async Task<ScenarioData?> LoadDataAsync() => await Task.Run(() => LoadScenarioDataFromDatabase());
-
-        public async Task<Scenario?> LoadScenarioAsync() => await Task.Run(() => LoadScenarioFromDatabase());
-
-        private Scenario? LoadScenarioFromDatabase()
+        public async Task<ScenarioData?> LoadDataAsync()
         {
-            using var db = new dbGlobe3DLightContext(GetOptions());
-            var scenarioData = GetScenarioData(db);
-            return _configurator.GetScenario(scenarioData);
+            return await Task.Run(() =>
+            {
+                using var db = new dbGlobe3DLightContext(GetOptions());
+                return GetScenarioData(db);
+            });
         }
 
-        private ScenarioData LoadScenarioDataFromDatabase()
+        public async Task<Scenario?> LoadScenarioAsync()
         {
-            using var db = new dbGlobe3DLightContext(GetOptions());
-            return GetScenarioData(db);
+            var data = await Task.Run(() => LoadDataAsync());
+
+            if (data != null)
+            {
+                return _configurator.GetScenario(data);
+            }
+
+            return default;
         }
 
         private DbContextOptions<dbGlobe3DLightContext> GetOptions()
         {
-            var builder = new ConfigurationBuilder();
-            // установка пути к текущему каталогу
-            builder.SetBasePath(Directory.GetCurrentDirectory());
-            // получаем конфигурацию из файла appsettings.json
-            builder.AddJsonFile("appsettings.json");
-            // создаем конфигурацию
-            var config = builder.Build();
-            // получаем строку подключения
-            string connectionString = config.GetConnectionString("DefaultConnection");
-            var major = int.Parse(config["PostgresVersionMajor"]);
-            var minor = int.Parse(config["PostgresVersionMinor"]);
+            string connectionString = _configurationRoot.GetConnectionString("DefaultConnection");
+            var major = int.Parse(_configurationRoot["PostgresVersionMajor"]);
+            var minor = int.Parse(_configurationRoot["PostgresVersionMinor"]);
 
             var optionsBuilder = new DbContextOptionsBuilder<dbGlobe3DLightContext>();
             var options = optionsBuilder.UseNpgsql(connectionString, options => options.SetPostgresVersion(new Version(major, minor))).Options;
 
             return options;
-            //Scaffold-DbContext "Host=localhost;Port=5432;Database=dbGlobe3DLight;Username=postgres;Password=user"
-            //Npgsql.EntityFrameworkCore.PostgreSQL
         }
 
         private ScenarioData GetScenarioData(dbGlobe3DLightContext db)
