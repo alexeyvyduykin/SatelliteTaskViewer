@@ -1,16 +1,12 @@
-using System;
-using System.Linq;
 using Nuke.Common;
 using Nuke.Common.CI;
 using Nuke.Common.Execution;
-using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
 using Nuke.Common.Utilities.Collections;
-using static Nuke.Common.EnvironmentInfo;
 using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.IO.PathConstruction;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
@@ -25,10 +21,9 @@ class Build : NukeBuild
     ///   - Microsoft VisualStudio     https://nuke.build/visualstudio
     ///   - Microsoft VSCode           https://nuke.build/vscode
 
-    public static int Main () => Execute<Build>(x => x.Compile);
+    public static int Main() => Execute<Build>(x => x.Run);
 
-    [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
-    readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
+    readonly string Configuration = "Release";
 
     const string RunProjectName = "SatelliteTaskViewer.Avalonia";
 
@@ -48,53 +43,47 @@ class Build : NukeBuild
         });
 
     Target Restore => _ => _
-    .Executes(() => SourceDirectory
-        .GlobFiles("**/*.Avalonia.csproj")
-        .ForEach(path =>
+        .Executes(() =>
         {
             DotNetRestore(settings => settings
-                .SetProjectFile(path));
-        }));
+                .SetProjectFile(SourceDirectory / $"{RunProjectName}"));
+        });
 
     Target Compile => _ => _
         .DependsOn(Restore)
-        .Executes(() => SourceDirectory
-            .GlobFiles("**/*.Avalonia.csproj")
-            .ForEach(path =>
-            {
-                DotNetBuild(settings => settings
-                    .SetProjectFile(path)
-                    .SetConfiguration(Configuration)
-                    .EnableNoRestore());
-            }));
+        .Executes(() =>
+        {
+            DotNetBuild(settings => settings
+                .SetProjectFile(SourceDirectory / $"{RunProjectName}")
+                .SetConfiguration(Configuration)
+                .EnableNoRestore());
+        });
 
     Target Run => _ => _
-    .DependsOn(Compile)
-    .Executes(() => SourceDirectory
-        .GlobFiles($"**/{RunProjectName}.csproj")
-        .ForEach(path =>
+        .DependsOn(Compile)
+        .Executes(() =>
         {
             DotNetRun(settings => settings
-                .SetProjectFile(path)
+                .SetProjectFile(SourceDirectory / $"{RunProjectName}")
                 .SetConfiguration(Configuration)
                 .EnableNoRestore()
                 .EnableNoBuild());
-        }));
+        });
 
     Target Publish => _ => _
-    .DependsOn(Clean)
-    .DependsOn(Compile)
-    .Executes(() =>
-    {
-        var rids = new[] { "win-x64", "linux-x64" };
+        .DependsOn(Clean)
+        .DependsOn(Compile)
+        .Executes(() =>
+        {
+            var rids = new[] { "win-x64", "linux-x64" };
 
-        DotNetPublish(settings => settings
-            .SetProject(Solution.GetProject($"{RunProjectName}"))
-            .SetPublishSingleFile(true)
-            .SetSelfContained(true)
-            .SetConfiguration(Configuration)
-            .CombineWith(rids, (settings, rid) => settings
-                .SetRuntime(rid)
-                .SetOutput(ArtifactsDirectory / "Publish" / rid)));
-    });
+            DotNetPublish(settings => settings
+                .SetProject(Solution.GetProject($"{RunProjectName}"))
+                .SetPublishSingleFile(true)
+                .SetSelfContained(true)
+                .SetConfiguration(Configuration)
+                .CombineWith(rids, (settings, rid) => settings
+                    .SetRuntime(rid)
+                    .SetOutput(ArtifactsDirectory / "Publish" / rid)));
+        });
 }

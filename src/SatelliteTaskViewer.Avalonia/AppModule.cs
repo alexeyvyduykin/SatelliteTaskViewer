@@ -10,6 +10,7 @@ using SatelliteTaskViewer.Avalonia.Renderer.OpenTK;
 using SatelliteTaskViewer.Avalonia.Serializer.Newtonsoft;
 using SatelliteTaskViewer.Avalonia.ServiceProvider.Autofac;
 using SatelliteTaskViewer.Avalonia.Views;
+using SatelliteTaskViewer.FileSystem;
 using SatelliteTaskViewer.Models;
 using SatelliteTaskViewer.Models.Data;
 using SatelliteTaskViewer.Models.Editor;
@@ -19,6 +20,7 @@ using SatelliteTaskViewer.ViewModels.Editor;
 using SatelliteTaskViewer.ViewModels.Editor.Tools;
 using System;
 using System.IO;
+using System.Reflection;
 
 namespace SatelliteTaskViewer.Avalonia
 {
@@ -34,7 +36,7 @@ namespace SatelliteTaskViewer.Avalonia
             // Build configuration
 
             var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
+                .SetBasePath(SolutionFolder.GetAppSettingsBasePath("appsettings.json"))
                 .AddJsonFile("appsettings.json")
                 .Build();
             builder.RegisterInstance(configuration).As<IConfigurationRoot>();

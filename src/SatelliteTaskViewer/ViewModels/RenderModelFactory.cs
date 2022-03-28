@@ -1,13 +1,13 @@
-﻿using System;
+﻿using GlmSharp;
+using SatelliteTaskViewer.FileSystem;
+using SatelliteTaskViewer.Models;
+using SatelliteTaskViewer.ViewModels.Geometry;
+using SatelliteTaskViewer.ViewModels.Scene;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
-using GlmSharp;
-using SatelliteTaskViewer.Models;
-using SatelliteTaskViewer.ViewModels.Geometry;
-using SatelliteTaskViewer.ViewModels.Scene;
-using Microsoft.Extensions.Configuration;
 
 namespace SatelliteTaskViewer.ViewModels
 {
@@ -45,20 +45,20 @@ namespace SatelliteTaskViewer.ViewModels
     public class RenderModelFactory : IRenderModelFactory
     {
         private readonly IServiceProvider _serviceProvider;
+        private readonly SolutionFolder _folder;
 
         public RenderModelFactory(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
+
+            _folder = new SolutionFolder("resources");
         }
 
         private Model LoadModelFromResources(string model, bool flipUVs)
         {
             var modelLoader = _serviceProvider.GetService<IModelLoader>();
-            var configuration = _serviceProvider.GetService<IConfigurationRoot>();
 
-            var resourcePath = configuration["ResourcePath"];
-
-            var path = Path.Combine(Directory.GetCurrentDirectory(), resourcePath, model);
+            var path = Path.Combine(_folder.FolderDirectory, model);
 
             return modelLoader.LoadModel(path, flipUVs);
         }
@@ -99,9 +99,6 @@ namespace SatelliteTaskViewer.ViewModels
         public EarthRenderModel CreateEarth()
         {
             var imageLibrary = _serviceProvider.GetService<IImageLibrary>();
-            var configuration = _serviceProvider.GetService<IConfigurationRoot>();
-
-            var resourcePath = configuration["ResourcePath"];
 
             var pairs = ImmutableArray.Create<(string, string)>(
                 ("PosX", "pos_x.dds"),
@@ -124,10 +121,10 @@ namespace SatelliteTaskViewer.ViewModels
                 NightKeys = pairs.Select(s => keys[3] + s.Item1),
             };
 
-            var path1 = Path.Combine(Directory.GetCurrentDirectory(), resourcePath, @"textures\EarthQubeMap\EarthDiffuseFake\");
-            var path2 = Path.Combine(Directory.GetCurrentDirectory(), resourcePath, @"textures\EarthQubeMap\EarthSpecInvertQubeMap4096x4096, border=0\");
-            var path3 = Path.Combine(Directory.GetCurrentDirectory(), resourcePath, @"textures\EarthQubeMap\EarthNormalQubeMap8192x8192, border=0\");
-            var path4 = Path.Combine(Directory.GetCurrentDirectory(), resourcePath, @"textures\EarthQubeMap\EarthNightQubeMap2048x2048, border=0\");
+            var path1 = Path.Combine(_folder.FolderDirectory, @"textures\EarthQubeMap\EarthDiffuseFake\");
+            var path2 = Path.Combine(_folder.FolderDirectory, @"textures\EarthQubeMap\EarthSpecInvertQubeMap4096x4096, border=0\");
+            var path3 = Path.Combine(_folder.FolderDirectory, @"textures\EarthQubeMap\EarthNormalQubeMap8192x8192, border=0\");
+            var path4 = Path.Combine(_folder.FolderDirectory, @"textures\EarthQubeMap\EarthNightQubeMap2048x2048, border=0\");
 
             imageLibrary.AddKeys(pairs.Select(s => (keys[0] + s.Item1, Path.Combine(path1, s.Item2))).ToArray());
             imageLibrary.AddKeys(pairs.Select(s => (keys[1] + s.Item1, Path.Combine(path2, s.Item2))).ToArray());
@@ -140,11 +137,8 @@ namespace SatelliteTaskViewer.ViewModels
         public SunRenderModel CreateSun()
         {
             var imageLibrary = _serviceProvider.GetService<IImageLibrary>();
-            var configuration = _serviceProvider.GetService<IConfigurationRoot>();
 
             string key = "SunGlow";
-
-            var resourcePath = configuration["ResourcePath"];
 
             var obj = new SunRenderModel()
             {
@@ -152,19 +146,16 @@ namespace SatelliteTaskViewer.ViewModels
                 SunGlowKey = key,
             };
 
-            imageLibrary.AddKey(key, Path.Combine(Directory.GetCurrentDirectory(), resourcePath, @"textures\Sun\starSpectrum.dds"));
+            imageLibrary.AddKey(key, Path.Combine(_folder.FolderDirectory, @"textures\Sun\starSpectrum.dds"));
 
             return obj;
         }
 
         public SpaceboxRenderModel CreateSpacebox()
-        {        
+        {
             var imageLibrary = _serviceProvider.GetService<IImageLibrary>();
-            var configuration = _serviceProvider.GetService<IConfigurationRoot>();
 
             string key = "SpaceboxCubemap";
-
-            var resourcePath = configuration["ResourcePath"];
 
             var obj = new SpaceboxRenderModel()
             {
@@ -172,15 +163,15 @@ namespace SatelliteTaskViewer.ViewModels
                 SpaceboxCubemapKey = key,
             };
 
-            imageLibrary.AddKey(key, Path.Combine(Directory.GetCurrentDirectory(), resourcePath, @"textures\Spacebox\Spacebox4096x4096Compressed.dds"));
+            imageLibrary.AddKey(key, Path.Combine(_folder.FolderDirectory, @"textures\Spacebox\Spacebox4096x4096Compressed.dds"));
 
             return obj;
         }
 
         public RenderModel CreateGroundStation(double scale)
-        {           
+        {
             var obj = new RenderModel()
-            {             
+            {
                 Model = LoadModelFromResources(@"models\tall_dish.obj", false),
                 Scale = scale,
             };
@@ -199,10 +190,10 @@ namespace SatelliteTaskViewer.ViewModels
         }
 
         public RenderModel CreateRetranslator(double scale)
-        {         
+        {
             var obj = new RenderModel()
-            {            
-                Model = LoadModelFromResources(@"models\tdrs.obj", true),           
+            {
+                Model = LoadModelFromResources(@"models\tdrs.obj", true),
                 Scale = scale,
             };
 
@@ -210,7 +201,7 @@ namespace SatelliteTaskViewer.ViewModels
         }
 
         public SensorRenderModel CreateSatelliteSensor()
-        {           
+        {
             var obj = new SensorRenderModel()
             {
 
@@ -220,7 +211,7 @@ namespace SatelliteTaskViewer.ViewModels
         }
 
         public FrameRenderModel CreateFrame(float scale)
-        {           
+        {
             var obj = new FrameRenderModel()
             {
                 Scale = scale,
@@ -230,11 +221,11 @@ namespace SatelliteTaskViewer.ViewModels
         }
 
         public RenderModel CreateSatellite(double scale)
-        {    
+        {
             return new RenderModel()
-            {             
+            {
                 Model = LoadModelFromResources(@"models\satellite_v1.obj", true),
-                Scale = scale,                
+                Scale = scale,
             };
         }
 
@@ -247,12 +238,12 @@ namespace SatelliteTaskViewer.ViewModels
 
             return obj;
         }
-        
+
         public AntennaRenderModel CreateAntenna()
         {
             var obj = new AntennaRenderModel()
             {
-         
+
             };
 
             return obj;
